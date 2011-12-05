@@ -1,13 +1,18 @@
-#summary One-sentence summary of this page.
+#summary Pequeños resúmenes de las reuniones que vayamos teniendo
 
-= Introduction =
+= 5 diciembre =
 
-Add your content here.
+ * Me propone un proyecto a largo plazo(3 años, estima) del que el tfm sería una parte.
 
+ * Acordamos que abriré un proyecto en Assembla o similar para alojar el trabajo que vaya realizando, incluyendo resúmenes de nuestras reuniones y código, etc.
 
-= Details =
+ * Acordamos que realizaré y les presentaré en 2/3 semanas una planificación del trabajo que tendré que realizar para el tfm.
+		 * Importante ir marcándome una serie de hitos para ir cumpliéndolos o de lo contrario esto puede no darme tiempo.
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+ * Decidimos que el trabajo de la asignatura de AI consistirá en buscar un modelo demográfico basado en agentes e implementarlo en MASON (sin necesidad de mayores complicaciones).
+		 * Así, una primera tarea de la planificación del proyecto, ha de ser ponerme al día en el estado del arte.
+
+ * Mis tareas a corto plazo son:
+		 * Leer Simulation for the social scientist.
+		 * Leer artículos sobre demografía y modelos demográficos, no necesariamente basados en agentes (basados y no basados).
+		 * Realizar planificación del TFM.
