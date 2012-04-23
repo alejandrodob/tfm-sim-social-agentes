@@ -28,13 +28,13 @@
 
   * Integrar GIS en el modelo.
 
-  * Samer propone el uso de la herramienta Zotero.
+  * Samer propone el uso de la herramienta Zotero, que ayuda para tener los artículos y las referencias bien clasificados.
 
-  * Tener los artículos y las referencias bien clasificados.
+    * Para cada artículo que se vaya leyendo ir guardando una reseña breve sobre su utilidad o no. Y se puede guardar el abstract para recordar de qué trata.
 
   * Escribir todas las semanas un email para comentar lo que estoy haciendo o lo que tengo pensado hacer en esa semana.
 
-  * Acciones para esta semana y la próxima:
-    * Encontrar datos a partir de los cuales comenzar.
+== Acciones para esta semana y la próxima ==
+    * Encontrar datos estadísticos a partir de los cuales comenzar.
     * Artículos sobre demografía (sociológicos) y empezar a sacar características y requisitos comunes.
-    *Empezar a pensar en la arquitectura.
+    * Empezar a pensar en la arquitectura.
