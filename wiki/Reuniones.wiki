@@ -20,21 +20,21 @@
 
 = 23 abril =
 
-* En primer lugar comento las dificultades que he tenido y mi situación actual con respecto al trabajo: estancamiento total. Dificultades a raíz de no saber muy bien cómo enfocar el tema, falta de algo concreto.
+  * En primer lugar comento las dificultades que he tenido y mi situación actual con respecto al trabajo: estancamiento total. Dificultades a raíz de no saber muy bien cómo enfocar el tema, falta de algo concreto.
 
-* Juan me comenta que, para tener algo concreto, sería bueno que comenzara por buscar una fuente de datos (bien en el INE o similar) a partir de los cuales desarrollar el modelo. Además, deben ser tales que permitan contrastar los resultados de la simulación.
+  * Juan me comenta que, para tener algo concreto, sería bueno que comenzara por buscar una fuente de datos (bien en el INE o similar) a partir de los cuales desarrollar el modelo. Además, deben ser tales que permitan contrastar los resultados de la simulación.
 
-* Ver artículos no sólo de simulaciones con agentes, sino también de sociólogos sobre demografía (aquí estaba fallando un poco yo) para extraer las características comunes a los mismos y que permitan hacer luego una arquitectura flexible para tratar el mayor número de problemas (esto era la idea original).
+  * Ver artículos no sólo de simulaciones con agentes, sino también de sociólogos sobre demografía (aquí estaba fallando un poco yo) para extraer las características comunes a los mismos y que permitan hacer luego una arquitectura flexible para tratar el mayor número de problemas (esto era la idea original).
 
-* Integrar GIS en el modelo.
+  * Integrar GIS en el modelo.
 
-* Samer propone el uso de la herramienta Zotero.
+  * Samer propone el uso de la herramienta Zotero.
 
-* Tener los artículos y las referencias bien clasificados.
+  * Tener los artículos y las referencias bien clasificados.
 
-* Escribir todas las semanas un email para comentar lo que estoy haciendo o lo que tengo pensado hacer en esa semana.
+  * Escribir todas las semanas un email para comentar lo que estoy haciendo o lo que tengo pensado hacer en esa semana.
 
-* Acciones para esta semana y la próxima:
-  * Encontrar datos a partir de los cuales comenzar.
-  * Artículos sobre demografía (sociológicos) y empezar a sacar características y requisitos comunes.
-  *Empezar a pensar en la arquitectura.
+  * Acciones para esta semana y la próxima:
+    * Encontrar datos a partir de los cuales comenzar.
+    * Artículos sobre demografía (sociológicos) y empezar a sacar características y requisitos comunes.
+    *Empezar a pensar en la arquitectura.
