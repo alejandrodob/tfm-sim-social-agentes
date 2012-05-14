@@ -49,4 +49,7 @@
           * De igual manera, abstraer más la noción de Persona, haciendo por encima de esa clase otra más abstracta y básica que, simplemente pueda ser ubicada en el espacio y dibujada en el mismo.
           * No obligar a que una persona tenga que tener un household, más flexibilidad.
           * Redes sociales: no pasar por alto su importancia. Que sean más distribuidas que centralizadas (tipo MASON).
+
   * Acordamos que para el final de la semana que viene tendré terminada una primera versión funcional del modelo, que subiré al repositorio, para en la siguiente reunión corregirla, refinarla, mejorar la arquitectura, etc.
+
+  * Para antes del verano deberá estar terminada la aplicación (y de ser posible el estado del arte).
