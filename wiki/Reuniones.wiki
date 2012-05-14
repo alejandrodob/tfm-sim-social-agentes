@@ -30,7 +30,7 @@
 
   * Samer propone el uso de la herramienta Zotero, que ayuda para tener los artículos y las referencias bien clasificados.
 
-    * Para cada artículo que se vaya leyendo ir guardando una reseña breve sobre su utilidad o no. Y se puede guardar el abstract para recordar de qué trata.
+  * Para cada artículo que se vaya leyendo ir guardando una reseña breve sobre su utilidad o no. Y se puede guardar el abstract para recordar de qué trata.
 
   * Escribir todas las semanas un email para comentar lo que estoy haciendo o lo que tengo pensado hacer en esa semana.
 
@@ -38,3 +38,15 @@
     * Encontrar datos estadísticos a partir de los cuales comenzar.
     * Artículos sobre demografía (sociológicos) y empezar a sacar características y requisitos comunes.
     * Empezar a pensar en la arquitectura.
+
+
+= 14 mayo=
+
+  * En primer lugar, les muestro un poco la estructura en la que he estado pensando. Observaciones: 
+          * Hay que hacer un poco más flexible ciertas cosas como los comportamientos, mediante métodos template y/o agregación de diferentes módulos que se puedan añadir y quitar dinámicamente, para adaptarse a la también dinámica de los agentes en la simulacion (por ejemplo, si una persona pasa de estar en paro a empleado, su comportamiento debería variar).
+          * También debería escribir en inglés.
+          * La clase persona ya debería implementar la interfaz Steppable, por dos motivos, no se reescribe innecesariamente código más abajo, y se permite así que una simulación pueda estar protagonizada por otros individuos a parte de hombres y mujeres (animales, por ejemplo).
+          * De igual manera, abstraer más la noción de Persona, haciendo por encima de esa clase otra más abstracta y básica que, simplemente pueda ser ubicada en el espacio y dibujada en el mismo.
+          * No obligar a que una persona tenga que tener un household, más flexibilidad.
+          * Redes sociales: no pasar por alto su importancia. Que sean más distribuidas que centralizadas (tipo MASON).
+  * Acordamos que para el final de la semana que viene tendré terminada una primera versión funcional del modelo, que subiré al repositorio, para en la siguiente reunión corregirla, refinarla, mejorar la arquitectura, etc.
