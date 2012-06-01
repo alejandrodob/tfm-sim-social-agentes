@@ -1,5 +1,6 @@
 package agent;
 
+import agent.behavior.ListBehavior;
 import sim.util.MutableInt2D;
 
 public class Woman extends Person {
@@ -15,29 +16,5 @@ public class Woman extends Person {
 
 
 
-	@Override
-	public void addFriend(DemographicItem friend) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeFriend(DemographicItem friend) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void addFamilyMember(DemographicItem famMem) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeFamilyMember(DemographicItem famMem) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	
 }

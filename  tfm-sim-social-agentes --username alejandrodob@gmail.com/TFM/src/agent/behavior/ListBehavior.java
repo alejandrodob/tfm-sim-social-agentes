@@ -1,6 +1,8 @@
-package agent;
+package agent.behavior;
 
 import java.util.ArrayList;
+
+import agent.DemographicItem;
 
 public class ListBehavior implements Behavior {
 	
@@ -10,26 +12,32 @@ public class ListBehavior implements Behavior {
 	public ListBehavior() {
 		behaviors = new ArrayList<BehaviorModule>();
 	}
+	
+	public ListBehavior(ArrayList<BehaviorModule> behaviors) {
+		this.behaviors = behaviors;
+	}
 
 	@Override
-	public void addBehavior(BehaviorModule behavior) {
-		// TODO Auto-generated method stub
+	public void addBehaviorMod(BehaviorModule behavior) {
 		behaviors.add(behavior);
 	}
 
 	@Override
-	public void removeBehavior(BehaviorModule behavior) {
-		// TODO Auto-generated method stub
+	public void removeBehaviorMod(BehaviorModule behavior) {
 		behaviors.remove(behavior);
 	}
 
 	@Override
 	public void behave(DemographicItem individual) {
-		// TODO Auto-generated method stub
 		for (BehaviorModule b : behaviors)
 			b.behave(individual);
 		if (behaviors.isEmpty())
 			System.out.println("Agent "+individual.toString()+" doesn't have any BehaviorModules so he does nothing!!");
+	}
+
+	@Override
+	public boolean isEmptyBehavior() {
+		return behaviors.isEmpty();
 	}
 
 }

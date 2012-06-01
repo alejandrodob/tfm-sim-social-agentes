@@ -22,11 +22,11 @@ public class SocialNetwork {
 		network = new Network(false);
 	}
 
-	public void reset(boolean directed) {
+	private void reset(boolean directed) {
 		network.reset(directed);
 	}
 
-	public Edge[][][] getMultigraphAdjacencyMatrix() {
+	private Edge[][][] getMultigraphAdjacencyMatrix() {
 		return network.getMultigraphAdjacencyMatrix();
 	}
 
@@ -34,15 +34,15 @@ public class SocialNetwork {
 		network.addNode(node);
 	}
 
-	public void addEdge(Object from, Object to, Object info) {
+	private void addEdge(Object from, Object to, Object info) {
 		network.addEdge(from, to, info);
 	}
 
-	public void addEdge(Edge edge) {
+	private void addEdge(Edge edge) {
 		network.addEdge(edge);
 	}
 
-	public Edge removeEdge(Edge edge) {
+	private Edge removeEdge(Edge edge) {
 		return network.removeEdge(edge);
 	}
 
@@ -50,83 +50,69 @@ public class SocialNetwork {
 		return network.removeNode(node);
 	}
 
-	public Bag clear() {
+	private Bag clear() {
 		return network.clear();
 	}
 
-	public Bag removeAllNodes() {
+	private Bag removeAllNodes() {
 		return network.removeAllNodes();
 	}
 
-	public int getNodeIndex(Object node) {
+	private int getNodeIndex(Object node) {
 		return network.getNodeIndex(node);
 	}
 
-	@SuppressWarnings("deprecation")
-	public Network cloneGraph() {
+	private Network cloneGraph() {
 		return network.cloneGraph();
 	}
 
-	public boolean equals(Object obj) {
-		return network.equals(obj);
-	}
-
-	public Edge[][] getAdjacencyList(boolean outEdges) {
+	private Edge[][] getAdjacencyList(boolean outEdges) {
 		return network.getAdjacencyList(outEdges);
 	}
 
-	public Edge[][] getAdjacencyMatrix() {
+	private Edge[][] getAdjacencyMatrix() {
 		return network.getAdjacencyMatrix();
 	}
 
-	public Bag getEdgesOut(Object node) {
+	private Bag getEdgesOut(Object node) {
 		return network.getEdgesOut(node);
 	}
 
-	public Bag getEdgesIn(Object node) {
+	private Bag getEdgesIn(Object node) {
 		return network.getEdgesIn(node);
 	}
 
-	public Bag getEdges(Object node, Bag bag) {
+	private Bag getEdges(Object node, Bag bag) {
 		return network.getEdges(node, bag);
 	}
 
-	public Bag getAllNodes() {
+	private Bag getAllNodes() {
 		return network.getAllNodes();
 	}
 
-	public Network getGraphComplement(boolean allowSelfLoops) {
+	private Network getGraphComplement(boolean allowSelfLoops) {
 		return network.getGraphComplement(allowSelfLoops);
 	}
 
-	public int hashCode() {
-		return network.hashCode();
-	}
-
-	public boolean isDirected() {
+	private boolean isDirected() {
 		return network.isDirected();
 	}
 
-	public Iterator iterator() {
+	private Iterator iterator() {
 		return network.iterator();
 	}
 
-	public boolean nodeExists(Object node) {
+	private boolean nodeExists(Object node) {
 		return network.nodeExists(node);
 	}
 
-	public void reverseAllEdges() {
+	private void reverseAllEdges() {
 		network.reverseAllEdges();
 	}
 
-	public String toString() {
-		return network.toString();
-	}
-
-	public Edge updateEdge(Edge edge, Object from, Object to, Object info) {
+	private Edge updateEdge(Edge edge, Object from, Object to, Object info) {
 		return network.updateEdge(edge, from, to, info);
 	}
-	
-	
+
 
 }

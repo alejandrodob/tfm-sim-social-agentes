@@ -1,10 +1,12 @@
-package agent;
+package agent.behavior;
+
+import agent.DemographicItem;
+import agent.Person;
 
 public abstract class BasicSocialBehavior implements BehaviorModule{
 
 	@Override
 	public void behave(DemographicItem person) {
-		// TODO Auto-generated method stub
 		meetPeople((Person) person);
 		searchForMate((Person) person);
 	}

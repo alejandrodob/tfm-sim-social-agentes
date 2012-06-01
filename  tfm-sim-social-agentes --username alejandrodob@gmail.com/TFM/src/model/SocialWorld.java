@@ -3,7 +3,7 @@ package model;
 import sim.util.Int2D;
 import agent.DemographicItem;
 
-public interface BasicDemoWorld { //este nombre no me gusta nada, espero encontrar uno mas apropiado
+public interface SocialWorld { //este nombre no me gusta nada, espero encontrar uno mas apropiado
 
 	public void addIndividual(DemographicItem individual);
 	public DemographicItem removeIndividual(DemographicItem individual);

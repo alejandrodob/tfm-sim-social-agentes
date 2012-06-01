@@ -1,14 +1,17 @@
-package agent;
+package agent.behavior;
+
+import agent.DemographicItem;
+import agent.Person;
 
 public abstract class BasicDemographicBehavior implements BehaviorModule{
 	
 	@Override
 	public void behave(DemographicItem person) {
-		// TODO Auto-generated method stub
 		age((Person) person);
 		haveChild((Person) person);
 		migrate((Person) person);
 		die((Person) person);
+		System.out.println("me estoy comportando!!!");
 	}
 	protected void age(Person person) {
 		person.setAge(person.getAge()+1);
