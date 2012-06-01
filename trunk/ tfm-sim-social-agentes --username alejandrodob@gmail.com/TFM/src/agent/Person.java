@@ -2,6 +2,9 @@ package agent;
 
 import java.util.ArrayList;
 
+import agent.behavior.Behavior;
+import agent.social.AgentSocialNetwork;
+
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.util.MutableInt2D;
@@ -14,8 +17,8 @@ public abstract class Person extends DemographicItem implements Socializable{
 	private SocioeconomicLevel socLevel;
 	private Education education;
 	private Household household;
-	private ArrayList<Person> family;
-	private ArrayList<Person> friends;
+	private AgentSocialNetwork family;
+	private AgentSocialNetwork friends;
 	
 	public Person() {
 		super();
@@ -72,6 +75,30 @@ public abstract class Person extends DemographicItem implements Socializable{
 	}
 	public void setHousehold(Household household) {
 		this.household = household;
+	}
+	
+	@Override
+	public void addFriend(DemographicItem friend) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeFriend(DemographicItem friend) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addFamilyMember(DemographicItem famMem) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeFamilyMember(DemographicItem famMem) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

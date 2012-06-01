@@ -1,4 +1,6 @@
-package agent;
+package agent.behavior;
+
+import agent.DemographicItem;
 
 public interface BehaviorModule {
 	

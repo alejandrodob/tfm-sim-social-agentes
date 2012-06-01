@@ -8,10 +8,12 @@ import sim.field.network.Network;
 import sim.util.Int2D;
 import socialNetwork.SocialNetwork;
 
-public class World extends SimState implements BasicDemoWorld{
+public class World extends SimState implements SocialWorld{
 	
-	public SocialNetwork population;
-	public SparseGrid2D field;
+	public SocialNetwork population = new SocialNetwork();;
+	public final int height = 40;
+	public final int width = 40;
+	public SparseGrid2D field = new SparseGrid2D(height, width);
 	
 	public Natality natality;
 	public Mortality mortality;
@@ -19,11 +21,10 @@ public class World extends SimState implements BasicDemoWorld{
 	public Nuptiality nuptiality;
 	
 	
-	public World(long seed,int height, int width) {
+	public World(long seed) {
 		super(seed);
-		population = new SocialNetwork();
-		field = new SparseGrid2D(height, width);
 	}
+	
 	@Override
 	public void addIndividual(DemographicItem individual) {
 		population.addNode(individual);

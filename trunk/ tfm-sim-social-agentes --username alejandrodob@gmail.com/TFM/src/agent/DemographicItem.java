@@ -1,10 +1,12 @@
 package agent;
 
+import agent.behavior.Behavior;
+import agent.behavior.BehaviorModule;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.util.MutableInt2D;
 
-public class DemographicItem implements Steppable{
+public class DemographicItem implements Steppable {
 	
 	private MutableInt2D location;
 	private Behavior behavior;
@@ -37,8 +39,15 @@ public class DemographicItem implements Steppable{
 
 	@Override
 	public void step(SimState state) {
-		// TODO Auto-generated method stub
 		behavior.behave(this);
+	}
+
+	public void addBehaviorModule(BehaviorModule behaviorMod) {
+		behavior.addBehaviorMod(behaviorMod);
+	}
+
+	public void removeBehaviorModule(BehaviorModule behaviorMod) {
+		behavior.removeBehaviorMod(behaviorMod);
 	}
 
 	
