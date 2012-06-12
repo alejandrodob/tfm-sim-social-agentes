@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import agent.behavior.Behavior;
 import agent.social.AgentSocialNetwork;
+import agent.social.FamilyListNetwork;
+import agent.social.FriendsListNetwork;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
@@ -12,13 +14,14 @@ import household.Household;
 
 public abstract class Person extends DemographicItem implements Socializable{
 	
-	private int age;
-	private boolean coupled;
-	private SocioeconomicLevel socLevel;
-	private Education education;
-	private Household household;
-	private AgentSocialNetwork family;
-	private AgentSocialNetwork friends;
+	protected int age;
+	protected boolean coupled;
+	protected SocioeconomicLevel socLevel;
+	protected Education education;
+	protected Household household;
+	protected AgentSocialNetwork family;
+	protected AgentSocialNetwork friends;
+	protected static int stepsPerYear = 50;
 	
 	public Person() {
 		super();
@@ -31,8 +34,8 @@ public abstract class Person extends DemographicItem implements Socializable{
 		this.coupled = coupled;
 		this.socLevel = socLevel;
 		this.education = education;
-		family = new ArrayList<Person>();
-		friends = new ArrayList<Person>();
+		family = new FamilyListNetwork();
+		friends = new FriendsListNetwork();
 	}
 
 	public Person(MutableInt2D location, Behavior behavior, int age, boolean coupled, SocioeconomicLevel socLevel,
@@ -42,8 +45,8 @@ public abstract class Person extends DemographicItem implements Socializable{
 		this.coupled = coupled;
 		this.socLevel = socLevel;
 		this.education = education;
-		family = new ArrayList<Person>();
-		friends = new ArrayList<Person>();
+		family = new FamilyListNetwork();
+		friends = new FriendsListNetwork();
 	}
 	
 	public int getAge() {

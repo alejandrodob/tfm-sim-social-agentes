@@ -1,33 +1,35 @@
 package agent.social;
 
+import java.util.ArrayList;
+
+import agent.Man;
+import agent.Person;
+import agent.Woman;
+
 public class FamilyListNetwork extends ListNetwork implements FamilyNetwork {
 
+		//aun falta definir bien esto de family network, sobre todo algun atributo para definir las relaciones
+		//cuando esté hecho se implementaran bien los métodos de abajo
 	@Override
-	public algo Parents() {
+	public ArrayList<Person> Siblings() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public algo Siblings() {
+	public Man Father() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public algo Father() {
+	public Woman Mother() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public algo Mother() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public algo sons() {
+	public ArrayList<Person> sons() {
 		// TODO Auto-generated method stub
 		return null;
 	}
