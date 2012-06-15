@@ -10,7 +10,7 @@
   </class>  
   <class id="2" corner="BOTTOM_RIGHT" language="java" name="agent.behavior.BasicFemaleBehavior" project="TFM" 
     file="/TFM/src/agent/behavior/BasicFemaleBehavior.java" binary="false">    
-    <position x="303" y="287" width="-1" height="-1"/>    
+    <position x="276" y="287" width="-1" height="-1"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
@@ -18,7 +18,7 @@
   </class>  
   <class id="3" corner="BOTTOM_RIGHT" language="java" name="agent.behavior.BasicMaleBehavior" project="TFM" 
     file="/TFM/src/agent/behavior/BasicMaleBehavior.java" binary="false">    
-    <position x="53" y="284" width="-1" height="-1"/>    
+    <position x="83" y="288" width="-1" height="-1"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
@@ -26,7 +26,7 @@
   </class>  
   <class id="4" corner="BOTTOM_RIGHT" language="java" name="agent.behavior.BasicSocialBehavior" project="TFM" 
     file="/TFM/src/agent/behavior/BasicSocialBehavior.java" binary="false">    
-    <position x="515" y="111" width="-1" height="-1"/>    
+    <position x="574" y="115" width="-1" height="-1"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
@@ -64,34 +64,46 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <realization id="9">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="5"/>  
-  </realization>  
-  <generalization id="10">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <association id="11">    
+  <class id="9" corner="BOTTOM_RIGHT" language="java" name="agent.behavior.BasicChildBehavior" project="TFM" 
+    file="/TFM/src/agent/behavior/BasicChildBehavior.java" binary="false">    
+    <position x="473" y="288" width="-1" height="-1"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <association id="10">    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="12" name="behaviors"/>      
-      <multiplicity id="13" minimum="0" maximum="2147483647"/>    
+      <attribute id="11" name="behaviors"/>      
+      <multiplicity id="12" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="14">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="7"/>  
+  <realization id="13">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="5"/>  
   </realization>  
-  <realization id="15">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="7"/>  
-  </realization>  
-  <generalization id="16">    
+  <generalization id="14">    
     <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
+  <generalization id="15">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <realization id="16">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <realization id="17">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <realization id="18">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     visibility="true">    
     <attributes public="true" package="true" protected="true" private="true"/>    
