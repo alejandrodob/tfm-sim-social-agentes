@@ -1,7 +1,9 @@
 package pruebas;
 
 import agent.Man;
+import agent.Person;
 import agent.Woman;
+import agent.behavior.BasicChildBehavior;
 import agent.behavior.BasicFemaleBehavior;
 import agent.behavior.BasicMaleBehavior;
 import sim.util.MutableInt2D;
@@ -29,16 +31,27 @@ public class Prueba extends World{
 		super.start();
 		
 		for (int i=1;i<30;++i) {
-			Man manecillo = new Man(new MutableInt2D(i,i),15+i,false,null,null);
-			Woman womancilla = new Woman(new MutableInt2D(i+5,i+7),15+i,false,null,null);
+			//en cada ciclo crearemos un hombre y una mujer, los casaremos, les añadiremos un hijo y los
+			//pondremos a funcionar en el mundo
+			Man manecillo = new Man(new MutableInt2D(i,i),18+i,false,null,null);
+			Woman womancilla = new Woman(new MutableInt2D(i+5,i+7),18+i,false,null,null);
+			Person hijo;
+			if (i%2<=0) {
+				hijo = (Man) new Man(new MutableInt2D(i,i),random.nextInt(18),false,null,null);
+			} else {
+				hijo = (Woman) new Woman(new MutableInt2D(i,i),random.nextInt(18),false,null,null);
+			}
+			BasicChildBehavior cb = new BasicChildBehavior();
 			BasicMaleBehavior mb = new BasicMaleBehavior();
 			BasicFemaleBehavior fm = new BasicFemaleBehavior();
 			manecillo.addBehaviorModule(mb);
 			womancilla.addBehaviorModule(fm);
+			hijo.addBehaviorModule(cb);
 			addIndividual(manecillo);
 			addIndividual(womancilla);
-			schedule.scheduleRepeating(manecillo);
-			schedule.scheduleRepeating(womancilla);
+			addIndividual(hijo);
+			registerWedding(manecillo,womancilla);
+			
 			
 		}
 	}

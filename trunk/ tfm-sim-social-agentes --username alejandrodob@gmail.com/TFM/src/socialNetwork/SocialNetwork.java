@@ -2,24 +2,50 @@ package socialNetwork;
 
 import java.util.Iterator;
 
+import agent.Person;
+
 import sim.field.network.Edge;
 import sim.field.network.Network;
 import sim.util.Bag;
 
 public class SocialNetwork {
-	//aunque de momento se quede asi, me gustaria que esta clase fuera una capa de abstraccion 
-	//superior (o inferior, segun se mire) sobre Network, que tuviera metodos mas propios del problema en cuestion, como
-	//añadir una amistad, eliminarla, añadir personas, sacar estadisticas, etc, en lugar de 
-	//trabajar con nodos y aristas que queda un poco feo
+
 	private Network network;
 	
-	private enum relation {
-		FAMILY, FRIEND
+	public enum relation {
+		SON, FATHER, MOTHER, FRIEND, SIBLING, COUPLE
 	}
 
 	public SocialNetwork() {
 		super();
 		network = new Network(false);
+	}
+	
+	public void addPerson(Person person) {
+		addNode(person);
+	}
+	
+	public void removePerson(Person person) {
+		removeNode(person);
+	}
+	
+	public void addRelation(Person p1, Person p2, relation rel) {
+		addEdge(p1,p2,rel);
+	}
+	
+	public void removeRelation(Person p1, Person p2, relation rel) { //evidentemente, este metodo se puede mejorar infinitamente en cuanto a eficiencia
+		Bag aux = new Bag();
+		Edge link = null;
+		aux.addAll(getEdgesIn(p1));
+		for (Object o:aux) {//un while por favor
+			Edge e = (Edge) o;
+			if (e.getOtherNode(p1).equals(p2) && e.getInfo().equals(rel)) {
+				link = e;
+			}
+		}
+		if (rel != null) {
+			removeEdge(link);
+		}
 	}
 
 	private void reset(boolean directed) {
@@ -30,7 +56,7 @@ public class SocialNetwork {
 		return network.getMultigraphAdjacencyMatrix();
 	}
 
-	public void addNode(Object node) {
+	private void addNode(Object node) {
 		network.addNode(node);
 	}
 
@@ -46,7 +72,7 @@ public class SocialNetwork {
 		return network.removeEdge(edge);
 	}
 
-	public Object removeNode(Object node) {
+	private Object removeNode(Object node) {
 		return network.removeNode(node);
 	}
 
