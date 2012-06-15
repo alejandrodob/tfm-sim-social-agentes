@@ -1,17 +1,17 @@
 package model;
 
 import sim.util.Int2D;
-import agent.DemographicItem;
+import agent.Person;
 
 public interface SocialWorld { //este nombre no me gusta nada, espero encontrar uno mas apropiado
 
-	public void addIndividual(DemographicItem individual);
-	public DemographicItem removeIndividual(DemographicItem individual);
-	public void registerDeath(DemographicItem individual);
-	public void registerBirth(DemographicItem newborn, DemographicItem mother);
-	public void registerWedding(DemographicItem individual1, DemographicItem individual2);
-	public void registerDivorce(DemographicItem individual1, DemographicItem individual2);
-	public void registerMigration(DemographicItem individual, Int2D from, Int2D to);
-	public void addFamilyLink(DemographicItem individual1, DemographicItem individual2);
-	public void addFriendshipLink(DemographicItem individual1, DemographicItem individual2);
+	public void addIndividual(Person person);
+	public void removeIndividual(Person person);
+	public void registerDeath(Person person);
+	public void registerBirth(Person newborn, Person mother);
+	public void registerWedding(Person p1, Person p2);
+	public void registerDivorce(Person p1, Person p2);
+	public void registerMigration(Person person, Int2D from, Int2D to);
+	public void addFamilyLink(Person p1, Person p2);
+	public void addFriendshipLink(Person p1, Person p2);
 }
