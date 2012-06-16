@@ -9,7 +9,7 @@ import agent.social.FriendsListNetwork;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
-import sim.util.MutableInt2D;
+import sim.util.Int2D;
 import household.Household;
 
 public abstract class Person extends DemographicItem implements Socializable{
@@ -38,7 +38,7 @@ public abstract class Person extends DemographicItem implements Socializable{
 		friends = new FriendsListNetwork();
 	}
 
-	public Person(MutableInt2D location, Behavior behavior, int age, boolean coupled, SocioeconomicLevel socLevel,
+	public Person(Int2D location, Behavior behavior, int age, boolean coupled, SocioeconomicLevel socLevel,
 			Education education) {
 		super(location, behavior);
 		this.age = age;

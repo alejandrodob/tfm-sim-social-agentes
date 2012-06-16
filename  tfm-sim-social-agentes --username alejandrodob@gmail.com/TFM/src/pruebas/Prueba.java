@@ -6,7 +6,7 @@ import agent.Woman;
 import agent.behavior.BasicChildBehavior;
 import agent.behavior.BasicFemaleBehavior;
 import agent.behavior.BasicMaleBehavior;
-import sim.util.MutableInt2D;
+import sim.util.Int2D;
 import model.World;
 
 public class Prueba extends World{
@@ -33,13 +33,13 @@ public class Prueba extends World{
 		for (int i=1;i<30;++i) {
 			//en cada ciclo crearemos un hombre y una mujer, los casaremos, les añadiremos un hijo y los
 			//pondremos a funcionar en el mundo
-			Man manecillo = new Man(new MutableInt2D(i,i),18+i,false,null,null);
-			Woman womancilla = new Woman(new MutableInt2D(i+5,i+7),18+i,false,null,null);
+			Man manecillo = new Man(new Int2D(i,i),18+i,false,null,null);
+			Woman womancilla = new Woman(new Int2D(i+5,i+7),18+i,false,null,null);
 			Person hijo;
 			if (i%2<=0) {
-				hijo = (Man) new Man(new MutableInt2D(i,i),random.nextInt(18),false,null,null);
+				hijo = (Man) new Man(new Int2D(i,i),random.nextInt(18),false,null,null);
 			} else {
-				hijo = (Woman) new Woman(new MutableInt2D(i,i),random.nextInt(18),false,null,null);
+				hijo = (Woman) new Woman(new Int2D(i,i),random.nextInt(18),false,null,null);
 			}
 			BasicChildBehavior cb = new BasicChildBehavior();
 			BasicMaleBehavior mb = new BasicMaleBehavior();
@@ -47,9 +47,9 @@ public class Prueba extends World{
 			manecillo.addBehaviorModule(mb);
 			womancilla.addBehaviorModule(fm);
 			hijo.addBehaviorModule(cb);
-			addIndividual(manecillo);
-			addIndividual(womancilla);
-			addIndividual(hijo);
+			addIndividual(manecillo,manecillo.getLocation());
+			addIndividual(womancilla,womancilla.getLocation());
+			addIndividual(hijo,hijo.getLocation());
 			registerWedding(manecillo,womancilla);
 			
 			
