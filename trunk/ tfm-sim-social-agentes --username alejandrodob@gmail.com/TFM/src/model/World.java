@@ -26,26 +26,29 @@ public class World extends SimState implements SocialWorld{
 	}
 	
 	@Override
-	public void addIndividual(Person person) {
+	public void addIndividual(Person person, Int2D location) {
 		population.addPerson(person);
+		field.setObjectLocation(person, location);
 		schedule.scheduleRepeating(person);
 	}
 
 	@Override
 	public void removeIndividual(Person person) {
 		population.removePerson(person);
+		field.remove(person);
 	}
 
 	@Override
 	public void registerDeath(Person person) {
-		// TODO Auto-generated method stub
-		
+		removeIndividual(person);
+		population.removePerson(person); //this method removes automatically all the relations (edges in the network) 
+										 //between this person and his friends/family
 	}
 
 	@Override
 	public void registerBirth(Person newborn, Person mother) {
-		// TODO Auto-generated method stub
-		
+		addIndividual(newborn,newborn.getLocation());
+		population.addRelation(mother,newborn,SocialNetwork.relation.MOTHER_SON);
 	}
 
 	@Override
@@ -57,27 +60,27 @@ public class World extends SimState implements SocialWorld{
 	@Override
 	public void registerDivorce(Person p1,
 			Person p2) {
-		// TODO Auto-generated method stub
-		
+		population.removeRelation(p1,p2,SocialNetwork.relation.COUPLE);
 	}
 
 	@Override
 	public void registerMigration(Person person, Int2D from,
 			Int2D to) {
-		// TODO Auto-generated method stub
+		// hasta que no lo use en algo concreto, integre el GIS y defina un poco mejor lo de las
+		//ubicaciones, esto no lo toco
 		
 	}
+	
 	@Override
 	public void addFamilyLink(Person p1,
-			Person p2) {
-		// TODO Auto-generated method stub
-		
+			Person p2, SocialNetwork.relation rel) {
+		population.addRelation(p1, p2, rel);
 	}
+	
 	@Override
 	public void addFriendshipLink(Person p1,
 			Person p2) {
-		// TODO Auto-generated method stub
-		
+		population.addRelation(p1, p2, SocialNetwork.relation.FRIENDS);
 	}
 
 }

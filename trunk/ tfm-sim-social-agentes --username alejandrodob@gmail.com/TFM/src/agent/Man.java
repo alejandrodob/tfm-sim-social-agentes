@@ -1,7 +1,7 @@
 package agent;
 
 import agent.behavior.ListBehavior;
-import sim.util.MutableInt2D;
+import sim.util.Int2D;
 
 public class Man extends Person {
 	
@@ -9,7 +9,7 @@ public class Man extends Person {
 		super();
 	}
 
-	public Man(MutableInt2D location, int age, boolean coupled, SocioeconomicLevel socLevel,
+	public Man(Int2D location, int age, boolean coupled, SocioeconomicLevel socLevel,
 			Education education) {
 		super(location, new ListBehavior(), age, coupled, socLevel, education);
 	}

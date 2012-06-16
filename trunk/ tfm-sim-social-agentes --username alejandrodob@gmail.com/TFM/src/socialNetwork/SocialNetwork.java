@@ -13,7 +13,7 @@ public class SocialNetwork {
 	private Network network;
 	
 	public enum relation {
-		SON, FATHER, MOTHER, FRIEND, SIBLING, COUPLE
+		MOTHER_SON, FATHER_SON, FRIENDS, SIBLINGS, COUPLE
 	}
 
 	public SocialNetwork() {
@@ -39,7 +39,7 @@ public class SocialNetwork {
 		aux.addAll(getEdgesIn(p1));
 		for (Object o:aux) {//un while por favor
 			Edge e = (Edge) o;
-			if (e.getOtherNode(p1).equals(p2) && e.getInfo().equals(rel)) {
+			if (e.getOtherNode(p1).equals(p2) && e.getInfo().equals(rel)) {//esto hay q probarlo no vaya a ser una cagada de if con tanto equals entre objetos y cosas raras que no he usado en mi vida como enum
 				link = e;
 			}
 		}
