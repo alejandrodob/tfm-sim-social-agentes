@@ -64,4 +64,4 @@
 
   * Por ejemplo, implementar el problema de los Anasazi que está en versión de Marco Jansen en OpenABM.
 
-  *De momento, para el final de esta semana, applet de algo sencillito para que se vea que el asunto funciona.
+  * De momento, para el final de esta semana, applet de algo sencillito para que se vea que el asunto funciona.
