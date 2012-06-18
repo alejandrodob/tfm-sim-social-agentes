@@ -53,3 +53,15 @@
   * Acordamos que para el final de la semana que viene tendré terminada una primera versión funcional del modelo, que subiré al repositorio, para en la siguiente reunión corregirla, refinarla, mejorar la arquitectura, etc.
 
   * Para antes del verano deberá estar terminada la aplicación (y de ser posible el estado del arte).
+
+= 18 junio =
+
+  * Comentamos un poco la evolución y el estado actual del trabajo: partes casi terminadas (redes sociales, comportamientos) y partes menos avanzadas (aspectos del entorno).
+
+  * Necesidad de tener la aplicación terminada en 2 o 3 semanas y tener una planificación clara, pues el tiempo se echa encima y en agosto la cosa debe estar ya para que yo sólo tenga que redactar.
+
+  * Centrarme en UN modelo e implementarlo mediante un applet, para que la gente a la que le pueda interesar verlo funcionando no tenga más que ir, ejecutarlo y ver el resultado.
+
+  * Por ejemplo, implementar el problema de los Anasazi que está en versión de Marco Jansen en OpenABM.
+
+  *De momento, para el final de esta semana, applet de algo sencillito para que se vea que el asunto funciona.
