@@ -7,6 +7,7 @@ import agent.behavior.BasicChildBehavior;
 import agent.behavior.BasicFemaleBehavior;
 import agent.behavior.BasicMaleBehavior;
 import sim.util.Int2D;
+import socialNetwork.SocialNetwork;
 import model.World;
 
 public class Prueba extends World{
@@ -51,7 +52,16 @@ public class Prueba extends World{
 			addIndividual(womancilla,womancilla.getLocation());
 			addIndividual(hijo,hijo.getLocation());
 			registerWedding(manecillo,womancilla);
-			
+			manecillo.setCoupled(true);
+			manecillo.addFamilyMember(womancilla);
+			womancilla.setCoupled(true);
+			womancilla.addFamilyMember(manecillo);
+			addFamilyLink(manecillo,hijo,SocialNetwork.relation.FATHER_SON);
+			addFamilyLink(womancilla,hijo,SocialNetwork.relation.MOTHER_SON);
+			manecillo.addFamilyMember(hijo);
+			hijo.addFamilyMember(manecillo);
+			womancilla.addFamilyMember(hijo);
+			hijo.addFamilyMember(womancilla);
 			
 		}
 	}

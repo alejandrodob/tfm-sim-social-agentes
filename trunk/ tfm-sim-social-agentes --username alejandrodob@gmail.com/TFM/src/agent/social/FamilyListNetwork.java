@@ -8,22 +8,24 @@ import agent.Woman;
 
 public class FamilyListNetwork extends ListNetwork implements FamilyNetwork {
 
-		//aun falta definir bien esto de family network, sobre todo algun atributo para definir las relaciones
-		//cuando esté hecho se implementaran bien los métodos de abajo
+	private enum kinship {
+		FATHER, MOTHER, SON, DAUGHTER, BROTHER, SISTER
+	}
+	
 	@Override
-	public ArrayList<Person> Siblings() {
+	public ArrayList<Person> siblings() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Man Father() {
+	public Man father() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Woman Mother() {
+	public Woman mother() {
 		// TODO Auto-generated method stub
 		return null;
 	}

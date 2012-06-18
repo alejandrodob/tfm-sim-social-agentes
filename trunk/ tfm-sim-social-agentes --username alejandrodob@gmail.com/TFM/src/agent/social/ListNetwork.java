@@ -1,8 +1,10 @@
 package agent.social;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import agent.DemographicItem;
+import agent.social.ListNetwork.ListElement;
 
 public class ListNetwork implements AgentSocialNetwork {
 
@@ -27,20 +29,31 @@ public class ListNetwork implements AgentSocialNetwork {
 
 	@Override
 	public void addMember(DemographicItem member) {
-		network.add(new ListElement(member,null));
+		addMember(member,null);
+	}
+	
+	@Override
+	public void addMember(DemographicItem member, Object atribute) {
+		network.add(new ListElement(member,atribute));
 	}
 
 	@Override
-	public void removeMember(DemographicItem member) {
-		//hay que modificarlo por los cambios de ListElement, para que encuentre el que corresponde
-		//al DemographicItem member
-		network.remove(member);
+	public void removeMember(DemographicItem member) { //este metodo hayu que probarlo
+		Iterator<ListElement> it = network.iterator();
+		boolean found = false;
+		while (it.hasNext() && !found) {
+			ListElement next = it.next();
+			if(next.agent.equals(member)) {
+				found = network.remove(next);
+			}
+		}
 	}
 
 	@Override
 	public boolean isEmpty() {
 		return network.isEmpty();
 	}
+
 	
 	
 }
