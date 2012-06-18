@@ -5,14 +5,13 @@ import java.util.ArrayList;
 import agent.DemographicItem;
 
 public class ListBehavior implements Behavior {
-	
+
 	private ArrayList<BehaviorModule> behaviors;
-	
 
 	public ListBehavior() {
 		behaviors = new ArrayList<BehaviorModule>();
 	}
-	
+
 	public ListBehavior(ArrayList<BehaviorModule> behaviors) {
 		this.behaviors = behaviors;
 	}
@@ -32,7 +31,8 @@ public class ListBehavior implements Behavior {
 		for (BehaviorModule b : behaviors)
 			b.behave(individual);
 		if (behaviors.isEmpty())
-			System.out.println("Agent "+individual.toString()+" doesn't have any BehaviorModules so he does nothing!!");
+			System.out.println("Agent " + individual.toString()
+					+ " doesn't have any BehaviorModules so he does nothing!!");
 	}
 
 	@Override

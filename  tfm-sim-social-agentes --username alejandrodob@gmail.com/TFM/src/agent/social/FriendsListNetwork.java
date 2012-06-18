@@ -11,8 +11,9 @@ public class FriendsListNetwork extends ListNetwork implements FriendsNetwork {
 	@Override
 	public ArrayList<Woman> femaleFriends() {
 		ArrayList<Woman> femFriends = new ArrayList<Woman>();
-		for (ListElement f:network) {
-			if (f.agent instanceof Woman) femFriends.add((Woman) f.agent);
+		for (ListElement f : network) {
+			if (f.agent instanceof Woman)
+				femFriends.add((Woman) f.agent);
 		}
 		return femFriends;
 	}
@@ -20,8 +21,9 @@ public class FriendsListNetwork extends ListNetwork implements FriendsNetwork {
 	@Override
 	public ArrayList<Man> maleFriends() {
 		ArrayList<Man> masFriends = new ArrayList<Man>();
-		for (ListElement f:network) {
-			if (f.agent instanceof Man) masFriends.add((Man) f.agent);
+		for (ListElement f : network) {
+			if (f.agent instanceof Man)
+				masFriends.add((Man) f.agent);
 		}
 		return masFriends;
 	}
