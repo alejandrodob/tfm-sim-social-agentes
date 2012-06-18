@@ -15,6 +15,5 @@ public class Household extends DemographicItem {
 	private HouseData characteristics;
 	private ArrayList<Person> householdMembers;
 	private SocioeconomicLevel socLevel;
-	
 
 }

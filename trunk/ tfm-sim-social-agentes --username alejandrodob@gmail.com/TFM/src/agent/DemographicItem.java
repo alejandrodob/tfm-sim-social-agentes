@@ -7,10 +7,10 @@ import sim.engine.Steppable;
 import sim.util.Int2D;
 
 public class DemographicItem implements Steppable {
-	
+
 	private Int2D location;
 	private Behavior behavior;
-	
+
 	public DemographicItem() {
 		super();
 	}
@@ -50,5 +50,4 @@ public class DemographicItem implements Steppable {
 		behavior.removeBehaviorMod(behaviorMod);
 	}
 
-	
 }

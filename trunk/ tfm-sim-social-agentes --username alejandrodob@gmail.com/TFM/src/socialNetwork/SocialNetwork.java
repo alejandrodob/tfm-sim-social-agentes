@@ -11,7 +11,7 @@ import sim.util.Bag;
 public class SocialNetwork {
 
 	private Network network;
-	
+
 	public enum relation {
 		MOTHER_SON, FATHER_SON, FRIENDS, SIBLINGS, COUPLE
 	}
@@ -20,26 +20,64 @@ public class SocialNetwork {
 		super();
 		network = new Network(false);
 	}
-	
+
 	public void addPerson(Person person) {
 		addNode(person);
 	}
-	
+
 	public void removePerson(Person person) {
 		removeNode(person);
 	}
-	
+
 	public void addRelation(Person p1, Person p2, relation rel) {
-		addEdge(p1,p2,rel);
+		addEdge(p1, p2, rel);
 	}
-	
-	public void removeRelation(Person p1, Person p2, relation rel) { //evidentemente, este metodo se puede mejorar infinitamente en cuanto a eficiencia
+
+	public void removeRelation(Person p1, Person p2, relation rel) { // evidentemente,
+																		// este
+																		// metodo
+																		// se
+																		// puede
+																		// mejorar
+																		// infinitamente
+																		// en
+																		// cuanto
+																		// a
+																		// eficiencia
 		Bag aux = new Bag();
 		Edge link = null;
 		aux.addAll(getEdgesIn(p1));
-		for (Object o:aux) {//un while por favor
+		for (Object o : aux) {// un while por favor
 			Edge e = (Edge) o;
-			if (e.getOtherNode(p1).equals(p2) && e.getInfo().equals(rel)) {//esto hay q probarlo no vaya a ser una cagada de if con tanto equals entre objetos y cosas raras que no he usado en mi vida como enum
+			if (e.getOtherNode(p1).equals(p2) && e.getInfo().equals(rel)) {// esto
+																			// hay
+																			// q
+																			// probarlo
+																			// no
+																			// vaya
+																			// a
+																			// ser
+																			// una
+																			// cagada
+																			// de
+																			// if
+																			// con
+																			// tanto
+																			// equals
+																			// entre
+																			// objetos
+																			// y
+																			// cosas
+																			// raras
+																			// que
+																			// no
+																			// he
+																			// usado
+																			// en
+																			// mi
+																			// vida
+																			// como
+																			// enum
 				link = e;
 			}
 		}
@@ -139,6 +177,5 @@ public class SocialNetwork {
 	private Edge updateEdge(Edge edge, Object from, Object to, Object info) {
 		return network.updateEdge(edge, from, to, info);
 	}
-
 
 }
