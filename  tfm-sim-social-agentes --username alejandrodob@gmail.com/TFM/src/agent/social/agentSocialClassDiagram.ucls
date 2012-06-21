@@ -18,7 +18,7 @@
   </class>  
   <interface id="3" corner="BOTTOM_RIGHT" language="java" name="agent.social.FamilyNetwork" project="TFM" 
     file="/TFM/src/agent/social/FamilyNetwork.java" binary="false">    
-    <position x="682" y="113" width="-1" height="-1"/>    
+    <position x="679" y="127" width="-1" height="-1"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
@@ -34,7 +34,7 @@
   </class>  
   <interface id="5" corner="BOTTOM_RIGHT" language="java" name="agent.social.FriendsNetwork" project="TFM" 
     file="/TFM/src/agent/social/FriendsNetwork.java" binary="false">    
-    <position x="98" y="99" width="-1" height="-1"/>    
+    <position x="99" y="102" width="-1" height="-1"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
@@ -42,32 +42,32 @@
   </interface>  
   <class id="6" corner="BOTTOM_RIGHT" language="java" name="agent.social.ListNetwork" project="TFM" 
     file="/TFM/src/agent/social/ListNetwork.java" binary="false">    
-    <position x="275" y="37" width="227" height="161"/>    
+    <position x="390" y="143" width="-1" height="-1"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <realization id="7">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="3"/>  
-  </realization>  
-  <realization id="8">    
+  <generalization id="7">    
     <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="5"/>  
-  </realization>  
-  <realization id="9">    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <realization id="8">    
     <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="1"/>  
   </realization>  
-  <generalization id="10">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <generalization id="11">    
+  <generalization id="9">    
     <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
+  <realization id="10">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="5"/>  
+  </realization>  
+  <realization id="11">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </realization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     visibility="true">    
     <attributes public="true" package="true" protected="true" private="true"/>    

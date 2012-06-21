@@ -4,12 +4,14 @@ import agent.behavior.Behavior;
 import agent.behavior.BehaviorModule;
 import sim.engine.SimState;
 import sim.engine.Steppable;
+import sim.engine.Stoppable;
 import sim.util.Int2D;
 
 public class DemographicItem implements Steppable {
 
 	private Int2D location;
 	private Behavior behavior;
+	private Stoppable stop; //call stop.stop() to remove this agent from the simulation
 
 	public DemographicItem() {
 		super();
@@ -35,6 +37,14 @@ public class DemographicItem implements Steppable {
 
 	public void setBehavior(Behavior behavior) {
 		this.behavior = behavior;
+	}
+
+	public void setStop(Stoppable stop) {
+		this.stop = stop;
+	}
+
+	public Stoppable getStop() {
+		return stop;
 	}
 
 	@Override

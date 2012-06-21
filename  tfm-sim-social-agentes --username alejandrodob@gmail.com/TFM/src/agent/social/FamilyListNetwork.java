@@ -55,6 +55,21 @@ public class FamilyListNetwork extends ListNetwork implements FamilyNetwork {
 		}
 		return mother;
 	}
+	
+	@Override
+	public Person couple() {
+		Iterator<ListElement> it = network.iterator();
+		boolean found = false;
+		Person couple = null;
+		while (it.hasNext() && !found) {
+			ListElement next = it.next();
+			if (next.atribute.equals(kinship.WIFE) || next.atribute.equals(kinship.HUSBAND)) {
+				found = true;
+				couple = (Person) next.agent;
+			}
+		}
+		return couple;
+	}
 
 	@Override
 	public ArrayList<Person> sons() {
