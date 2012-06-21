@@ -7,12 +7,10 @@ public abstract class BasicDemographicBehavior implements BehaviorModule {
 
 	@Override
 	public void behave(DemographicItem person) {
-		Person p = (Person) person;
-		age(p);
-		haveChild(p);
-		migrate(p);
-		die(p);
-		System.out.println(p.toString() + "tengo " + p.getAge());
+		age((Person) person);
+		haveChild((Person) person);
+		migrate((Person) person);
+		die((Person) person);
 	}
 
 	protected void age(Person person) {

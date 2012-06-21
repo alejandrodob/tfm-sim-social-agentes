@@ -13,8 +13,12 @@ public interface FamilyNetwork {
 	public Man father();
 
 	public Woman mother();
+	
+	public Person couple();
 
 	public ArrayList<Person> sons();
+	
+	
 	// etcetera.
 	// otra cosa: la idea es que la clase con funcionalidad extienda ListNetwork
 	// e implemente a esta

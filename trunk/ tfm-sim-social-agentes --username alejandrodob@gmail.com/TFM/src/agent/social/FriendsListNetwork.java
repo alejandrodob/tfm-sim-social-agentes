@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import agent.DemographicItem;
 import agent.Man;
+import agent.Person;
 import agent.Woman;
 
 public class FriendsListNetwork extends ListNetwork implements FriendsNetwork {
@@ -26,6 +27,15 @@ public class FriendsListNetwork extends ListNetwork implements FriendsNetwork {
 				masFriends.add((Man) f.agent);
 		}
 		return masFriends;
+	}
+
+	@Override
+	public ArrayList<Person> friends() {
+		ArrayList<Person> friends = new ArrayList<Person>();
+		for (ListElement f : network) {
+			friends.add((Person) f.agent);
+		}
+		return friends;
 	}
 
 }

@@ -9,6 +9,7 @@ import sim.util.Int2D;
 import socialNetwork.SocialNetwork;
 
 public class World extends SimState implements SocialWorld {
+	//tiene que haber una clase por encima de esta mas general
 
 	public SocialNetwork population = new SocialNetwork();;
 	public final int height = 40; // estos valores, ver si se pueden definir
@@ -32,23 +33,19 @@ public class World extends SimState implements SocialWorld {
 	public void addIndividual(Person person, Int2D location) {
 		population.addPerson(person);
 		field.setObjectLocation(person, location);
-		schedule.scheduleRepeating(person);
+		person.setStop(schedule.scheduleRepeating(person));
 	}
 
 	@Override
 	public void removeIndividual(Person person) {
-		population.removePerson(person);
-		field.remove(person);
+		if (field.remove(person) != null)  //no need of invoking population.removePerson(person) if no such person exists
+			population.removePerson(person);
 	}
 
 	@Override
 	public void registerDeath(Person person) {
 		removeIndividual(person);
-		population.removePerson(person); // this method removes automatically
-											// all the relations (edges in the
-											// network)
-											// between this person and his
-											// friends/family
+		//registrar en las estadisticas esta muerte
 	}
 
 	@Override

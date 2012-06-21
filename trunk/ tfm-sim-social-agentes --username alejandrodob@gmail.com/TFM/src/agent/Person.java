@@ -19,8 +19,8 @@ public abstract class Person extends DemographicItem implements Socializable {
 	protected SocioeconomicLevel socLevel;
 	protected Education education;
 	protected Household household;
-	protected AgentSocialNetwork family;
-	protected AgentSocialNetwork friends;
+	protected FamilyListNetwork family;
+	protected FriendsListNetwork friends;
 	final static int stepsPerYear = 50;//maybe should be in the class World, as it is a general parameter of the simulation
 
 	public Person() {
@@ -89,19 +89,19 @@ public abstract class Person extends DemographicItem implements Socializable {
 		this.household = household;
 	}
 
-	public AgentSocialNetwork getFamily() {
+	public FamilyListNetwork getFamily() {
 		return family;
 	}
 
-	public void setFamily(AgentSocialNetwork family) {
+	public void setFamily(FamilyListNetwork family) {
 		this.family = family;
 	}
 
-	public AgentSocialNetwork getFriends() {
+	public FriendsListNetwork getFriends() {
 		return friends;
 	}
 
-	public void setFriends(AgentSocialNetwork friends) {
+	public void setFriends(FriendsListNetwork friends) {
 		this.friends = friends;
 	}
 
