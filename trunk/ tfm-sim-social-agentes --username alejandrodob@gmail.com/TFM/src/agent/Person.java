@@ -1,19 +1,19 @@
 package agent;
 
-import java.util.ArrayList;
-
 import agent.behavior.Behavior;
 import agent.social.AgentSocialNetwork;
 import agent.social.FamilyListNetwork;
 import agent.social.FriendsListNetwork;
 
-import sim.engine.SimState;
-import sim.engine.Steppable;
 import sim.util.Int2D;
 import household.Household;
 
 public abstract class Person extends DemographicItem implements Socializable {
-
+	
+	///////////////////////////////////////////////////////
+	//esto de que sea abstract, no sé yo, igual lo cambio
+	////////////////////////////////////////////////////////
+	
 	protected int age;
 	protected boolean coupled;
 	protected SocioeconomicLevel socLevel;
@@ -21,7 +21,7 @@ public abstract class Person extends DemographicItem implements Socializable {
 	protected Household household;
 	protected AgentSocialNetwork family;
 	protected AgentSocialNetwork friends;
-	protected static int stepsPerYear = 50;
+	final static int stepsPerYear = 50;//maybe should be in the class World, as it is a general parameter of the simulation
 
 	public Person() {
 		super();
@@ -87,6 +87,22 @@ public abstract class Person extends DemographicItem implements Socializable {
 
 	public void setHousehold(Household household) {
 		this.household = household;
+	}
+
+	public AgentSocialNetwork getFamily() {
+		return family;
+	}
+
+	public void setFamily(AgentSocialNetwork family) {
+		this.family = family;
+	}
+
+	public AgentSocialNetwork getFriends() {
+		return friends;
+	}
+
+	public void setFriends(AgentSocialNetwork friends) {
+		this.friends = friends;
 	}
 
 	@Override
