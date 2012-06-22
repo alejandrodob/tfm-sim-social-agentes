@@ -5,13 +5,15 @@ import agent.behavior.BehaviorModule;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
+import sim.field.grid.Grid2D;
 import sim.util.Int2D;
 
 public class DemographicItem implements Steppable {
 
-	private Int2D location;
-	private Behavior behavior;
-	private Stoppable stop; //call stop.stop() to remove this agent from the simulation
+	protected Int2D location;
+	protected Behavior behavior;
+	protected Stoppable stop; //call stop.stop() to remove this agent from the simulation
+	protected Grid2D field = null; //the field in where the agent moves (or stays)
 
 	public DemographicItem() {
 		super();
@@ -45,6 +47,14 @@ public class DemographicItem implements Steppable {
 
 	public Stoppable getStop() {
 		return stop;
+	}
+
+	public Grid2D getField() {
+		return field;
+	}
+
+	public void setField(Grid2D field) {
+		this.field = field;
 	}
 
 	@Override

@@ -11,5 +11,7 @@ public interface Behavior {
 	public void behave(DemographicItem individual);
 
 	public boolean isEmptyBehavior();
+	
+	public Iterable<BehaviorModule> getBehaviors();
 
 }

@@ -6,21 +6,15 @@ import java.util.Iterator;
 import agent.Man;
 import agent.Person;
 import agent.Woman;
-import agent.social.ListNetwork.ListElement;
 
 public class FamilyListNetwork extends ListNetwork implements FamilyNetwork {
-
-	public enum kinship {
-		FATHER, MOTHER, SON, DAUGHTER, BROTHER, SISTER, HUSBAND, WIFE
-		//OBS. quiza este enum deberia ir mas arriba, en algun lugar mas abstracto
-	}
 
 	@Override
 	public ArrayList<Person> siblings() {
 		ArrayList<Person> siblings = new ArrayList<Person>();
 		for (ListElement sibling : network) {
-			if (sibling.atribute.equals(kinship.BROTHER)
-					|| sibling.atribute.equals(kinship.SISTER))
+			if (sibling.atribute.equals(Kinship.BROTHER)
+					|| sibling.atribute.equals(Kinship.SISTER))
 				siblings.add((Person) sibling.agent);
 		}
 		return siblings;
@@ -33,7 +27,7 @@ public class FamilyListNetwork extends ListNetwork implements FamilyNetwork {
 		Man father = null;
 		while (it.hasNext() && !found) {
 			ListElement next = it.next();
-			if (next.atribute.equals(kinship.FATHER)) {
+			if (next.atribute.equals(Kinship.FATHER)) {
 				found = true;
 				father = (Man) next.agent;
 			}
@@ -48,7 +42,7 @@ public class FamilyListNetwork extends ListNetwork implements FamilyNetwork {
 		Woman mother = null;
 		while (it.hasNext() && !found) {
 			ListElement next = it.next();
-			if (next.atribute.equals(kinship.MOTHER)) {
+			if (next.atribute.equals(Kinship.MOTHER)) {
 				found = true;
 				mother = (Woman) next.agent;
 			}
@@ -63,7 +57,7 @@ public class FamilyListNetwork extends ListNetwork implements FamilyNetwork {
 		Person couple = null;
 		while (it.hasNext() && !found) {
 			ListElement next = it.next();
-			if (next.atribute.equals(kinship.WIFE) || next.atribute.equals(kinship.HUSBAND)) {
+			if (next.atribute.equals(Kinship.WIFE) || next.atribute.equals(Kinship.HUSBAND)) {
 				found = true;
 				couple = (Person) next.agent;
 			}
@@ -75,7 +69,7 @@ public class FamilyListNetwork extends ListNetwork implements FamilyNetwork {
 	public ArrayList<Person> sons() {
 		ArrayList<Person> sons = new ArrayList<Person>();
 		for (ListElement son : network) {
-			if (son.atribute.equals(kinship.SON))
+			if (son.atribute.equals(Kinship.SON))
 				sons.add((Person) son.agent);
 		}
 		return sons;

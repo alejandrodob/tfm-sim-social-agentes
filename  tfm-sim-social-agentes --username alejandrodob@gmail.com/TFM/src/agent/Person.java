@@ -1,20 +1,27 @@
 package agent;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
+import agent.behavior.BasicSocialBehavior;
 import agent.behavior.Behavior;
+import agent.behavior.BehaviorModule;
+import agent.behavior.ListBehavior;
 import agent.social.AgentSocialNetwork;
 import agent.social.FamilyListNetwork;
 import agent.social.FriendsListNetwork;
 
+import sim.field.grid.SparseGrid2D;
+import sim.util.Bag;
 import sim.util.Int2D;
 import household.Household;
 
 public abstract class Person extends DemographicItem implements Socializable {
 	
 	///////////////////////////////////////////////////////
-	//esto de que sea abstract, no sé yo, igual lo cambio
-	////////////////////////////////////////////////////////
+	//esto de que sea abstract, no sé yo, igual lo cambio//
+	///////////////////////////////////////////////////////
 	
 	protected int ageInYears;
 	protected int ageInSimulationSteps;
@@ -40,6 +47,7 @@ public abstract class Person extends DemographicItem implements Socializable {
 		this.education = education;
 		family = new FamilyListNetwork();
 		friends = new FriendsListNetwork();
+		behavior = new ListBehavior();
 	}
 
 	public Person(Int2D location, Behavior behavior, int age, boolean coupled,
@@ -143,27 +151,39 @@ public abstract class Person extends DemographicItem implements Socializable {
 
 	@Override
 	public Collection<DemographicItem> peopleAround(int radius) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Collection<DemographicItem> peopleAround(double radius) {
-		// TODO Auto-generated method stub
-		return null;
+		Bag people = new Bag();
+		ArrayList<DemographicItem> peopleArray = new ArrayList<DemographicItem>();
+		people = ((SparseGrid2D)field).getNeighborsMaxDistance(location.getX(),location.getY(),radius,false,people,null,null);
+		for (Object p:people) {
+			peopleArray.add((DemographicItem) p);
+		}
+		return peopleArray;
 	}
 
 	@Override
 	public boolean acceptFriendshipProposal(Person friend) {
 		//search the behavior that handles this. it must be a subclass of BasicSocialBehavior
-		
-		return false;
+		BehaviorModule social = null;
+		boolean found = false;
+		Iterator<BehaviorModule> it = behavior.getBehaviors().iterator();
+		while (!found && it.hasNext()) {
+			social = it.next();
+			found = (social instanceof BasicSocialBehavior);
+		}
+		return found && ((BasicSocialBehavior)social).acceptFriend(friend,this);
 	}
 
 	@Override
 	public boolean acceptMarriageProposal(Person candidate) {
-		// TODO Auto-generated method stub
-		return false;
+		//search the behavior that handles this. it must be a subclass of BasicSocialBehavior
+		BehaviorModule social = null;
+		boolean found = false;
+		Iterator<BehaviorModule> it = behavior.getBehaviors().iterator();
+		while (!found && it.hasNext()) {
+			social = it.next();
+			found = (social instanceof BasicSocialBehavior);
+		}
+		return found && ((BasicSocialBehavior)social).acceptMarriage(candidate,this);
 	}
 
 }
