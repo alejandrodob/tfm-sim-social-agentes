@@ -1,5 +1,7 @@
 package agent;
 
+import java.util.Collection;
+
 import agent.behavior.Behavior;
 import agent.social.AgentSocialNetwork;
 import agent.social.FamilyListNetwork;
@@ -14,7 +16,8 @@ public abstract class Person extends DemographicItem implements Socializable {
 	//esto de que sea abstract, no sé yo, igual lo cambio
 	////////////////////////////////////////////////////////
 	
-	protected int age;
+	protected int ageInYears;
+	protected int ageInSimulationSteps;
 	protected boolean coupled;
 	protected SocioeconomicLevel socLevel;
 	protected Education education;
@@ -30,7 +33,8 @@ public abstract class Person extends DemographicItem implements Socializable {
 	public Person(int age, boolean coupled, SocioeconomicLevel socLevel,
 			Education education) {
 		super();
-		this.age = age;
+		this.ageInYears = age;
+		this.ageInSimulationSteps = ageInYears * stepsPerYear;
 		this.coupled = coupled;
 		this.socLevel = socLevel;
 		this.education = education;
@@ -41,7 +45,8 @@ public abstract class Person extends DemographicItem implements Socializable {
 	public Person(Int2D location, Behavior behavior, int age, boolean coupled,
 			SocioeconomicLevel socLevel, Education education) {
 		super(location, behavior);
-		this.age = age;
+		this.ageInYears = age;
+		this.ageInSimulationSteps = ageInYears * stepsPerYear;
 		this.coupled = coupled;
 		this.socLevel = socLevel;
 		this.education = education;
@@ -50,11 +55,15 @@ public abstract class Person extends DemographicItem implements Socializable {
 	}
 
 	public int getAge() {
-		return age;
+		return ageInYears;
 	}
 
 	public void setAge(int age) {
-		this.age = age;
+		ageInYears = age;
+	}
+	
+	public int getSteps() {
+		return ageInSimulationSteps;
 	}
 
 	public boolean isCoupled() {
@@ -125,6 +134,36 @@ public abstract class Person extends DemographicItem implements Socializable {
 	@Override
 	public void removeFamilyMember(DemographicItem famMem) {
 		family.removeMember(famMem);
+	}
+
+	@Override
+	public boolean isFriend(DemographicItem person) {
+		return friends.isFriend((Person) person);
+	}
+
+	@Override
+	public Collection<DemographicItem> peopleAround(int radius) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection<DemographicItem> peopleAround(double radius) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean acceptFriendshipProposal(Person friend) {
+		//search the behavior that handles this. it must be a subclass of BasicSocialBehavior
+		
+		return false;
+	}
+
+	@Override
+	public boolean acceptMarriageProposal(Person candidate) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

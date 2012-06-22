@@ -11,4 +11,6 @@ public interface AgentSocialNetwork {
 	public void removeMember(DemographicItem member);
 
 	public boolean isEmpty();
+	
+	public boolean containsMember(DemographicItem member);
 }

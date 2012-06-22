@@ -81,4 +81,9 @@ public class FamilyListNetwork extends ListNetwork implements FamilyNetwork {
 		return sons;
 	}
 
+	@Override
+	public boolean isFamilyMember(Person person) {
+		return containsMember(person);
+	}
+
 }

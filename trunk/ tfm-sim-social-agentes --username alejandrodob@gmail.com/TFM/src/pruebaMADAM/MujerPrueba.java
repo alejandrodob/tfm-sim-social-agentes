@@ -8,6 +8,7 @@ public class MujerPrueba extends Woman {
 
 	private Caracteristicas caracteristicas;
 	private int nivelExigencia;
+	private int numHijosMax = 3;
 	
 	class Caracteristicas {
 		
@@ -40,7 +41,6 @@ public class MujerPrueba extends Woman {
 		public boolean[] getCaracteristicas(){
 			return cuales;
 		}
-
 	}
 
 	public Caracteristicas getCaracteristicas() {
@@ -57,5 +57,17 @@ public class MujerPrueba extends Woman {
 
 	public void setNivelExigencia(int nivelExigencia) {
 		this.nivelExigencia = nivelExigencia;
+	}
+	
+	public int getNumHijosMax() {
+		return numHijosMax;
+	}
+
+	public void setNumHijosMax(int numHijosMax) {
+		this.numHijosMax = numHijosMax;
+	}
+	
+	public int numHijos() {
+		return family.sons().size();
 	}
 }
