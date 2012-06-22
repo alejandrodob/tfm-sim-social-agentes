@@ -3,13 +3,14 @@ package agent.behavior;
 import agent.DemographicItem;
 import agent.Person;
 
+@Deprecated
 public class BasicChildBehavior implements BehaviorModule {
 
 	@Override
 	public void behave(DemographicItem person) {
 		age((Person) person);
 		System.out.println(person.toString()
-				+ "soy un niño me estoy comportando que te cagas de bien");
+				+ "soy un niño me estoy comportando muy bien");
 	}
 
 	public void age(Person person) {
