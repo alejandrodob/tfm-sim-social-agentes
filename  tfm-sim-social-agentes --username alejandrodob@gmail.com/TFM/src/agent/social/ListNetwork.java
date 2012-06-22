@@ -39,7 +39,7 @@ public class ListNetwork implements AgentSocialNetwork {
 	}
 
 	@Override
-	public void removeMember(DemographicItem member) { // este metodo hayu que
+	public void removeMember(DemographicItem member) { // este metodo hay que
 														// probarlo
 		Iterator<ListElement> it = network.iterator();
 		boolean found = false;
@@ -54,6 +54,17 @@ public class ListNetwork implements AgentSocialNetwork {
 	@Override
 	public boolean isEmpty() {
 		return network.isEmpty();
+	}
+
+	@Override
+	public boolean containsMember(DemographicItem member) {
+		Iterator<ListElement> it = network.iterator();
+		boolean found = false;
+		while (it.hasNext() && !found) {
+			ListElement next = it.next();
+			found = next.agent.equals(member);
+		}
+		return found;
 	}
 
 }

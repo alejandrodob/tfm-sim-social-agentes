@@ -18,6 +18,8 @@ public interface FamilyNetwork {
 
 	public ArrayList<Person> sons();
 	
+	public boolean isFamilyMember(Person person);
+	
 	
 	// etcetera.
 	// otra cosa: la idea es que la clase con funcionalidad extienda ListNetwork

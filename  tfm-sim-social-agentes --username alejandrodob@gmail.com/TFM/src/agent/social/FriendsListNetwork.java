@@ -38,4 +38,9 @@ public class FriendsListNetwork extends ListNetwork implements FriendsNetwork {
 		return friends;
 	}
 
+	@Override
+	public boolean isFriend(Person person) {
+		return containsMember(person);
+	}
+
 }
