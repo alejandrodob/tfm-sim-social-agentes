@@ -19,7 +19,6 @@ public interface Socializable {
 	public void marry(Person partner);
 	
 	public Collection<DemographicItem> peopleAround(int radius);
-	public Collection<DemographicItem> peopleAround(double radius);
 	
 	//los metodos que vienen a continuacion dependeran del tipo de comportamiento que tenga asignada
 	//la persona en cuestion, asi pues han de ser un simple enlace al correspondiente del comportamiento que tenga

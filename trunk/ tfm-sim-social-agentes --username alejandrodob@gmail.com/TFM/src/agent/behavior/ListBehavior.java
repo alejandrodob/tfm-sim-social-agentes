@@ -2,6 +2,8 @@ package agent.behavior;
 
 import java.util.ArrayList;
 
+import sim.engine.SimState;
+
 import agent.DemographicItem;
 
 public class ListBehavior implements Behavior {
@@ -38,6 +40,11 @@ public class ListBehavior implements Behavior {
 	@Override
 	public boolean isEmptyBehavior() {
 		return behaviors.isEmpty();
+	}
+
+	@Override
+	public Iterable<BehaviorModule> getBehaviors() {
+		return behaviors;
 	}
 
 }

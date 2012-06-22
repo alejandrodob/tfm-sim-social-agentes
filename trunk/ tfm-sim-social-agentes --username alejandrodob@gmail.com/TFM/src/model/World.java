@@ -33,6 +33,7 @@ public class World extends SimState implements SocialWorld {
 	public void addIndividual(Person person, Int2D location) {
 		population.addPerson(person);
 		field.setObjectLocation(person, location);
+		person.setField(field);
 		person.setStop(schedule.scheduleRepeating(person));
 	}
 
