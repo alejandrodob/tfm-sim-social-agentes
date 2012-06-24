@@ -10,10 +10,15 @@ import agent.behavior.BasicSocialBehavior;
 
 public class SocialBehaviorNinio extends BasicSocialBehavior {
 	
+	//SINGLETON
+
 	private static MersenneTwisterFast random = new MersenneTwisterFast();
+	private static SocialBehaviorNinio INSTANCE = new SocialBehaviorNinio();
 	
-	public SocialBehaviorNinio() {
-		super();
+	private SocialBehaviorNinio() {}
+	
+	public static SocialBehaviorNinio getInstance() {
+		return INSTANCE;
 	}
 
 	@Override
@@ -79,7 +84,7 @@ public class SocialBehaviorNinio extends BasicSocialBehavior {
 		//se cambiara de comportamiento a uno de adulto, en que comenzara a buscar pareja
 		if (me.getAge() >= 10) {
 			me.removeBehaviorModule(this);
-			me.addBehaviorModule(new SocialBehaviorAdulto());
+			me.addBehaviorModule(SocialBehaviorAdulto.getInstance());
 		}
 	}
 

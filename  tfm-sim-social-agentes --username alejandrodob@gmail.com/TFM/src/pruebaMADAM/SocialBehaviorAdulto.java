@@ -12,11 +12,16 @@ import agent.behavior.BasicSocialBehavior;
 import agent.social.FriendsNetwork;
 
 public class SocialBehaviorAdulto extends BasicSocialBehavior {
-	
+		
+	//SINGLETON
+
 	private static MersenneTwisterFast random = new MersenneTwisterFast();
+	private static SocialBehaviorAdulto INSTANCE = new SocialBehaviorAdulto();
 	
-	public SocialBehaviorAdulto() {
-		super();
+	private SocialBehaviorAdulto() {}
+	
+	public static SocialBehaviorAdulto getInstance() {
+		return INSTANCE;
 	}
 	
 	@Override

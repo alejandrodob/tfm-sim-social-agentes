@@ -1,5 +1,6 @@
 package agent.behavior;
 
+import model.World;
 import agent.DemographicItem;
 
 public interface Behavior {
@@ -8,7 +9,7 @@ public interface Behavior {
 
 	public void removeBehaviorMod(BehaviorModule behaviorMod);
 
-	public void behave(DemographicItem individual);
+	public void behave(DemographicItem individual, World environment);
 
 	public boolean isEmptyBehavior();
 	

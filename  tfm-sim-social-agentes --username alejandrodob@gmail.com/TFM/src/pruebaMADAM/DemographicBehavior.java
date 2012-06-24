@@ -1,43 +1,96 @@
 package pruebaMADAM;
 
+import model.World;
+import sim.util.Int2D;
+import ec.util.MersenneTwisterFast;
+import environment.MortalityExample;
 import environment.NatalityExample;
 import agent.Person;
 import agent.behavior.BasicDemographicBehavior;
+import agent.social.Kinship;
 
 public class DemographicBehavior extends BasicDemographicBehavior {
+	
+	//SINGLETON
 
+	private static MersenneTwisterFast random = new MersenneTwisterFast();
+	private static DemographicBehavior INSTANCE = new DemographicBehavior();
+	
+	private DemographicBehavior() {}
+	
+	public static DemographicBehavior getInstance() {
+		return INSTANCE;
+	}
+	
 	@Override
-	protected void haveChild(Person person) {
+	protected void haveChild(Person person, World environment) {
 		// Una vez al a�o ( o dos, lo voy cambiando)
 		if (person.getSteps()%100 == 0) {
 			NatalityExample nat = NatalityExample.getInstance();
 			if (nat.newChild(person)) {
-				
+				if (random.nextBoolean()) {
+					HombrePrueba child = new HombrePrueba(new Int2D(person.getLocation().getX(),person.getLocation().getY()),0,false);
+					child.addBehaviorModule(SocialBehaviorNinio.getInstance());
+					child.addBehaviorModule(DemographicBehavior.getInstance());
+					child.addFamilyMember(person, Kinship.MOTHER);
+					person.addFamilyMember(child, Kinship.SON);
+					child.addFamilyMember(person.getFamily().couple(),Kinship.FATHER);
+					person.getFamily().couple().addFamilyMember(child, Kinship.SON);
+					for (Person sibling : person.getFamily().sons()) {
+						if (sibling instanceof HombrePrueba) {
+							child.addFamilyMember(sibling, Kinship.BROTHER);
+							sibling.addFamilyMember(child, Kinship.BROTHER);
+						} else {
+							child.addFamilyMember(sibling, Kinship.SISTER);
+							sibling.addFamilyMember(child, Kinship.BROTHER);
+						}
+					}
+					environment.addIndividual(child,child.getLocation());
+				}
+				else {
+					MujerPrueba child = new MujerPrueba(new Int2D(person.getLocation().getX(),person.getLocation().getY()),0,false);
+					child.addBehaviorModule(SocialBehaviorNinio.getInstance());
+					child.addBehaviorModule(DemographicBehavior.getInstance());
+					child.addFamilyMember(person, Kinship.MOTHER);
+					person.addFamilyMember(child, Kinship.DAUGHTER);
+					child.addFamilyMember(person.getFamily().couple(),Kinship.FATHER);
+					person.getFamily().couple().addFamilyMember(child, Kinship.DAUGHTER);
+					for (Person sibling : person.getFamily().sons()) {
+						if (sibling instanceof HombrePrueba) {
+							child.addFamilyMember(sibling, Kinship.BROTHER);
+							sibling.addFamilyMember(child, Kinship.SISTER);
+						} else {
+							child.addFamilyMember(sibling, Kinship.SISTER);
+							sibling.addFamilyMember(child, Kinship.SISTER);
+						}
+					}
+					environment.addIndividual(child,child.getLocation());
+				}
 			}
 		}
 	}
 
-	
-	protected void naceBebe(Mundo mundo){
-		Sexo sexo;
-		if (mundo.random.nextBoolean()){
-			sexo = Sexo.F;
-		}
-		else sexo = Sexo.M;
-		Individuo bebe = new Individuo(0,sexo,new Caracteristicas(caracteristicas.totalCaract,caracteristicas.numCaract,mundo.random));
-		mundo.registraNacimiento(bebe,this);
-		numHijos++;
-	}
-
 	@Override
-	protected void die(Person person) {
-		// Y si la Muerte ha de llev�rselo, que as� sea
-		if (edad > edadMuerte) 
-			muere(mundo);
-		// Cada 5 a�os se actualiza su probabilidad de morir en los pr�ximos 5
-		int edadDespues = getEdad_Real();
-		if (cambiaEdadMuerte(edadAntes,edadDespues))
-			edadMuerte = DistribMuertes.calculaEdadMuerte(edadDespues);		
+	protected void die(Person person, World environment) {
+		MortalityExample mort = MortalityExample.getInstance();
+		if (person instanceof HombrePrueba) {
+			// Y si la Muerte ha de llev�rselo, que as� sea
+			if (person.getAge() > ((HombrePrueba)person).getEdadMuerte()) {
+				person.getStop().stop();
+			
+			//////////aki me kedo, me falta registrar la muerte, borrarle de las listas de sus coleguis
+			//////////borrarle del field y del socialnetwork de world
+			//idea: haciendo un metodo en Person que le borre de sus coleguis y familiares, que sea general pa
+			//que se pueda reutilizar en otras simulaciones. luego, a parte, aquí, y aprovechando que le paso 
+			//como parametro en el behave el World, llamar a los metodos de world correspondientes para que
+			//desaparezca de la fas de la tierra
+			}
+			
+			// Cada 5 a�os se actualiza su probabilidad de morir en los pr�ximos 5
+			int edadDespues = person.getAge();
+			if (cambiaEdadMuerte(edadDespues-1,edadDespues))
+				((HombrePrueba) person).setEdadMuerte(mort.ageOfDeath(person));		
+		}	
 	}
 	
 	protected boolean cambiaEdadMuerte(int edadAntes, int edadDespues){
@@ -45,9 +98,6 @@ public class DemographicBehavior extends BasicDemographicBehavior {
 	}
 
 	@Override
-	protected void migrate(Person person) {
-		// TODO Auto-generated method stub
-		
-	}
+	protected void migrate(Person person, World environment) {}
 
 }

@@ -1,12 +1,13 @@
 package agent.behavior;
 
+import model.World;
 import agent.DemographicItem;
 import agent.Person;
 
 public abstract class BasicSocialBehavior implements BehaviorModule {
 
 	@Override
-	public void behave(DemographicItem me) {
+	public void behave(DemographicItem me, World environment) {
 		meetPeople((Person) me);
 		searchForMate((Person) me);
 	}

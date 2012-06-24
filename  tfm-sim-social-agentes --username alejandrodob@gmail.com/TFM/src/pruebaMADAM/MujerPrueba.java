@@ -1,6 +1,7 @@
 package pruebaMADAM;
 
 import pruebaMADAM.HombrePrueba.Caracteristicas;
+import sim.util.Int2D;
 import ec.util.MersenneTwisterFast;
 import agent.Woman;
 
@@ -9,6 +10,14 @@ public class MujerPrueba extends Woman {
 	private Caracteristicas caracteristicas;
 	private int nivelExigencia;
 	private int numHijosMax = 3;
+	private int edadMuerte;
+	
+	public MujerPrueba(Int2D location, int age, boolean coupled) {
+		super(location, age, coupled, null, null);
+		caracteristicas = new Caracteristicas(40,20,new MersenneTwisterFast());
+		nivelExigencia = caracteristicas.numCaract-1;
+		edadMuerte = 100*stepsPerYear;
+	}
 	
 	class Caracteristicas {
 		
@@ -69,5 +78,13 @@ public class MujerPrueba extends Woman {
 	
 	public int numHijos() {
 		return family.sons().size();
+	}
+	
+	public int getEdadMuerte() {
+		return edadMuerte;
+	}
+	
+	public void setEdadMuerte(int edadMuerte) {
+		this.edadMuerte = edadMuerte;
 	}
 }

@@ -6,7 +6,9 @@ import agent.DemographicItem;
 import agent.Person;
 
 public class NatalityExample implements Natality {
-	
+
+	//SINGLETON
+
 	private static MersenneTwisterFast random = new MersenneTwisterFast();
 	private static NatalityExample INSTANCE = new NatalityExample();
 	
@@ -16,7 +18,6 @@ public class NatalityExample implements Natality {
 		return INSTANCE;
 	}
 	
-	//hacerla singleton de risas
 
 	@Override
 	public double birthProbability(DemographicItem female) {
