@@ -2,7 +2,7 @@ package agent.behavior;
 
 import java.util.ArrayList;
 
-import sim.engine.SimState;
+import model.World;
 
 import agent.DemographicItem;
 
@@ -29,9 +29,9 @@ public class ListBehavior implements Behavior {
 	}
 
 	@Override
-	public void behave(DemographicItem individual) {
+	public void behave(DemographicItem individual, World environment) {
 		for (BehaviorModule b : behaviors)
-			b.behave(individual);
+			b.behave(individual,environment);
 		if (behaviors.isEmpty())
 			System.out.println("Agent " + individual.toString()
 					+ " doesn't have any BehaviorModules so he does nothing!!");

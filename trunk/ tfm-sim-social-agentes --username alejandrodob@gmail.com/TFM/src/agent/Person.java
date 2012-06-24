@@ -31,7 +31,7 @@ public abstract class Person extends DemographicItem implements Socializable {
 	protected Household household;
 	protected FamilyListNetwork family;
 	protected FriendsListNetwork friends;
-	final static int stepsPerYear = 50;//maybe should be in the class World, as it is a general parameter of the simulation
+	protected final static int stepsPerYear = 50;//maybe should be in the class World, as it is a general parameter of the simulation
 
 	public Person() {
 		super();

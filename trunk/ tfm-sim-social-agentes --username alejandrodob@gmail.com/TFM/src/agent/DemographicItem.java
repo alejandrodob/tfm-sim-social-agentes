@@ -1,5 +1,6 @@
 package agent;
 
+import model.World;
 import agent.behavior.Behavior;
 import agent.behavior.BehaviorModule;
 import sim.engine.SimState;
@@ -59,7 +60,7 @@ public class DemographicItem implements Steppable {
 
 	@Override
 	public void step(SimState state) {
-		behavior.behave(this);
+		behavior.behave(this,(World) state);
 	}
 
 	public void addBehaviorModule(BehaviorModule behaviorMod) {

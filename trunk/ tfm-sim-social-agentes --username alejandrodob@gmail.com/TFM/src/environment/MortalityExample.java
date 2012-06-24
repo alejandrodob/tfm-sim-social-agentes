@@ -1,21 +1,53 @@
 package environment;
 
 import ec.util.MersenneTwisterFast;
+import agent.DemographicItem;
 import agent.Person;
 
 public class MortalityExample implements Mortality {
+	
+	//SINGLETON
+
+	private static MersenneTwisterFast random = new MersenneTwisterFast();
+	private static MortalityExample INSTANCE = new MortalityExample();
+	
+	private MortalityExample() {}
+	
+	public static MortalityExample getInstance() {
+		return INSTANCE;
+	}
 
 	@Override
-	public double probabilidadMuerteAnual(Person persona) {
+	public double annualDeathProbability(DemographicItem persona) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	private static MersenneTwisterFast random = new MersenneTwisterFast();
+	@Override
+	public boolean timeToDie(DemographicItem persona) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int ageOfDeath(DemographicItem persona) {
+		int age = ((Person) persona).getAge();
+		if (age == 1){
+			if (random.nextBoolean(probabilidadMuerte(age))){
+				return (age + random.nextInt(4))*50;
+			}
+		}
+		else 
+			if (random.nextBoolean(probabilidadMuerte(age))){
+				return (age + random.nextInt(5))*50;
+			}
+		return 100*50;
+	}
+
 
 	// Tabla de mortalidad de la poblaci�n espa�ola, a�os 1990-1991. Fuente:
 	// INE.
-	public static double probabilidadMuerte(int edad) {
+	public double probabilidadMuerte(int edad) {
 		double pm;
 
 		if (edad < 1)
@@ -65,5 +97,6 @@ public class MortalityExample implements Mortality {
 
 		return pm;
 	}
+	
 
 }

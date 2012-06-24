@@ -1,4 +1,4 @@
-package pruebas;
+/*package pruebas;
 
 import agent.Man;
 import agent.Person;
@@ -24,9 +24,9 @@ public class Prueba extends World {
 	// que a la hora de crear los agentes se haga de acuerdo a estos datos.
 	// estos datos se deberían poder
 	// cargar de bases de datos tipo INE u otras maneras
-	/**
+	*//**
 	 * @param args
-	 */
+	 *//*
 	public static void main(String[] args) {
 		doLoop(Prueba.class, args);
 		System.exit(0);
@@ -81,3 +81,4 @@ public class Prueba extends World {
 	}
 
 }
+*/
