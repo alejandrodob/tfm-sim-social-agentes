@@ -1,20 +1,21 @@
 package agent;
 
+import field.AbstractField2D;
 import model.World;
 import agent.behavior.Behavior;
 import agent.behavior.BehaviorModule;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
-import sim.field.grid.Grid2D;
+import sim.field.grid.SparseGrid2D;
 import sim.util.Int2D;
 
 public class DemographicItem implements Steppable {
 
 	protected Int2D location;
-	protected Behavior behavior;
+	protected Behavior behavior; //could be an empty container, if needed
 	protected Stoppable stop; //call stop.stop() to remove this agent from the simulation
-	protected Grid2D field = null; //the field in where the agent moves (or stays)
+	protected AbstractField2D field = null; //the field in where the agent moves (or stays)
 
 	public DemographicItem() {
 		super();
@@ -50,11 +51,11 @@ public class DemographicItem implements Steppable {
 		return stop;
 	}
 
-	public Grid2D getField() {
+	public AbstractField2D getField() {
 		return field;
 	}
 
-	public void setField(Grid2D field) {
+	public void setField(AbstractField2D field) {
 		this.field = field;
 	}
 
