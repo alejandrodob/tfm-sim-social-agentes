@@ -25,13 +25,13 @@ public abstract class Person extends DemographicItem implements Socializable {
 	
 	protected int ageInYears;
 	protected int ageInSimulationSteps;
+	protected final static int stepsPerYear = 50;//maybe should be in the class World, as it is a general parameter of the simulation
 	protected boolean coupled;
 	protected SocioeconomicLevel socLevel;
 	protected Education education;
 	protected Household household;
 	protected FamilyListNetwork family;
 	protected FriendsListNetwork friends;
-	protected final static int stepsPerYear = 50;//maybe should be in the class World, as it is a general parameter of the simulation
 
 	public Person() {
 		super();
@@ -153,7 +153,7 @@ public abstract class Person extends DemographicItem implements Socializable {
 	public Collection<DemographicItem> peopleAround(int radius) {
 		Bag people = new Bag();
 		ArrayList<DemographicItem> peopleArray = new ArrayList<DemographicItem>();
-		people = ((SparseGrid2D)field).getNeighborsMaxDistance(location.getX(),location.getY(),radius,false,people,null,null);
+		people = field.getNeighborsMaxDistance(location.getX(),location.getY(),radius,false,people,null,null);
 		for (Object p:people) {
 			peopleArray.add((DemographicItem) p);
 		}

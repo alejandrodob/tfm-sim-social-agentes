@@ -8,17 +8,10 @@ import sim.field.network.Network;
 import sim.util.Int2D;
 import socialNetwork.SocialNetwork;
 
-public class World extends SimState implements SocialWorld {
+public class World extends SimpleWorld implements SocialWorld {
 	//tiene que haber una clase por encima de esta mas general
 
-	public SocialNetwork population = new SocialNetwork();;
-	public final int height = 40; // estos valores, ver si se pueden definir
-									// mediante un constructor mejor
-	public final int width = 40; // ojo que estaba el problema del constructor
-									// sin argumentos que usa el metodo doLoop
-									// de SimState, asi que igual hay que hacer
-									// el bucle a mano
-	public SparseGrid2D field = new SparseGrid2D(height, width);
+	public SocialNetwork population = new SocialNetwork();
 
 	public Natality natality;
 	public Mortality mortality;
