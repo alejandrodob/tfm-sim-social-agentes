@@ -9,14 +9,10 @@ import sim.util.Int2D;
 import socialNetwork.SocialNetwork;
 
 public class World extends SimpleWorld implements SocialWorld {
-	//tiene que haber una clase por encima de esta mas general
 
+	
 	public SocialNetwork population = new SocialNetwork();
-
-	public Natality natality;
-	public Mortality mortality;
-	public Mobility mobility;
-	public Nuptiality nuptiality;
+	
 
 	public World(long seed) {
 		super(seed);
