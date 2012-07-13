@@ -18,10 +18,11 @@ public class FilePruebas {
 	public static void main(String[] args) {
 		Scanner s = null;
         Vector<Integer> mapdata = new Vector<Integer>();
-        StringBuffer environmentdata = new StringBuffer();
+        Vector<Float> environmentdata = new Vector<Float>();
         Vector<Integer> waterdata = new Vector<Integer>();
-    	StringBuffer apdsidata = new StringBuffer();
+    	Vector<Float> apdsidata = new Vector<Float>();
 		Vector<Waterpoint> waterpoints = new Vector<Waterpoint>();
+    	int k=1;
 
 
     	try {
@@ -70,12 +71,9 @@ public class FilePruebas {
 		}
 		try {
         	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/adjustedPDSI.txt")));
-        	apdsidata = new StringBuffer();
+        	apdsidata = new Vector<Float>();
         	while (s.hasNext()) {
-        		apdsidata.append(s.next());
-        		if (s.hasNext()) {
-        			apdsidata.append(" ");
-                }
+        		apdsidata.add(Float.parseFloat(s.next()));
         	}
         } catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -85,21 +83,14 @@ public class FilePruebas {
                 s.close();
             }
         }
-		try {
-        	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/environment.txt")));
-        	environmentdata = new StringBuffer();
-        	int cont = 1;
-        	while (s.hasNext()) {
-        		environmentdata.append(s.next());
-        		if (cont%15 == 0 && s.hasNext()) {
-        			environmentdata.append("/");
-        		}
-        		else if (s.hasNext()) {
-        			environmentdata.append(" ");
-                }
-        		cont++;
-        	}
-        } catch (FileNotFoundException e) {
+		 try {
+	        	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/environment.txt")));
+	        	environmentdata = new Vector<Float>();
+	        	while (s.hasNext()) {
+	        		environmentdata.add(Float.parseFloat(s.next()));
+	        		k++;
+	        	}
+	        }  catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -110,12 +101,16 @@ public class FilePruebas {
 		
 		//System.out.println(mapdata);
 		
-		System.out.println(waterdata);
-		System.out.println(waterpoints);
+		//System.out.println(waterdata);
+		//System.out.println(waterpoints);
 
 		//System.out.println(apdsidata);
 
 		//System.out.println(environmentdata);
+
+		System.out.println(environmentdata.get(((1111 - 382)*15)+1));
+
+		//System.out.println(k);
 	}
 
 }

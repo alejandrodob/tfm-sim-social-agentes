@@ -5,6 +5,8 @@ import agent.DemographicItem;
 import model.SimpleWorld;
 
 public class LongHouseValley extends SimpleWorld {
+	
+	private int year;
 
 	public LongHouseValley(long seed) {
 		super(seed);
@@ -33,6 +35,10 @@ public class LongHouseValley extends SimpleWorld {
 	public void registerBirth(DemographicItem newborn, DemographicItem mother) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public int getYear() {
+		return year;
 	}
 
 }
