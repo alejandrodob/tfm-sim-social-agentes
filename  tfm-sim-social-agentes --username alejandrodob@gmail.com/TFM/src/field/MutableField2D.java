@@ -16,20 +16,25 @@ import sim.util.Int2D;
 import sim.util.IntBag;
 
 //////This class is a 2-dimensional field which can change and evolve as the simulation goes on
-public class MutableField2D extends AbstractField2D implements Steppable {
+public abstract class MutableField2D extends AbstractField2D implements Steppable {
+	
+	/////con esta clase tenemos 2 opciones, dejar que el step se sobreescriba en cada implementación, y 
+	/////sea allí donde se especifique cómo cambia el entorno en el tiempo, o hacerlo al estilo behavior
+	/////definiendo que en el step de aquí se llame a timeEvol.behave(). La primera solución tiene la ventaja 
+	/////de la sencillez, pero es menos versátil. Para la segunta habría que hacer otro pack de clases e
+	/////interfaces tipo behavior (prácticamente calcándolo) pero necesariamente han de ser otras clases
+	/////ya que behave() toma como parámetro un DemographicItem, y aquí habría que pasarle el propio abstractField2D
+	/////De momento tomaré la primera opción, no descarto revisarlo.
 
-	protected Behavior behavior;
+	//protected Behavior timeEvol;
 	
 	public MutableField2D(int width,int height) {
 		field = new SparseGrid2D(width, height);
-		behavior = new ListBehavior();
+		//timeEvol = new ListBehavior(); //it's like a behavior, but a field doesn't behave, it changes in time
 	}
 	
-	@Override
-	public void step(SimState state) {
-		// TODO Auto-generated method stub
-		
-	}
+	/*@Override
+	public void step(SimState state) {}*/
 	
 	@Override
 	public int numObjectsAtLocation(int x, int y) {
@@ -164,12 +169,12 @@ public class MutableField2D extends AbstractField2D implements Steppable {
 		return ((SparseGrid2D) field).getObjectsAtLocations(xPos, yPos, result);
 	}
 	
-	public void addBehaviorModule(BehaviorModule behaviorMod) {
-		behavior.addBehaviorMod(behaviorMod);
+	/*public void addBehaviorModule(BehaviorModule behaviorMod) {
+		timeEvol.addBehaviorMod(behaviorMod);
 	}
 
 	public void removeBehaviorModule(BehaviorModule behaviorMod) {
-		behavior.removeBehaviorMod(behaviorMod);
-	}
+		timeEvol.removeBehaviorMod(behaviorMod);
+	}*/
 
 }

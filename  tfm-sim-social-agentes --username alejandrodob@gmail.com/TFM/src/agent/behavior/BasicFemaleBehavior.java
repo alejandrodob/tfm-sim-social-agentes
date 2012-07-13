@@ -1,7 +1,7 @@
 package agent.behavior;
 
-import model.World;
-import agent.Person;
+import model.SimpleWorld;
+import agent.DemographicItem;
 
 public class BasicFemaleBehavior extends BasicDemographicBehavior {
 
@@ -9,19 +9,19 @@ public class BasicFemaleBehavior extends BasicDemographicBehavior {
 	}
 
 	@Override
-	protected void haveChild(Person person, World environment) {
+	protected void haveChild(DemographicItem person, SimpleWorld environment) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected void die(Person person, World environment) {
+	protected void die(DemographicItem DemographicItem, SimpleWorld environment) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected void migrate(Person person, World environment) {
+	protected void migrate(DemographicItem person, SimpleWorld environment) {
 		// TODO Auto-generated method stub
 
 	}

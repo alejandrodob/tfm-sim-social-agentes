@@ -1,6 +1,6 @@
 package agent.behavior;
 
-import model.World;
+import model.SimpleWorld;
 import agent.DemographicItem;
 import agent.Person;
 
@@ -8,7 +8,7 @@ import agent.Person;
 public class BasicChildBehavior implements BehaviorModule {
 
 	@Override
-	public void behave(DemographicItem person, World environment) {
+	public void behave(DemographicItem person, SimpleWorld environment) {
 		age((Person) person);
 		System.out.println(person.toString()
 				+ "soy un niño me estoy comportando muy bien");
