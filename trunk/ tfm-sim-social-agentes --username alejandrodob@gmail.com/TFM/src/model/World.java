@@ -1,6 +1,7 @@
 package model;
 
 import agent.Person;
+import agent.DemographicItem;
 import environment.*;
 import sim.engine.SimState;
 import sim.field.grid.SparseGrid2D;
@@ -19,29 +20,29 @@ public class World extends SimpleWorld implements SocialWorld {
 	}
 
 	@Override
-	public void addIndividual(Person person, Int2D location) {
-		population.addPerson(person);
+	public void addIndividual(DemographicItem person, Int2D location) {
+		population.addPerson((Person) person);
 		field.setObjectLocation(person, location);
 		person.setField(field);
 		person.setStop(schedule.scheduleRepeating(person));
 	}
 
 	@Override
-	public void removeIndividual(Person person) {
+	public void removeIndividual(DemographicItem person) {
 		if (field.remove(person) != null)  //no need of invoking population.removePerson(person) if no such person exists
-			population.removePerson(person);
+			population.removePerson((Person) person);
 	}
 
 	@Override
-	public void registerDeath(Person person) {
+	public void registerDeath(DemographicItem person) {
 		removeIndividual(person);
 		//registrar en las estadisticas esta muerte
 	}
 
 	@Override
-	public void registerBirth(Person newborn, Person mother) {
+	public void registerBirth(DemographicItem newborn, DemographicItem mother) {
 		addIndividual(newborn, newborn.getLocation());
-		population.addRelation(mother, newborn,
+		population.addRelation((Person) mother, (Person) newborn,
 				SocialNetwork.relation.MOTHER_SON);
 	}
 

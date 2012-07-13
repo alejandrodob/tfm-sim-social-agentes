@@ -1,11 +1,12 @@
 package pruebaMADAM;
 
-import model.World;
+import model.SimpleWorld;
 import sim.util.Int2D;
 import ec.util.MersenneTwisterFast;
 import environment.MortalityExample;
 import environment.NatalityExample;
 import agent.Person;
+import agent.DemographicItem;
 import agent.behavior.BasicDemographicBehavior;
 import agent.social.Kinship;
 
@@ -23,9 +24,9 @@ public class DemographicBehavior extends BasicDemographicBehavior {
 	}
 	
 	@Override
-	protected void haveChild(Person person, World environment) {
+	protected void haveChild(DemographicItem person, SimpleWorld environment) {
 		// Una vez al a�o ( o dos, lo voy cambiando)
-		if (person.getSteps()%100 == 0) {
+		if (((Person) person).getSteps()%100 == 0) {
 			NatalityExample nat = NatalityExample.getInstance();
 			if (nat.newChild(person)) {
 				if (random.nextBoolean()) {
@@ -33,10 +34,10 @@ public class DemographicBehavior extends BasicDemographicBehavior {
 					child.addBehaviorModule(SocialBehaviorNinio.getInstance());
 					child.addBehaviorModule(DemographicBehavior.getInstance());
 					child.addFamilyMember(person, Kinship.MOTHER);
-					person.addFamilyMember(child, Kinship.SON);
-					child.addFamilyMember(person.getFamily().couple(),Kinship.FATHER);
-					person.getFamily().couple().addFamilyMember(child, Kinship.SON);
-					for (Person sibling : person.getFamily().sons()) {
+					((Person) person).addFamilyMember(child, Kinship.SON);
+					child.addFamilyMember(((Person) person).getFamily().couple(),Kinship.FATHER);
+					((Person) person).getFamily().couple().addFamilyMember(child, Kinship.SON);
+					for (Person sibling : ((Person) person).getFamily().sons()) {
 						if (sibling instanceof HombrePrueba) {
 							child.addFamilyMember(sibling, Kinship.BROTHER);
 							sibling.addFamilyMember(child, Kinship.BROTHER);
@@ -52,10 +53,10 @@ public class DemographicBehavior extends BasicDemographicBehavior {
 					child.addBehaviorModule(SocialBehaviorNinio.getInstance());
 					child.addBehaviorModule(DemographicBehavior.getInstance());
 					child.addFamilyMember(person, Kinship.MOTHER);
-					person.addFamilyMember(child, Kinship.DAUGHTER);
-					child.addFamilyMember(person.getFamily().couple(),Kinship.FATHER);
-					person.getFamily().couple().addFamilyMember(child, Kinship.DAUGHTER);
-					for (Person sibling : person.getFamily().sons()) {
+					((Person) person).addFamilyMember(child, Kinship.DAUGHTER);
+					child.addFamilyMember(((Person) person).getFamily().couple(),Kinship.FATHER);
+					((Person) person).getFamily().couple().addFamilyMember(child, Kinship.DAUGHTER);
+					for (Person sibling : ((Person) person).getFamily().sons()) {
 						if (sibling instanceof HombrePrueba) {
 							child.addFamilyMember(sibling, Kinship.BROTHER);
 							sibling.addFamilyMember(child, Kinship.SISTER);
@@ -71,11 +72,11 @@ public class DemographicBehavior extends BasicDemographicBehavior {
 	}
 
 	@Override
-	protected void die(Person person, World environment) {
+	protected void die(DemographicItem person, SimpleWorld environment) {
 		MortalityExample mort = MortalityExample.getInstance();
 		if (person instanceof HombrePrueba) {
 			// Y si la Muerte ha de llev�rselo, que as� sea
-			if (person.getAge() > ((HombrePrueba)person).getEdadMuerte()) {
+			if (((Person) person).getAge() > ((HombrePrueba)person).getEdadMuerte()) {
 				person.getStop().stop();
 			
 			//////////aki me kedo, me falta registrar la muerte, borrarle de las listas de sus coleguis
@@ -87,7 +88,7 @@ public class DemographicBehavior extends BasicDemographicBehavior {
 			}
 			
 			// Cada 5 a�os se actualiza su probabilidad de morir en los pr�ximos 5
-			int edadDespues = person.getAge();
+			int edadDespues = ((Person) person).getAge();
 			if (cambiaEdadMuerte(edadDespues-1,edadDespues))
 				((HombrePrueba) person).setEdadMuerte(mort.ageOfDeath(person));		
 		}	
@@ -98,6 +99,6 @@ public class DemographicBehavior extends BasicDemographicBehavior {
 	}
 
 	@Override
-	protected void migrate(Person person, World environment) {}
+	protected void migrate(DemographicItem person, SimpleWorld environment) {}
 
 }

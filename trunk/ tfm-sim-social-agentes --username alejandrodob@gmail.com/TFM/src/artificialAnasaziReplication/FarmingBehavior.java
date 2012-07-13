@@ -1,13 +1,13 @@
 package artificialAnasaziReplication;
 
-import model.World;
+import model.SimpleWorld;
 import agent.DemographicItem;
 import agent.behavior.BehaviorModule;
 
 public class FarmingBehavior implements BehaviorModule{
 
 	@Override
-	public void behave(DemographicItem individual, World environment) {
+	public void behave(DemographicItem individual, SimpleWorld environment) {
 		// TODO Auto-generated method stub
 		
 	}

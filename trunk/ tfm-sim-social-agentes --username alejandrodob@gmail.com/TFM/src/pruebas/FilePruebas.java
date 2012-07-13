@@ -6,10 +6,12 @@ import java.io.FileReader;
 import java.util.Scanner;
 import java.util.Vector;
 
+
 public class FilePruebas {
 
-
-
+	
+	
+	
 	/**
 	 * @param args
 	 */
@@ -17,8 +19,9 @@ public class FilePruebas {
 		Scanner s = null;
         Vector<Integer> mapdata = new Vector<Integer>();
         StringBuffer environmentdata = new StringBuffer();
-        StringBuffer waterdata = new StringBuffer();
+        Vector<Integer> waterdata = new Vector<Integer>();
     	StringBuffer apdsidata = new StringBuffer();
+		Vector<Waterpoint> waterpoints = new Vector<Waterpoint>();
 
 
     	try {
@@ -38,17 +41,10 @@ public class FilePruebas {
         }
 		try {
         	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/water.txt")));
-        	waterdata = new StringBuffer();
-        	int cont = 1;
+        	waterdata = new Vector<Integer>();
         	while (s.hasNext()) {
-        		waterdata.append(s.next());
-        		if (cont%6 == 0 && s.hasNext()) {
-        			waterdata.append("/");
-        		}
-        		else if (s.hasNext()) {
-                	waterdata.append(" ");
-                }
-        		cont++;
+        		waterdata.add(s.nextInt());
+
         	}
         } catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -58,6 +54,20 @@ public class FilePruebas {
                 s.close();
             }
         }
+		
+		//create the waterpoints
+		int i = 0;
+		while (i+6 <= waterdata.size()) {
+			int sarg = waterdata.get(i); i++;
+			int meterNorth = waterdata.get(i); i++;
+			int meterEast = waterdata.get(i); i++;
+			int typeWater = waterdata.get(i); i++;
+			int startDate = waterdata.get(i); i++;
+			int endDate = waterdata.get(i); i++;
+			int x = (int) (25 + ((meterEast - 2392) / 93.5));
+			int y = (int) Math.floor(45 + (37.6 + ((meterNorth - 7954) / 93.5)));
+			waterpoints.add(new Waterpoint(x,y,sarg,meterNorth,meterEast,typeWater,startDate,endDate));
+		}
 		try {
         	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/adjustedPDSI.txt")));
         	apdsidata = new StringBuffer();
@@ -98,11 +108,12 @@ public class FilePruebas {
             }
         }
 		
-		System.out.println(mapdata);
+		//System.out.println(mapdata);
 		
 		System.out.println(waterdata);
+		System.out.println(waterpoints);
 
-		System.out.println(apdsidata);
+		//System.out.println(apdsidata);
 
 		//System.out.println(environmentdata);
 	}

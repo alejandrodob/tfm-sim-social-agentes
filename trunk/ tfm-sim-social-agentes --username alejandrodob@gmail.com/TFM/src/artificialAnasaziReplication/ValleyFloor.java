@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
 
+import sim.engine.SimState;
+
 import field.MutableField2D;
 
 public class ValleyFloor extends MutableField2D {
@@ -16,16 +18,23 @@ public class ValleyFloor extends MutableField2D {
 	public Plot[][] floor = new Plot[WIDTH][HEIGHT];
 	private Vector<Waterpoint> waterpoints;
 	private Vector<Integer> mapdata;
-	private StringBuffer waterdata;
-	private StringBuffer apdsidata;
-	private StringBuffer environmentdata;
+	private Vector<Integer> waterdata;
+	private Vector<Float> apdsidata;
+	private Vector<Float> environmentdata;
 	//el settlements aun no se lo meto
 	
 	public ValleyFloor() {
 		super(WIDTH,HEIGHT);
+		initMap();
+	}
+
+	@Override
+	public void step(SimState state) {
+		calculateYield();
+		water();
 	}
 	
-	private void initPlots() {
+	private void initMap() {
 		
 		//load data and create the valley map
 		for (int x = 0;x< WIDTH;x++) {
@@ -92,8 +101,19 @@ public class ValleyFloor extends MutableField2D {
 			if (yy > 0) yy--;
 			else {xx++; yy--;}
 			
-			//create waterpoints
-			
+			//create the waterpoints
+			int i = 0;
+			while (i+6 <= waterdata.size()) {
+				int sarg = waterdata.get(i); i++;
+				int meterNorth = waterdata.get(i); i++;
+				int meterEast = waterdata.get(i); i++;
+				int typeWater = waterdata.get(i); i++;
+				int startDate = waterdata.get(i); i++;
+				int endDate = waterdata.get(i); i++;
+				int x = (int) (25 + ((meterEast - 2392) / 93.5)); //this is a translation from the input data in meters into location on the map.
+				int y = (int) Math.floor(45 + (37.6 + ((meterNorth - 7954) / 93.5)));
+				waterpoints.add(new Waterpoint(x,y,sarg,meterNorth,meterEast,typeWater,startDate,endDate));
+			}
 		}
 	}
 
@@ -115,12 +135,9 @@ public class ValleyFloor extends MutableField2D {
         
         try {
         	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/adjustedPDSI.txt")));
-        	apdsidata = new StringBuffer();
+        	apdsidata = new Vector<Float>();
         	while (s.hasNext()) {
-        		apdsidata.append(s.next());
-        		if (s.hasNext()) {
-        			apdsidata.append(" ");
-                }
+        		apdsidata.add(s.nextFloat());
         	}
         } finally {
             if (s != null) {
@@ -130,17 +147,9 @@ public class ValleyFloor extends MutableField2D {
         
         try {
         	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/water.txt")));
-        	waterdata = new StringBuffer();
-        	int cont = 1;
+        	waterdata = new Vector<Integer>();
         	while (s.hasNext()) {
-        		waterdata.append(s.next());
-        		if (cont%6 == 0 && s.hasNext()) {
-        			waterdata.append("/");
-        		}
-        		else if (s.hasNext()) {
-                	waterdata.append(" ");
-                }
-        		cont++;
+        		waterdata.add((s.nextInt()));
         	}
         } finally {
             if (s != null) {
@@ -150,23 +159,23 @@ public class ValleyFloor extends MutableField2D {
         
         try {
         	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/environment.txt")));
-        	environmentdata = new StringBuffer();
-        	int cont = 1;
+        	environmentdata = new Vector<Float>();
         	while (s.hasNext()) {
-        		environmentdata.append(s.next());
-        		if (cont%15 == 0 && s.hasNext()) {
-        			environmentdata.append("/");
-        		}
-        		else if (s.hasNext()) {
-        			environmentdata.append(" ");
-                }
-        		cont++;
+        		environmentdata.add(s.nextFloat());
         	}
         } finally {
             if (s != null) {
                 s.close();
             }
         }
+	}
+	
+	private void calculateYield() {
+		
+	}
+	
+	private void water() {
+		
 	}
 	
 	//the next inner class represents a plot (100m x 100m size) in the valley, the equivalent to 

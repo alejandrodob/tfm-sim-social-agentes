@@ -1,6 +1,7 @@
 package agent;
 
 import field.AbstractField2D;
+import model.SimpleWorld;
 import model.World;
 import agent.behavior.Behavior;
 import agent.behavior.BehaviorModule;
@@ -61,7 +62,7 @@ public class DemographicItem implements Steppable {
 
 	@Override
 	public void step(SimState state) {
-		behavior.behave(this,(World) state);
+		behavior.behave(this,(SimpleWorld) state);
 	}
 
 	public void addBehaviorModule(BehaviorModule behaviorMod) {

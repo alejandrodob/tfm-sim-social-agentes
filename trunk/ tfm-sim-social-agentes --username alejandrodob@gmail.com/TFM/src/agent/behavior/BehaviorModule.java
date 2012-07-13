@@ -1,10 +1,10 @@
 package agent.behavior;
 
-import model.World;
+import model.SimpleWorld;
 import agent.DemographicItem;
 
 public interface BehaviorModule {
 
-	public void behave(DemographicItem individual, World environment);
+	public void behave(DemographicItem individual, SimpleWorld environment);
 
 }

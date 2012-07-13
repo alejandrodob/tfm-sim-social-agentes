@@ -2,7 +2,7 @@ package agent.behavior;
 
 import java.util.ArrayList;
 
-import model.World;
+import model.SimpleWorld;
 
 import agent.DemographicItem;
 
@@ -29,7 +29,7 @@ public class ListBehavior implements Behavior {
 	}
 
 	@Override
-	public void behave(DemographicItem individual, World environment) {
+	public void behave(DemographicItem individual, SimpleWorld environment) {
 		for (BehaviorModule b : behaviors)
 			b.behave(individual,environment);
 		if (behaviors.isEmpty())
