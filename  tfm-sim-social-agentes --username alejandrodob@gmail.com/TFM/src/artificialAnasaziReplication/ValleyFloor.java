@@ -8,6 +8,7 @@ import java.util.Scanner;
 import java.util.Vector;
 
 import sim.engine.SimState;
+import sim.util.Int2D;
 
 import field.MutableField2D;
 
@@ -15,7 +16,9 @@ public class ValleyFloor extends MutableField2D {
 	
 	private static final int WIDTH = 80;
 	private static final int HEIGHT = 120;
-	public Plot[][] floor = new Plot[WIDTH][HEIGHT];
+	private Plot[][] floor = new Plot[WIDTH][HEIGHT];
+	private boolean streamsexist;
+	private boolean alluviumexist;
 	private Vector<Waterpoint> waterpoints;
 	private Vector<Integer> mapdata;
 	private Vector<Integer> waterdata;
@@ -39,7 +42,16 @@ public class ValleyFloor extends MutableField2D {
 	@Override
 	public void step(SimState state) {
 		calculateYield(((LongHouseValley) state).getYear());
-		water();
+		calculateBaseYield(((LongHouseValley) state).harvestAdjustment);
+		water(((LongHouseValley) state).getYear());
+	}
+	
+	private void calculateBaseYield(double harvestAdjustment) {
+		for (int x = 0;x< WIDTH;x++) {
+			for (int y = 0;y<HEIGHT;y++) {
+				floor[x][y].calculateBaseYield(harvestAdjustment);
+			}
+		} 
 	}
 	
 	private void initMap() {
@@ -254,8 +266,31 @@ public class ValleyFloor extends MutableField2D {
 		}  
 	}
 	
-	private void water() {
+	private void water(int year) {
+		streamsexist = ((year >= 280 && year < 360) || (year >= 800 && year < 930) || (year >= 1300 && year < 1450));
+		alluviumexist = (((year >= 420) && (year < 560)) || ((year >= 630) && (year < 680)) || ((year >= 980) && (year < 1120)) || ((year >= 1180) && (year < 1230)));
+
+		for (int x = 0;x< WIDTH;x++) {
+			for (int y = 0;y<HEIGHT;y++) {			
+				boolean ws = ((alluviumexist && (floor[x][y].getZone() == Zone.General || floor[x][y].getZone() == Zone.North || floor[x][y].getZone() == Zone.Mid ||floor[x][y].getZone() == Zone.Kinbiko))
+				|| (streamsexist && floor[x][y].getZone() == Zone.Kinbiko));
+					floor[x][y].setWatersource(ws);
+			}
+		}
 		
+		floor[72][114].setWatersource(true);
+		floor[70][113].setWatersource(true);
+		floor[69][112].setWatersource(true);
+		floor[68][111].setWatersource(true);
+		floor[67][110].setWatersource(true);
+		floor[66][109].setWatersource(true);
+		floor[65][108].setWatersource(true);
+		floor[65][107].setWatersource(true);
+
+		for (Waterpoint wp : waterpoints) {
+			boolean ws = (wp.typeWater == 2) || (wp.typeWater == 3 && (year >= wp.startDate && year <= wp.endDate));
+				floor[wp.x][wp.y].setWatersource(ws);
+		}
 	}
 	
 	//the next inner class represents a plot (100m x 100m size) in the valley, the equivalent to 
@@ -268,8 +303,8 @@ public class ValleyFloor extends MutableField2D {
 		float hydro;
 		float quality;
 		MaizeZone maizeZone;
-		int yield;
-		int BaseYield;
+		float yield;
+		double BaseYield;
 		boolean ocfarm;
 		int ochousehold;
 		int nrh;
@@ -315,17 +350,17 @@ public class ValleyFloor extends MutableField2D {
 		public void setMaizeZone(MaizeZone maizeZone) {
 			this.maizeZone = maizeZone;
 		}
-		public int getYield() {
+		public float getYield() {
 			return yield;
 		}
-		public void setYield(int yield) {
+		public void setYield(float yield) {
 			this.yield = yield;
 		}
-		public int getBaseYield() {
+		public double getBaseYield() {
 			return BaseYield;
 		}
-		public void setBaseYield(int baseYield) {
-			BaseYield = baseYield;
+		public void setBaseYield(double d) {
+			BaseYield = d;
 		}
 		public boolean isOcfarm() {
 			return ocfarm;
@@ -344,6 +379,18 @@ public class ValleyFloor extends MutableField2D {
 		}
 		public void setNrh(int nrh) {
 			this.nrh = nrh;
+		}
+		
+		public void calculateBaseYield(double harvestAdjustment) {
+			setBaseYield(getYield() * getQuality() * harvestAdjustment);
+		}
+		
+		public void incHousholdNum() {
+			setOchousehold(getOchousehold() + 1);
+		}
+		
+		public void decHouseholdNum() {
+			setOchousehold(getOchousehold() - 1);
 		}
 		
 		public Plot() {}
@@ -369,5 +416,67 @@ public class ValleyFloor extends MutableField2D {
 			this.startDate = startDate;
 			this.endDate = endDate;
 		}
+	}
+	
+	public static double distance(Int2D orig, Int2D dest) {
+		return Math.sqrt(Math.abs(orig.x - dest.x) + Math.abs(orig.y - dest.y));
+	}
+
+	public Plot[][] getFloor() {
+		return floor;
+	}
+
+	public void setFloor(Plot[][] floor) {
+		this.floor = floor;
+	}
+	
+	public Vector<Int2D> determinePotFarms(int householdMinNutritionNeed) {
+		//determine the list of potential locations for a farm to move to. A potential location to farm is a place where nobody is farming and where the baseyield is higher than the minimum amount of food needed and where nobody has build a settlement
+
+		Vector<Int2D> potfarms = new Vector<Int2D>();
+		for (int x = 0;x< WIDTH;x++) {
+			for (int y = 0;y<HEIGHT;y++) {
+				if ((floor[x][y].zone == Zone.Empty) && !floor[x][y].isOcfarm() && (floor[x][y].getOchousehold() == 0) && (floor[x][y].getBaseYield() >= householdMinNutritionNeed)) {
+					potfarms.add(new Int2D(x,y));
+				}
+			}
+		}
+		return potfarms;
+	}
+	
+	public Vector<Int2D> potentialSettlements(double by) {
+		Vector<Int2D> settlementPlots = new Vector<Int2D>();
+		for (int x = 0;x< WIDTH;x++) {
+			for (int y = 0;y<HEIGHT;y++) {
+				if (!floor[x][y].isOcfarm() && floor[x][y].isWatersource() && (floor[x][y].getYield() < by)) {
+					settlementPlots.add(new Int2D(x,y));
+				}
+			}
+		}
+		return settlementPlots;
+	}
+	
+	public Vector<Int2D> potentialSettlementsRelaxed() {
+		Vector<Int2D> settlementPlots = new Vector<Int2D>();
+		for (int x = 0;x< WIDTH;x++) {
+			for (int y = 0;y<HEIGHT;y++) {
+				if (!floor[x][y].isOcfarm() && (floor[x][y].getHydro() <= 0)) {
+					settlementPlots.add(new Int2D(x,y));
+				}
+			}
+		}
+		return settlementPlots;
+	}
+	
+	public Vector<Int2D> potentialSettlementsReRelaxed() {
+		Vector<Int2D> settlementPlots = new Vector<Int2D>();
+		for (int x = 0;x< WIDTH;x++) {
+			for (int y = 0;y<HEIGHT;y++) {
+				if (!floor[x][y].isOcfarm()) {
+					settlementPlots.add(new Int2D(x,y));
+				}
+			}
+		}
+		return settlementPlots;
 	}
 }
