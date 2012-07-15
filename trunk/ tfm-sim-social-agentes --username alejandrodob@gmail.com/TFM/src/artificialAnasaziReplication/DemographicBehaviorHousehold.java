@@ -24,15 +24,30 @@ public class DemographicBehaviorHousehold implements BehaviorModule{
 	
 
 	private void death(Household household, LongHouseValley valley) {
-		
+		//agents who have not sufficient food derived or are older than deathAge are removed from the system
+		    if ((household.getNutritionNeedRemaining() > 0) || household.getAge() > valley.getDeathAge()) {
+		    	household.die();
+		    }
 	}
 	
 	private void fissioning(Household household, LongHouseValley valley) {
 		
+		int ys = household.yearsOfStock;
+		double[] agedCornStocks = household.getAgedCornStocks();
+		//update cornStocks of parent
+		while (ys > -1) {
+			agedCornStocks[ys] = (1 - LongHouseValley.maizeGiveToChild) * agedCornStocks[ys];
+			ys--;
+		}
+		valley.createFissionedHousehold(household);
 	}
 	
 	private void moveHousehold(Household household, LongHouseValley valley, Int2D dest) {
+		//leave the previous settlement
+		((ValleyFloor) valley.getField()).getFloor()[household.getLocation().x][household.getLocation().y].decHouseholdNum();
+		//occupy the new one
 		((ValleyFloor) valley.getField()).getFloor()[dest.x][dest.y].incHousholdNum();
+		household.setLocation(dest);
 	}
 	
 	private void findFarmAndSettlement(Household household, LongHouseValley valley) {
@@ -48,8 +63,12 @@ public class DemographicBehaviorHousehold implements BehaviorModule{
 		if (valley.getFarmSitesAvailable() > 0) {
 			Int2D bestFarm = household.determineBestFarm(potFarm);
 			double by = ((ValleyFloor) valley.getField()).getFloor()[bestFarm.x][bestFarm.y].getYield();
+			//leave the current farm and move to the new better one
+			Int2D currentFarm = household.getFarmlocation();
+			((ValleyFloor) valley.getField()).getFloor()[currentFarm.x][currentFarm.y].setOcfarm(false);
 			household.setFarmlocation(bestFarm);
 			((ValleyFloor) valley.getField()).getFloor()[bestFarm.x][bestFarm.y].setOcfarm(true);
+			
 			Vector<Int2D> potSettle = ((ValleyFloor) valley.getField()).potentialSettlements(by);
 			
 			//if there are cells with water which are not farmed and in a zone that is less productive than the zone where the favorite farm plot is located
@@ -168,7 +187,21 @@ public class DemographicBehaviorHousehold implements BehaviorModule{
 
 	@Override
 	public void behave(DemographicItem individual, SimpleWorld environment) {
-		
+		death((Household) individual, (LongHouseValley) environment);
+		((Household) individual).estimateHarvest();
+		//see if needs to move
+		if (((Household) individual).getEstimate() < ((Household) individual).getNutritionNeed()) {
+			findFarmAndSettlement((Household) individual, (LongHouseValley) environment);
+		}
+		//see if household fissions
+		if ( ((Household) individual).getAge() > ((Household) individual).getFertilityAge() && 
+				((Household) individual).getAge() <= ((LongHouseValley) environment).getFertilityEndsAge() &&
+				(random.nextFloat() < ((LongHouseValley) environment).getFertility())) {
+			if (((LongHouseValley) environment).determinePotentialFarms().size() > 0) {
+				fissioning((Household) individual, (LongHouseValley) environment);
+			}
+		}
+		age((Household) individual);
 	}
 
 }
