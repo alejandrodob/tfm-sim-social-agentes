@@ -109,6 +109,7 @@ public class FilePruebas {
 		//System.out.println(environmentdata);
 
 		System.out.println(environmentdata.get(((1111 - 382)*15)+1));
+		System.out.println((int) Math.floor(45 + (37.6 + ((8982 - 7954) / 93.5))));
 
 		//System.out.println(k);
 	}

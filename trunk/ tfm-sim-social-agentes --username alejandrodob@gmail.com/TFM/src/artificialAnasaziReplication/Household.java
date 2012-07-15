@@ -13,7 +13,6 @@ public class Household extends DemographicItem {
 	private static MersenneTwisterFast random = new MersenneTwisterFast();
 
 	private Int2D farmlocation;
-	private Int2D farmplot; //creo que es una ubicacion, pero ni warriuls-->es lo mismo que farmlocation
 	private double lastHarvest;
 	private double estimate;
 	private int age;
@@ -22,6 +21,7 @@ public class Household extends DemographicItem {
 	private int nutritionNeed;
 	private double nutritionNeedRemaining;
 	public final static int yearsOfStock = 2; //number of years the corn harvest can be stored
+	///////////hay que inicializar el field
 	
 	public Household() {
 		behavior = new ListBehavior();
@@ -35,8 +35,8 @@ public class Household extends DemographicItem {
 		agedCornStocks[1] = LongHouseValley.householdMinInitialCorn + random.nextDouble() * (LongHouseValley.householdMaxInitialCorn - LongHouseValley.householdMinInitialCorn);
 		agedCornStocks[2] = LongHouseValley.householdMinInitialCorn + random.nextDouble() * (LongHouseValley.householdMaxInitialCorn - LongHouseValley.householdMinInitialCorn);
 		setAge(LongHouseValley.householdMinInitialAge + random.nextInt(LongHouseValley.householdMaxInitialAge));
-		setNutritionNeed(LongHouseValley.householdMinNutritionNeed + random.nextInt(LongHouseValley.householdMaxNutritionNeed - LongHouseValley.householdMinNutritionNeed));
-		setFertilityAge(LongHouseValley.minFertilityAge + random.nextInt(LongHouseValley.maxFertilityAge - LongHouseValley.minFertilityAge));
+		setNutritionNeed(LongHouseValley.householdMinNutritionNeed + random.nextInt(LongHouseValley.householdMaxNutritionNeed - LongHouseValley.householdMinNutritionNeed + 1));
+		setFertilityAge(LongHouseValley.minFertilityAge + random.nextInt(LongHouseValley.maxFertilityAge - LongHouseValley.minFertilityAge + 1));
 		setLastHarvest(0);
 	}
 
@@ -45,12 +45,6 @@ public class Household extends DemographicItem {
 	}
 	public void setFarmlocation(Int2D farmlocation) {
 		this.farmlocation = farmlocation;
-	}
-	public Int2D getFarmplot() {
-		return farmplot;
-	}
-	public void setFarmplot(Int2D farmplot) {
-		this.farmplot = farmplot;
 	}
 	public double getLastHarvest() {
 		return lastHarvest;
@@ -119,11 +113,124 @@ public class Household extends DemographicItem {
 		return bestFarm;
 	}
 	
-	public void die() {
+	public boolean findInitialSettlementNearFarm(ValleyFloor valley) {
+
+		boolean settlementFound = false;
+		int xh = 0;
+		int yh = 0;
+
+		double by = valley.getFloor()[farmlocation.x][farmlocation.y].getYield();
+		Vector<Int2D> potSettle = valley.potentialSettlements(by);
+
+		//if there are cells with water which are not farmed and in a zone that is less productive than the zone where the favorite farm plot is located
+		if (potSettle.size() > 0) {
+			double minDist = Float.POSITIVE_INFINITY;
+			Int2D minSettle = null;
+			for (Int2D ps : potSettle) {
+				if (ValleyFloor.distance(farmlocation, ps) < minDist) {
+					minDist = ValleyFloor.distance(farmlocation, ps);
+					minSettle = ps;
+				}
+			}
+			if (minDist <= LongHouseValley.waterSourceDistance) {
+				xh = minSettle.x;
+				yh = minSettle.y;
+				settlementFound = true;
+			} else {
+				settlementFound = false;
+			}
+			if (settlementFound) {
+				potSettle = valley.potentialSettlementsRelaxed();
+				double minDist2 = Float.POSITIVE_INFINITY;
+				Int2D minSettle2 = null;
+				Int2D bestSett = new Int2D(xh,yh);
+				for (Int2D ps : potSettle) {
+					if (ValleyFloor.distance(bestSett, ps) < minDist) {
+						minDist2 = ValleyFloor.distance(bestSett, ps);
+						minSettle2 = ps;
+					}
+				}
+				xh = minSettle2.x;
+				yh = minSettle2.y;
+			}
+		}
+
+		//if no settlement is found yet
+		if (!settlementFound) {
+			potSettle = valley.potentialSettlementsReRelaxed();
+			double minDist3 = Float.POSITIVE_INFINITY;
+			Int2D minSettle3 = null;
+			for (Int2D ps : potSettle) {
+				if (ValleyFloor.distance(farmlocation, ps) < minDist3) {
+					minDist3 = ValleyFloor.distance(farmlocation, ps);
+					minSettle3 = ps;
+				}
+			}
+			if (minDist3 <= LongHouseValley.waterSourceDistance) {
+				xh = minSettle3.x;
+				yh = minSettle3.y;
+				settlementFound = true;
+			} else {
+				settlementFound = false;
+			}
+			if (settlementFound) {
+				potSettle = valley.potentialSettlementsRelaxed();
+				double minDist4 = Float.POSITIVE_INFINITY;
+				Int2D minSettle4 = null;
+				Int2D bestSett = new Int2D(xh,yh);
+				for (Int2D ps : potSettle) {
+					if (ValleyFloor.distance(bestSett, ps) < minDist4) {
+						minDist4 = ValleyFloor.distance(bestSett, ps);
+						minSettle4 = ps;
+					}
+				}
+				xh = minSettle4.x;
+				yh = minSettle4.y;
+			}
+		}
+
+		// if not settlement found, don't worry about nearby watersources...
+		if (!settlementFound) {
+			potSettle = valley.potentialSettlementsReRelaxed();
+			double minDist3 = Float.POSITIVE_INFINITY;
+			Int2D minSettle3 = null;
+			for (Int2D ps : potSettle) {
+				if (ValleyFloor.distance(farmlocation, ps) < minDist3) {
+					minDist3 = ValleyFloor.distance(farmlocation, ps);
+					minSettle3 = ps;
+				}
+			}
+			xh = minSettle3.x;
+			yh = minSettle3.y;
+			settlementFound = true;
+			if (settlementFound) {
+				potSettle = valley.potentialSettlementsRelaxed();
+				double minDist4 = Float.POSITIVE_INFINITY;
+				Int2D minSettle4 = null;
+				Int2D bestSett = new Int2D(xh,yh);
+				for (Int2D ps : potSettle) {
+					if (ValleyFloor.distance(bestSett, ps) < minDist4) {
+						minDist4 = ValleyFloor.distance(bestSett, ps);
+						minSettle4 = ps;
+					}
+				}
+				xh = minSettle4.x;
+				yh = minSettle4.y;
+			}
+		}
+		if (settlementFound) {
+			setLocation(new Int2D(xh,yh));
+		}
+		return settlementFound;
+	}
+	
+	public void die(ValleyFloor floor) {
 		//remove this household from its settlement
-		((ValleyFloor) field).getFloor()[location.x][location.y].decHouseholdNum();
+		//((ValleyFloor) field)
+		floor.getFloor()[location.x][location.y].decHouseholdNum();
 		//remove the farmplot this household was farming
-		((ValleyFloor) field).getFloor()[farmlocation.x][farmlocation.y].setOcfarm(false);
+		//((ValleyFloor) field)
+		floor.getFloor()[farmlocation.x][farmlocation.y].setOcfarm(false);
 		//remove the agent from the simulation
 		stop.stop();
 	}

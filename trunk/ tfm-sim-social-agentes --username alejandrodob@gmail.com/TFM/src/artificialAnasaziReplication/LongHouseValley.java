@@ -2,15 +2,18 @@ package artificialAnasaziReplication;
 
 import java.util.Vector;
 
+import sim.engine.Schedule;
+import sim.engine.SimState;
+import sim.engine.Steppable;
 import sim.util.Int2D;
 import agent.DemographicItem;
 import model.SimpleWorld;
 
 public class LongHouseValley extends SimpleWorld {
 	
-	private int year;
-	public double harvestAdjustment;
-	public double harvestVariance;
+	private int year = 800;
+	public double harvestAdjustment = 0.54;
+	public double harvestVariance = 0.4;
 	private int farmSitesAvailable = 0;
 	public static final double waterSourceDistance = 16.0;
 	public static final double maizeGiveToChild = 0.33;
@@ -22,20 +25,54 @@ public class LongHouseValley extends SimpleWorld {
 	public static final int householdMaxNutritionNeed = 800;
 	public static final int minFertilityAge = 16;
 	public static final int maxFertilityAge = 16;
-	private int deathAge;
-	private double fertility;
-	private int fertilityEndsAge;
+	private int deathAge = 38;
+	private double fertility = 0.155;
+	private int fertilityEndsAge = 34;
+	private static final int initialNumberHouseholds = 14;
+	
+
 
 	
 	public LongHouseValley(long seed) {
 		super(seed);
+	}
+	
+	@Override
+	public void start() {
+		super.start();
 		field = new ValleyFloor();
+		schedule.scheduleRepeating(schedule.getTime() + 1, 0, (Steppable) field);
+		/*((ValleyFloor) field).water(year);
+		((ValleyFloor) field).calculateYield(year);
+		((ValleyFloor) field).calculateBaseYield(harvestAdjustment);*/
+		//create the initial households and place them randomly in the valley
+		for (int i = 0;i<14;i++) {
+			Household hh = new Household();
+			//random location for farming
+			Int2D farmLoc = new Int2D(random.nextInt(((ValleyFloor) field).getWidth()),random.nextInt(((ValleyFloor) field).getHeight()));
+			hh.setFarmlocation(farmLoc);
+			//find a settlement nearby
+			if (hh.findInitialSettlementNearFarm((ValleyFloor) field)) {
+				//occupy the plot
+				((ValleyFloor) field).getFloor()[hh.getLocation().x][hh.getLocation().y].incHousholdNum();
+				addIndividual(hh,hh.getLocation());
+			}
+		}
+		//add a steppable that increments the year after the agents have stepped in the current year
+		Steppable yearIncrem = new Steppable() {
+			@Override
+			public void step(SimState state) {
+				((LongHouseValley) state).setYear(year + 1);
+				if (year > 1350) state.finish(); //end the simulation at year 1350
+			}
+		};
+		schedule.scheduleRepeating(schedule.getTime() + 1,2,yearIncrem);
 	}
 
 	@Override
 	public void addIndividual(DemographicItem person, Int2D location) {
-		// TODO Auto-generated method stub
 		
+		person.setStop(schedule.scheduleRepeating(schedule.getTime() + 1, 1, person));
 	}
 
 	@Override
@@ -103,10 +140,11 @@ public class LongHouseValley extends SimpleWorld {
 		return potFarm;
 	}
 	
-	public void createFissionedHousehold(Household parent) {
+	public Household createFissionedHousehold(Household parent) {
 		Household fisHousehold = new Household();
 		fisHousehold.setLocation(new Int2D(parent.getLocation().x,parent.getLocation().y));
 		fisHousehold.setAge(0);
+		fisHousehold.setFarmlocation(fisHousehold.getLocation()); //absurd farmlocation so that it is not null
 		//set cornStocks received from parent
 		double[] childCornStocks = parent.getAgedCornStocks();
 		int ys = Household.yearsOfStock;
@@ -116,5 +154,11 @@ public class LongHouseValley extends SimpleWorld {
 		}
 		fisHousehold.setAgedCornStocks(childCornStocks);
 		addIndividual(fisHousehold, fisHousehold.getLocation());
+		return fisHousehold; // return so that it can be assigned a proper farm via DemographicBehavior (which is who makes this method call)
+	}
+	
+	public static void main(String[] args){
+		doLoop(LongHouseValley.class, args);
+		System.exit(0);
 	}
 }
