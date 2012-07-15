@@ -2,11 +2,15 @@ package artificialAnasaziReplication;
 
 import java.util.Vector;
 
+import ec.util.MersenneTwisterFast;
+
 import sim.util.Int2D;
 import agent.DemographicItem;
 import agent.behavior.ListBehavior;
 
 public class Household extends DemographicItem {
+	
+	private static MersenneTwisterFast random = new MersenneTwisterFast();
 
 	private Int2D farmlocation;
 	private Int2D farmplot; //creo que es una ubicacion, pero ni warriuls-->es lo mismo que farmlocation
@@ -21,9 +25,19 @@ public class Household extends DemographicItem {
 	
 	public Household() {
 		behavior = new ListBehavior();
+		
 		//add the behaviors. it's important that farmingBehavior is added first as it should be executed first
 		addBehaviorModule(FarmingBehavior.getInstance());
 		addBehaviorModule(DemographicBehaviorHousehold.getInstance());
+		
+		//the next corresponds to the inithousehold method in NetLogo
+		agedCornStocks[0] = LongHouseValley.householdMinInitialCorn + random.nextDouble() * (LongHouseValley.householdMaxInitialCorn - LongHouseValley.householdMinInitialCorn);
+		agedCornStocks[1] = LongHouseValley.householdMinInitialCorn + random.nextDouble() * (LongHouseValley.householdMaxInitialCorn - LongHouseValley.householdMinInitialCorn);
+		agedCornStocks[2] = LongHouseValley.householdMinInitialCorn + random.nextDouble() * (LongHouseValley.householdMaxInitialCorn - LongHouseValley.householdMinInitialCorn);
+		setAge(LongHouseValley.householdMinInitialAge + random.nextInt(LongHouseValley.householdMaxInitialAge));
+		setNutritionNeed(LongHouseValley.householdMinNutritionNeed + random.nextInt(LongHouseValley.householdMaxNutritionNeed - LongHouseValley.householdMinNutritionNeed));
+		setFertilityAge(LongHouseValley.minFertilityAge + random.nextInt(LongHouseValley.maxFertilityAge - LongHouseValley.minFertilityAge));
+		setLastHarvest(0);
 	}
 
 	public Int2D getFarmlocation() {
@@ -106,7 +120,11 @@ public class Household extends DemographicItem {
 	}
 	
 	public void die() {
+		//remove this household from its settlement
+		((ValleyFloor) field).getFloor()[location.x][location.y].decHouseholdNum();
+		//remove the farmplot this household was farming
+		((ValleyFloor) field).getFloor()[farmlocation.x][farmlocation.y].setOcfarm(false);
+		//remove the agent from the simulation
 		stop.stop();
-		//////////notifica y borrame de los mapas, desocupa mi parfcela de farm y quita mi household//////////////////
 	}
 }

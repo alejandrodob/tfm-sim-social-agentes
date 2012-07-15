@@ -34,7 +34,7 @@ public class FarmingBehavior implements BehaviorModule{
 		household.setNutritionNeedRemaining(household.getNutritionNeed());
 		                
 		//calculate how much nutrients the household can derive from harvest and stored corn
-		int ys = household.yearsOfStock;
+		int ys = Household.yearsOfStock;
 		while (ys > -1) {
 			if (agedCornStocks[ys] >= household.getNutritionNeedRemaining()) {
 				agedCornStocks[ys] -= household.getNutritionNeedRemaining();
@@ -48,8 +48,7 @@ public class FarmingBehavior implements BehaviorModule{
 	}
 	@Override
 	public void behave(DemographicItem individual, SimpleWorld environment) {
-		// TODO Auto-generated method stub
-		
+		harvestConsumption((Household) individual, (LongHouseValley) environment);
 	}
 
 }

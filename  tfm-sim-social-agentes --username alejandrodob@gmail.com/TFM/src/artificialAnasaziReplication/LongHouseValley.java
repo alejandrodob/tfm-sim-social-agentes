@@ -12,8 +12,19 @@ public class LongHouseValley extends SimpleWorld {
 	public double harvestAdjustment;
 	public double harvestVariance;
 	private int farmSitesAvailable = 0;
-	private int householdMinNutritionNeed;
-	public final static double waterSourceDistance = 16.0;
+	public static final double waterSourceDistance = 16.0;
+	public static final double maizeGiveToChild = 0.33;
+	public static final int householdMinInitialCorn = 2000;
+	public static final int householdMaxInitialCorn = 2400;
+	public static final int householdMinInitialAge = 0;
+	public static final int householdMaxInitialAge = 29;
+	public static final int householdMinNutritionNeed = 800; //160kg/person * 5 persons in a household
+	public static final int householdMaxNutritionNeed = 800;
+	public static final int minFertilityAge = 16;
+	public static final int maxFertilityAge = 16;
+	private int deathAge;
+	private double fertility;
+	private int fertilityEndsAge;
 
 	
 	public LongHouseValley(long seed) {
@@ -49,6 +60,34 @@ public class LongHouseValley extends SimpleWorld {
 		return year;
 	}
 
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public int getDeathAge() {
+		return deathAge;
+	}
+
+	public void setDeathAge(int deathAge) {
+		this.deathAge = deathAge;
+	}
+
+	public double getFertility() {
+		return fertility;
+	}
+
+	public void setFertility(double fertility) {
+		this.fertility = fertility;
+	}
+
+	public int getFertilityEndsAge() {
+		return fertilityEndsAge;
+	}
+
+	public void setFertilityEndsAge(int fertilityEndsAge) {
+		this.fertilityEndsAge = fertilityEndsAge;
+	}
+
 	public int getFarmSitesAvailable() {
 		return farmSitesAvailable;
 	}
@@ -62,5 +101,20 @@ public class LongHouseValley extends SimpleWorld {
 		Vector<Int2D> potFarm = ((ValleyFloor) field).determinePotFarms(householdMinNutritionNeed);
 		farmSitesAvailable = potFarm.size();
 		return potFarm;
+	}
+	
+	public void createFissionedHousehold(Household parent) {
+		Household fisHousehold = new Household();
+		fisHousehold.setLocation(new Int2D(parent.getLocation().x,parent.getLocation().y));
+		fisHousehold.setAge(0);
+		//set cornStocks received from parent
+		double[] childCornStocks = parent.getAgedCornStocks();
+		int ys = Household.yearsOfStock;
+		while (ys > -1) {
+			childCornStocks[ys] = (maizeGiveToChild / (1 - maizeGiveToChild)) *  childCornStocks[ys];
+			ys--;
+		}
+		fisHousehold.setAgedCornStocks(childCornStocks);
+		addIndividual(fisHousehold, fisHousehold.getLocation());
 	}
 }
