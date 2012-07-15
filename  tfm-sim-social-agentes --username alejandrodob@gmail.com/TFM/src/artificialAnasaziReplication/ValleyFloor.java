@@ -10,20 +10,22 @@ import java.util.Vector;
 import sim.engine.SimState;
 import sim.util.Int2D;
 
+import ec.util.MersenneTwisterFast;
 import field.MutableField2D;
 
 public class ValleyFloor extends MutableField2D {
 	
 	private static final int WIDTH = 80;
 	private static final int HEIGHT = 120;
+	private static MersenneTwisterFast random = new MersenneTwisterFast();
 	private Plot[][] floor = new Plot[WIDTH][HEIGHT];
 	private boolean streamsexist;
 	private boolean alluviumexist;
 	private Vector<Waterpoint> waterpoints;
 	private Vector<Integer> mapdata;
 	private Vector<Integer> waterdata;
-	private Vector<Float> apdsidata;
-	private Vector<Float> environmentdata;
+	private Vector<Double> apdsidata;
+	private Vector<Double> environmentdata;
 	//el settlements aun no se lo meto
 	
 	private enum Zone {
@@ -46,7 +48,7 @@ public class ValleyFloor extends MutableField2D {
 		water(((LongHouseValley) state).getYear());
 	}
 	
-	private void calculateBaseYield(double harvestAdjustment) {
+	public void calculateBaseYield(double harvestAdjustment) {
 		for (int x = 0;x< WIDTH;x++) {
 			for (int y = 0;y<HEIGHT;y++) {
 				floor[x][y].calculateBaseYield(harvestAdjustment);
@@ -60,6 +62,10 @@ public class ValleyFloor extends MutableField2D {
 		for (int x = 0;x< WIDTH;x++) {
 			for (int y = 0;y<HEIGHT;y++) {
 				floor[x][y] = new Plot();
+				floor[x][y].setWatersource(false);
+				double quality = random.nextGaussian() * 0.4 + 1;//0.4 is the initial harvestVariance
+				if (quality >= 0) floor[x][y].setQuality(quality);
+				else floor[x][y].setQuality(0);
 			}
 		}
 		try {
@@ -119,20 +125,23 @@ public class ValleyFloor extends MutableField2D {
 			}
 			}
 			if (yy > 0) yy--;
-			else {xx++; yy--;}
-			
-			//create the waterpoints
-			int i = 0;
-			while (i+6 <= waterdata.size()) {
-				int sarg = waterdata.get(i); i++;
-				int meterNorth = waterdata.get(i); i++;
-				int meterEast = waterdata.get(i); i++;
-				int typeWater = waterdata.get(i); i++;
-				int startDate = waterdata.get(i); i++;
-				int endDate = waterdata.get(i); i++;
-				int x = (int) (25 + ((meterEast - 2392) / 93.5)); //this is a translation from the input data in meters into location on the map.
-				int y = (int) Math.floor(45 + (37.6 + ((meterNorth - 7954) / 93.5)));
-				waterpoints.add(new Waterpoint(x,y,sarg,meterNorth,meterEast,typeWater,startDate,endDate));
+			else {xx++; yy = 119;}
+		}
+		//create the waterpoints
+		waterpoints = new Vector<Waterpoint>();
+		int i = 0;
+		while (i+6 <= waterdata.size()) {
+			int sarg = waterdata.get(i); i++;
+			int meterNorth = waterdata.get(i); i++;
+			int meterEast = waterdata.get(i); i++;
+			int typeWater = waterdata.get(i); i++;
+			int startDate = waterdata.get(i); i++;
+			int endDate = waterdata.get(i); i++;
+			int x = (int) (25 + ((meterEast - 2392) / 93.5)); //this is a translation from the input data in meters into location on the map.
+			int y = (int) Math.floor(45 + (37.6 + ((meterNorth - 7954) / 93.5)));
+			//there are 2 waterpoints which seem to be wrong, because they both have meterNorth = 0 and meterEast = 0. ignore them
+			if (x>0 && y>0) {
+			waterpoints.add(new Waterpoint(x,y,sarg,meterNorth,meterEast,typeWater,startDate,endDate));
 			}
 		}
 	}
@@ -155,9 +164,9 @@ public class ValleyFloor extends MutableField2D {
         
         try {
         	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/adjustedPDSI.txt")));
-        	apdsidata = new Vector<Float>();
+        	apdsidata = new Vector<Double>();
         	while (s.hasNext()) {
-        		apdsidata.add(Float.parseFloat(s.next()));
+        		apdsidata.add(Double.parseDouble(s.next()));
         	}
         } finally {
             if (s != null) {
@@ -179,9 +188,9 @@ public class ValleyFloor extends MutableField2D {
         
         try {
         	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/environment.txt")));
-        	environmentdata = new Vector<Float>();
+        	environmentdata = new Vector<Double>();
         	while (s.hasNext()) {
-        		environmentdata.add(Float.parseFloat(s.next()));
+        		environmentdata.add(Double.parseDouble(s.next()));
         	}
         } finally {
             if (s != null) {
@@ -190,20 +199,20 @@ public class ValleyFloor extends MutableField2D {
         }
 	}
 	
-	private void calculateYield(int year) {
-		float generalapdsi = apdsidata.get(year - 200);
-		float northapdsi = apdsidata.get(1100 + year);
-		float midapdsi = apdsidata.get(2400 + year);
-		float naturalapdsi = apdsidata.get(3700 + year);
-		float uplandapdsi = apdsidata.get(3700 + year);
-		float kinbikoapdsi = apdsidata.get(1100 + year);
+	public void calculateYield(int year) {
+		double generalapdsi = apdsidata.get(year - 200);
+		double northapdsi = apdsidata.get(1100 + year);
+		double midapdsi = apdsidata.get(2400 + year);
+		double naturalapdsi = apdsidata.get(3700 + year);
+		double uplandapdsi = apdsidata.get(3700 + year);
+		double kinbikoapdsi = apdsidata.get(1100 + year);
 		     
-		float generalhydro = environmentdata.get(((year - 382)*15)+1);
-		float northhydro = environmentdata.get(((year - 382)*15)+4);
-		float midhydro = environmentdata.get(((year - 382)*15)+7);
-		float naturalhydro = environmentdata.get(((year - 382)*15)+10);
-		float uplandhydro = environmentdata.get(((year - 382)*15)+10);
-		float kinbikohydro = environmentdata.get(((year - 382)*15)+13);
+		double generalhydro = environmentdata.get(((year - 382)*15)+1);
+		double northhydro = environmentdata.get(((year - 382)*15)+4);
+		double midhydro = environmentdata.get(((year - 382)*15)+7);
+		double naturalhydro = environmentdata.get(((year - 382)*15)+10);
+		double uplandhydro = environmentdata.get(((year - 382)*15)+10);
+		double kinbikohydro = environmentdata.get(((year - 382)*15)+13);
 		      
 		for (int x = 0;x< WIDTH;x++) {
 			for (int y = 0;y<HEIGHT;y++) {
@@ -266,7 +275,7 @@ public class ValleyFloor extends MutableField2D {
 		}  
 	}
 	
-	private void water(int year) {
+	public void water(int year) {
 		streamsexist = ((year >= 280 && year < 360) || (year >= 800 && year < 930) || (year >= 1300 && year < 1450));
 		alluviumexist = (((year >= 420) && (year < 560)) || ((year >= 630) && (year < 680)) || ((year >= 980) && (year < 1120)) || ((year >= 1180) && (year < 1230)));
 
@@ -299,11 +308,11 @@ public class ValleyFloor extends MutableField2D {
 		Color color;
 		boolean watersource;
 		Zone zone;
-		float apdsi;
-		float hydro;
-		float quality;
+		double apdsi;
+		double hydro;
+		double quality;
 		MaizeZone maizeZone;
-		float yield;
+		double yield;
 		double BaseYield;
 		boolean ocfarm;
 		int ochousehold;
@@ -326,22 +335,22 @@ public class ValleyFloor extends MutableField2D {
 		public void setZone(Zone zone) {
 			this.zone = zone;
 		}
-		public float getApdsi() {
+		public double getApdsi() {
 			return apdsi;
 		}
-		public void setApdsi(float apdsi) {
+		public void setApdsi(double apdsi) {
 			this.apdsi = apdsi;
 		}
-		public float getHydro() {
+		public double getHydro() {
 			return hydro;
 		}
-		public void setHydro(float generalhydro) {
+		public void setHydro(double generalhydro) {
 			this.hydro = generalhydro;
 		}
-		public float getQuality() {
+		public double getQuality() {
 			return quality;
 		}
-		public void setQuality(float quality) {
+		public void setQuality(double quality) {
 			this.quality = quality;
 		}
 		public MaizeZone getMaizeZone() {
@@ -350,10 +359,10 @@ public class ValleyFloor extends MutableField2D {
 		public void setMaizeZone(MaizeZone maizeZone) {
 			this.maizeZone = maizeZone;
 		}
-		public float getYield() {
+		public double getYield() {
 			return yield;
 		}
-		public void setYield(float yield) {
+		public void setYield(double yield) {
 			this.yield = yield;
 		}
 		public double getBaseYield() {
@@ -478,5 +487,15 @@ public class ValleyFloor extends MutableField2D {
 			}
 		}
 		return settlementPlots;
+	}
+	
+	@Override
+	public int getHeight() {
+		return HEIGHT;
+	}
+	
+	@Override
+	public int getWidth() {
+		return WIDTH;
 	}
 }
