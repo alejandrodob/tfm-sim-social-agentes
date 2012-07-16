@@ -11,14 +11,14 @@ import sim.util.IntBag;
 
 public abstract class AbstractField2D {
 	
-	protected Grid2D field;
+	protected Grid2D grid;
 
 	public int getWidth() {
-		return field.getWidth();
+		return grid.getWidth();
 	}
 
 	public int getHeight() {
-		return field.getHeight();
+		return grid.getHeight();
 	}
 
 	public abstract int numObjectsAtLocation(int x, int y);

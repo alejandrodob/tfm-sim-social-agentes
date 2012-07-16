@@ -119,7 +119,7 @@ public class Household extends DemographicItem {
 		int xh = 0;
 		int yh = 0;
 
-		double by = valley.getFloor()[farmlocation.x][farmlocation.y].getYield();
+		double by = valley.plotAt(farmlocation.x,farmlocation.y).getYield();
 		Vector<Int2D> potSettle = valley.potentialSettlements(by);
 
 		//if there are cells with water which are not farmed and in a zone that is less productive than the zone where the favorite farm plot is located
@@ -237,10 +237,10 @@ public class Household extends DemographicItem {
 	public void die(LongHouseValley valley) {
 		//remove this household from its settlement
 		//((ValleyFloor) field)
-		((ValleyFloor)valley.getField()).getFloor()[location.x][location.y].decHouseholdNum();
+		((ValleyFloor)valley.getField()).plotAt(location.x,location.y).decHouseholdNum();
 		//remove the farmplot this household was farming
 		//((ValleyFloor) field)
-		((ValleyFloor)valley.getField()).getFloor()[farmlocation.x][farmlocation.y].setOcfarm(false);
+		((ValleyFloor)valley.getField()).plotAt(farmlocation.x,farmlocation.y).setOcfarm(false);
 		//remove the agent from the simulation
 		valley.registerDeath(this);
 		stop.stop();

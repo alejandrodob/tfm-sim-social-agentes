@@ -29,7 +29,7 @@ public abstract class MutableField2D extends AbstractField2D implements Steppabl
 	//protected Behavior timeEvol;
 	
 	public MutableField2D(int width,int height) {
-		field = new SparseGrid2D(width, height);
+		grid = new SparseGrid2D(width, height);
 		//timeEvol = new ListBehavior(); //it's like a behavior, but a field doesn't behave, it changes in time
 	}
 	
@@ -38,47 +38,47 @@ public abstract class MutableField2D extends AbstractField2D implements Steppabl
 	
 	@Override
 	public int numObjectsAtLocation(int x, int y) {
-		return ((SparseGrid2D) field).numObjectsAtLocation(x,y);
+		return ((SparseGrid2D) grid).numObjectsAtLocation(x,y);
 	}
 
 	@Override
 	public int getObjectIndex(Object obj) {
-		return ((SparseField) field).getObjectIndex(obj);
+		return ((SparseField) grid).getObjectIndex(obj);
 	}
 
 	@Override
 	public Bag getObjectsAtLocation(int x, int y) {
-		return ((SparseGrid2D) field).getObjectsAtLocation(x, y);
+		return ((SparseGrid2D) grid).getObjectsAtLocation(x, y);
 	}
 
 	@Override
 	public int size() {
-		return ((SparseField) field).size();
+		return ((SparseField) grid).size();
 	}
 
 	@Override
 	public Double2D getObjectLocationAsDouble2D(Object obj) {
-		return ((SparseGrid2D) field).getObjectLocationAsDouble2D(obj);
+		return ((SparseGrid2D) grid).getObjectLocationAsDouble2D(obj);
 	}
 
 	@Override
 	public Bag getObjectsAtLocation(Object location) {
-		return ((SparseField) field).getObjectsAtLocation(location);
+		return ((SparseField) grid).getObjectsAtLocation(location);
 	}
 
 	@Override
 	public Int2D getObjectLocation(Object obj) {
-		return ((SparseGrid2D) field).getObjectLocation(obj);
+		return ((SparseGrid2D) grid).getObjectLocation(obj);
 	}
 
 	@Override
 	public Bag removeObjectsAtLocation(int x, int y) {
-		return ((SparseGrid2D) field).removeObjectsAtLocation(x, y);
+		return ((SparseGrid2D) grid).removeObjectsAtLocation(x, y);
 	}
 
 	@Override
 	public boolean setObjectLocation(Object obj, int x, int y) {
-		return ((SparseGrid2D) field).setObjectLocation(obj, x, y);
+		return ((SparseGrid2D) grid).setObjectLocation(obj, x, y);
 	}
 
 	@Override
@@ -88,85 +88,85 @@ public abstract class MutableField2D extends AbstractField2D implements Steppabl
 
 	@Override
 	public Bag getObjectsAtLocationOfObject(Object obj) {
-		return ((SparseField) field).getObjectsAtLocationOfObject(obj);
+		return ((SparseField) grid).getObjectsAtLocationOfObject(obj);
 	}
 
 	@Override
 	public int numObjectsAtLocationOfObject(Object obj) {
-		return ((SparseField) field).numObjectsAtLocationOfObject(obj);
+		return ((SparseField) grid).numObjectsAtLocationOfObject(obj);
 	}
 
 	@Override
 	public Bag removeObjectsAtLocation(Object location) {
-		return ((SparseField) field).removeObjectsAtLocation(location);
+		return ((SparseField) grid).removeObjectsAtLocation(location);
 	}
 
 	@Override
 	public Bag clear() {
-		return ((SparseField) field).clear();
+		return ((SparseField) grid).clear();
 	}
 
 	@Override
 	public Object remove(Object obj) {
-		return ((SparseField) field).remove(obj);
+		return ((SparseField) grid).remove(obj);
 	}
 
 	@Override
 	public Bag getObjectsAtLocations(Bag locations, Bag result) {
-		return ((SparseField) field).getObjectsAtLocations(locations, result);
+		return ((SparseField) grid).getObjectsAtLocations(locations, result);
 	}
 
 	@Override
 	public Iterator iterator() {
-		return ((SparseField) field).iterator();
+		return ((SparseField) grid).iterator();
 	}
 
 	@Override
 	public Iterator locationBagIterator() {
-		return ((SparseField) field).locationBagIterator();
+		return ((SparseField) grid).locationBagIterator();
 	}
 	
 	@Override
 	public Bag getNeighborsMaxDistance(int x, int y, int dist,
 			boolean toroidal, Bag result, IntBag xPos, IntBag yPos) {
-		return ((SparseGrid2D) field).getNeighborsMaxDistance(x, y, dist, toroidal, result, xPos, yPos);
+		return ((SparseGrid2D) grid).getNeighborsMaxDistance(x, y, dist, toroidal, result, xPos, yPos);
 	}
 
 	@Override
 	public Bag getNeighborsAndCorrespondingPositionsMaxDistance(int x, int y,
 			int dist, boolean toroidal, Bag result, IntBag xPos, IntBag yPos) {
-		return ((SparseGrid2D) field).getNeighborsAndCorrespondingPositionsMaxDistance(x, y, dist, toroidal, result, xPos, yPos);
+		return ((SparseGrid2D) grid).getNeighborsAndCorrespondingPositionsMaxDistance(x, y, dist, toroidal, result, xPos, yPos);
 	}
 
 	@Override
 	public Bag getNeighborsHamiltonianDistance(int x, int y, int dist,
 			boolean toroidal, Bag result, IntBag xPos, IntBag yPos) {
-		return ((SparseGrid2D) field).getNeighborsHamiltonianDistance(x, y, dist, toroidal, result, xPos, yPos);
+		return ((SparseGrid2D) grid).getNeighborsHamiltonianDistance(x, y, dist, toroidal, result, xPos, yPos);
 	}
 
 	@Override
 	public Bag getNeighborsAndCorrespondingPositionsHamiltonianDistance(int x,
 			int y, int dist, boolean toroidal, Bag result, IntBag xPos,
 			IntBag yPos) {
-		return ((SparseGrid2D) field).getNeighborsAndCorrespondingPositionsHamiltonianDistance(x, y, dist, toroidal, result, xPos, yPos);
+		return ((SparseGrid2D) grid).getNeighborsAndCorrespondingPositionsHamiltonianDistance(x, y, dist, toroidal, result, xPos, yPos);
 	}
 
 	@Override
 	public Bag getNeighborsHexagonalDistance(int x, int y, int dist,
 			boolean toroidal, Bag result, IntBag xPos, IntBag yPos) {
-		return ((SparseGrid2D) field).getNeighborsHexagonalDistance(x, y, dist, toroidal, result, xPos, yPos);
+		return ((SparseGrid2D) grid).getNeighborsHexagonalDistance(x, y, dist, toroidal, result, xPos, yPos);
 	}
 
 	@Override
 	public Bag getNeighborsAndCorrespondingPositionsHexagonalDistance(int x,
 			int y, int dist, boolean toroidal, Bag result, IntBag xPos,
 			IntBag yPos) {
-		return ((SparseGrid2D) field).getNeighborsAndCorrespondingPositionsHexagonalDistance(x, y, dist, toroidal, result, xPos, yPos);
+		return ((SparseGrid2D) grid).getNeighborsAndCorrespondingPositionsHexagonalDistance(x, y, dist, toroidal, result, xPos, yPos);
 	}
 
 	@Override
 	public Bag getObjectsAtLocations(IntBag xPos, IntBag yPos, Bag result) {
-		return ((SparseGrid2D) field).getObjectsAtLocations(xPos, yPos, result);
+		return ((SparseGrid2D) grid).getObjectsAtLocations(xPos, yPos, result);
 	}
 	
 	/*public void addBehaviorModule(BehaviorModule behaviorMod) {

@@ -54,11 +54,11 @@ public class LongHouseValley extends SimpleWorld {
 			//random location for farming
 			Int2D farmLoc = new Int2D(random.nextInt(((ValleyFloor) field).getWidth()),random.nextInt(((ValleyFloor) field).getHeight()));
 			hh.setFarmlocation(farmLoc);
-			((ValleyFloor) field).getFloor()[hh.getFarmlocation().x][hh.getFarmlocation().y].setOcfarm(true);
+			((ValleyFloor) field).plotAt(hh.getFarmlocation().x,hh.getFarmlocation().y).setOcfarm(true);
 			//find a settlement nearby
 			if (hh.findInitialSettlementNearFarm((ValleyFloor) field)) {
 				//occupy the plot
-				((ValleyFloor) field).getFloor()[hh.getLocation().x][hh.getLocation().y].incHousholdNum();
+				((ValleyFloor) field).plotAt(hh.getLocation().x,hh.getLocation().y).incHousholdNum();
 				addIndividual(hh,hh.getLocation());
 			}
 		}
@@ -157,10 +157,10 @@ public class LongHouseValley extends SimpleWorld {
 	public Household createFissionedHousehold(Household parent) {
 		Household fisHousehold = new Household();
 		fisHousehold.setLocation(new Int2D(parent.getLocation().x,parent.getLocation().y));
-		((ValleyFloor) field).getFloor()[parent.getLocation().x][parent.getLocation().y].incHousholdNum();
+		((ValleyFloor) field).plotAt(parent.getLocation().x,parent.getLocation().y).incHousholdNum();
 		fisHousehold.setAge(0);
 		fisHousehold.setFarmlocation(fisHousehold.getLocation()); //absurd farmlocation so that it is not null
-		((ValleyFloor) field).getFloor()[fisHousehold.getFarmlocation().x][fisHousehold.getFarmlocation().y].setOcfarm(true);
+		((ValleyFloor) field).plotAt(fisHousehold.getFarmlocation().x,fisHousehold.getFarmlocation().y).setOcfarm(true);
 		//set cornStocks received from parent
 		double[] childCornStocks = parent.getAgedCornStocks();
 		int ys = Household.yearsOfStock;

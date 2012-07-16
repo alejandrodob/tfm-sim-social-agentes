@@ -23,7 +23,7 @@ public class FarmingBehavior implements BehaviorModule{
 	private void harvestConsumption(Household household, LongHouseValley valley) {
 		
 		//calculate the harvest of the household. Update the stocks of corn available in storage
-		double baseYield = ((ValleyFloor) valley.getField()).getFloor()[household.getFarmlocation().x][household.getFarmlocation().y].getBaseYield();
+		double baseYield = ((ValleyFloor) valley.getField()).plotAt(household.getFarmlocation().x,household.getFarmlocation().y).getBaseYield();
 		double lastHarvest = baseYield * (1 + random.nextGaussian() * valley.harvestVariance);
 		household.setLastHarvest(lastHarvest);
 		double[] agedCornStocks = household.getAgedCornStocks();

@@ -45,9 +45,9 @@ public class DemographicBehaviorHousehold implements BehaviorModule{
 	
 	private void moveHousehold(Household household, LongHouseValley valley, Int2D dest) {
 		//leave the previous settlement
-		((ValleyFloor) valley.getField()).getFloor()[household.getLocation().x][household.getLocation().y].decHouseholdNum();
+		((ValleyFloor) valley.getField()).plotAt(household.getLocation().x,household.getLocation().y).decHouseholdNum();
 		//occupy the new one
-		((ValleyFloor) valley.getField()).getFloor()[dest.x][dest.y].incHousholdNum();
+		((ValleyFloor) valley.getField()).plotAt(dest.x,dest.y).incHousholdNum();
 		household.setLocation(dest);
 	}
 	
@@ -63,12 +63,12 @@ public class DemographicBehaviorHousehold implements BehaviorModule{
 		Vector<Int2D> potFarm = valley.determinePotentialFarms();
 		if (valley.getFarmSitesAvailable() > 0) {
 			Int2D bestFarm = household.determineBestFarm(potFarm);
-			double by = ((ValleyFloor) valley.getField()).getFloor()[bestFarm.x][bestFarm.y].getYield();
+			double by = ((ValleyFloor) valley.getField()).plotAt(bestFarm.x,bestFarm.y).getYield();
 			//leave the current farm and move to the new better one
 			Int2D currentFarm = household.getFarmlocation();
-			((ValleyFloor) valley.getField()).getFloor()[currentFarm.x][currentFarm.y].setOcfarm(false);
+			((ValleyFloor) valley.getField()).plotAt(currentFarm.x,currentFarm.y).setOcfarm(false);
 			household.setFarmlocation(bestFarm);
-			((ValleyFloor) valley.getField()).getFloor()[bestFarm.x][bestFarm.y].setOcfarm(true);
+			((ValleyFloor) valley.getField()).plotAt(bestFarm.x,bestFarm.y).setOcfarm(true);
 			
 			Vector<Int2D> potSettle = ((ValleyFloor) valley.getField()).potentialSettlements(by);
 			
