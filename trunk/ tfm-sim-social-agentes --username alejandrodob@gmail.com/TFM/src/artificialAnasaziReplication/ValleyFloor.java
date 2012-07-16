@@ -81,52 +81,62 @@ public class ValleyFloor extends MutableField2D {
 				floor[xx][yy].setColor(Color.black);
 				floor[xx][yy].setZone(Zone.General);
 				floor[xx][yy].setMaizeZone(MaizeZone.Yield2);
+				break;
 			}
 			case 10 : {
 				floor[xx][yy].setColor(Color.red);
 				floor[xx][yy].setZone(Zone.North);
 				floor[xx][yy].setMaizeZone(MaizeZone.Yield1);
+				break;
 			}
 			case 15 : {
 				floor[xx][yy].setColor(Color.white);
 				floor[xx][yy].setZone(Zone.NorthDunes);
 				floor[xx][yy].setMaizeZone(MaizeZone.SandDune);
+				break;
 			}
 			case 20 : {
 				floor[xx][yy].setColor(Color.gray);
 				floor[xx][yy].setZone(Zone.Mid);
 				if (xx <= 74) floor[xx][yy].setMaizeZone(MaizeZone.Yield1);
 				else floor[xx][yy].setMaizeZone(MaizeZone.Yield2);
+				break;
 			}
 			case 25 : {
 				floor[xx][yy].setColor(Color.white);
 				floor[xx][yy].setZone(Zone.MidDunes);
 				floor[xx][yy].setMaizeZone(MaizeZone.SandDune);
+				break;
 			}
 			case 30 : {
 				floor[xx][yy].setColor(Color.yellow);
 				floor[xx][yy].setZone(Zone.Natural);
 				floor[xx][yy].setMaizeZone(MaizeZone.NoYield);
+				break;
 			}
 			case 40 : {
 				floor[xx][yy].setColor(Color.blue);
 				floor[xx][yy].setZone(Zone.Upland);
 				floor[xx][yy].setMaizeZone(MaizeZone.Yield3);
+				break;
 			}
 			case 50 : {
 				floor[xx][yy].setColor(Color.pink);
 				floor[xx][yy].setZone(Zone.Kinbiko);
 				floor[xx][yy].setMaizeZone(MaizeZone.Yield1);
+				break;
 			}
 			case 60 : {
 				floor[xx][yy].setColor(Color.white);
 				floor[xx][yy].setZone(Zone.Empty);
 				floor[xx][yy].setMaizeZone(MaizeZone.Empty);
+				break;
 			}
 			}
 			if (yy > 0) yy--;
 			else {xx++; yy = 119;}
 		}
+
 		//create the waterpoints
 		waterpoints = new Vector<Waterpoint>();
 		int i = 0;
@@ -220,34 +230,42 @@ public class ValleyFloor extends MutableField2D {
 				case General : {
 					floor[x][y].setApdsi(generalapdsi);
 					floor[x][y].setHydro(generalhydro);
+					break;
 				}
 				case North : {
 					floor[x][y].setApdsi(northapdsi);
 					floor[x][y].setHydro(northhydro);
+					break;
 				}
 				case Mid : {
 					floor[x][y].setApdsi(midapdsi);
 					floor[x][y].setHydro(midhydro);
+					break;
 				}
 				case Natural : {
 					floor[x][y].setApdsi(naturalapdsi);
 					floor[x][y].setHydro(naturalhydro);
+					break;
 				}
 				case Upland : {
 					floor[x][y].setApdsi(uplandapdsi);
 					floor[x][y].setHydro(uplandhydro);
+					break;
 				}
 				case Kinbiko : {
 					floor[x][y].setApdsi(kinbikoapdsi);
 					floor[x][y].setHydro(kinbikohydro);
+					break;
 				}
 				}
 				switch (floor[x][y].getMaizeZone()) {
 				case NoYield : {
 					floor[x][y].setYield(0);
+					break;
 				}
 				case Empty : {
 					floor[x][y].setYield(0);
+					break;
 				}
 				case Yield2 : {
 					if (floor[x][y].getApdsi() >= 3.0) floor[x][y].setYield(961);
@@ -255,6 +273,7 @@ public class ValleyFloor extends MutableField2D {
 					else if ((floor[x][y].getApdsi() > -1.0) && (floor[x][y].getApdsi() < 1.0)) floor[x][y].setYield(684);
 					else if ((floor[x][y].getApdsi() > -3.0) && (floor[x][y].getApdsi() <= -1.0)) floor[x][y].setYield(599);
 					else if (floor[x][y].getApdsi() <= -3.0) floor[x][y].setYield(514);
+					break;
 				}
 				case Yield3 : {
 					if (floor[x][y].getApdsi() >= 3.0) floor[x][y].setYield(769);
@@ -262,6 +281,7 @@ public class ValleyFloor extends MutableField2D {
 					else if ((floor[x][y].getApdsi() > -1.0) && (floor[x][y].getApdsi() < 1.0)) floor[x][y].setYield(547);
 					else if ((floor[x][y].getApdsi() > -3.0) && (floor[x][y].getApdsi() <= -1.0)) floor[x][y].setYield(479);
 					else if (floor[x][y].getApdsi() <= -3.0) floor[x][y].setYield(411);
+					break;
 				}
 				case SandDune : {
 					if (floor[x][y].getApdsi() >= 3.0) floor[x][y].setYield(1201);
@@ -269,6 +289,7 @@ public class ValleyFloor extends MutableField2D {
 					else if ((floor[x][y].getApdsi() > -1.0) && (floor[x][y].getApdsi() < 1.0)) floor[x][y].setYield(855);
 					else if ((floor[x][y].getApdsi() > -3.0) && (floor[x][y].getApdsi() <= -1.0)) floor[x][y].setYield(749);
 					else if (floor[x][y].getApdsi() <= -3.0) floor[x][y].setYield(642);
+					break;
 				}
 				}
 			}
@@ -445,12 +466,24 @@ public class ValleyFloor extends MutableField2D {
 		Vector<Int2D> potfarms = new Vector<Int2D>();
 		for (int x = 0;x< WIDTH;x++) {
 			for (int y = 0;y<HEIGHT;y++) {
-				if ((floor[x][y].zone == Zone.Empty) && !floor[x][y].isOcfarm() && (floor[x][y].getOchousehold() == 0) && (floor[x][y].getBaseYield() >= householdMinNutritionNeed)) {
+				if ((floor[x][y].zone != Zone.Empty) && !floor[x][y].isOcfarm() && (floor[x][y].getOchousehold() == 0) && (floor[x][y].getBaseYield() >= householdMinNutritionNeed)) {
 					potfarms.add(new Int2D(x,y));
 				}
 			}
 		}
 		return potfarms;
+	}
+	
+	public int ocFarms() {
+		int ocf = 0;
+		for (int x = 0;x< WIDTH;x++) {
+			for (int y = 0;y<HEIGHT;y++) {
+				if (floor[x][y].isOcfarm()) {
+					ocf++;
+				}
+			}
+		}
+		return ocf;
 	}
 	
 	public Vector<Int2D> potentialSettlements(double by) {

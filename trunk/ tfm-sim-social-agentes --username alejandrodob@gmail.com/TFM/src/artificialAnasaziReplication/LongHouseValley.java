@@ -30,6 +30,8 @@ public class LongHouseValley extends SimpleWorld {
 	private int fertilityEndsAge = 34;
 	private static final int initialNumberHouseholds = 14;
 	
+	//statistics
+	public int numHouseholds = initialNumberHouseholds;
 
 
 	
@@ -62,11 +64,16 @@ public class LongHouseValley extends SimpleWorld {
 		Steppable yearIncrem = new Steppable() {
 			@Override
 			public void step(SimState state) {
+				if (year%5==0) { //cada 5 años para no ser un cansino 
+					System.out.println("poblacion en el año "+year+": "+ numHouseholds);
+					System.out.println("potential farmsites en el año "+year+": "+farmSitesAvailable);
+					System.out.println("parcelas ocupadas con farm "+ ((ValleyFloor) field).ocFarms());
+					}
 				((LongHouseValley) state).setYear(year + 1);
-				if (year > 1350) state.finish(); //end the simulation at year 1350
+				if (year > 1350) state.finish(); //end the simulation at year 1350		
 			}
 		};
-		schedule.scheduleRepeating(schedule.getTime() + 1,2,yearIncrem);
+		schedule.scheduleRepeating(schedule.getTime() + 1,0,yearIncrem);
 	}
 
 	@Override
@@ -83,14 +90,12 @@ public class LongHouseValley extends SimpleWorld {
 
 	@Override
 	public void registerDeath(DemographicItem person) {
-		// TODO Auto-generated method stub
-		
+		numHouseholds--;
 	}
 
 	@Override
 	public void registerBirth(DemographicItem newborn, DemographicItem mother) {
-		// TODO Auto-generated method stub
-		
+		numHouseholds++;
 	}
 	
 	public int getYear() {
@@ -136,7 +141,7 @@ public class LongHouseValley extends SimpleWorld {
 	public Vector<Int2D> determinePotentialFarms() {
 		//determine the list of potential locations for a farm to move to. A potential location to farm is a place where nobody is farming and where the baseyield is higher than the minimum amount of food needed and where nobody has build a settlement
 		Vector<Int2D> potFarm = ((ValleyFloor) field).determinePotFarms(householdMinNutritionNeed);
-		farmSitesAvailable = potFarm.size();
+		setFarmSitesAvailable(potFarm.size());
 		return potFarm;
 	}
 	
