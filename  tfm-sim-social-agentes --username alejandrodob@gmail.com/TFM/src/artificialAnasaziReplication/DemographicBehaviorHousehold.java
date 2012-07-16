@@ -26,7 +26,7 @@ public class DemographicBehaviorHousehold implements BehaviorModule{
 	private void death(Household household, LongHouseValley valley) {
 		//agents who have not sufficient food derived or are older than deathAge are removed from the system
 		    if ((household.getNutritionNeedRemaining() > 0) || household.getAge() > valley.getDeathAge()) {
-		    	household.die((ValleyFloor) valley.getField());
+		    	household.die(valley);
 		    }
 	}
 	
@@ -40,6 +40,7 @@ public class DemographicBehaviorHousehold implements BehaviorModule{
 			ys--;
 		}
 		findFarmAndSettlement(valley.createFissionedHousehold(household),valley);
+		valley.registerBirth(null, null);
 	}
 	
 	private void moveHousehold(Household household, LongHouseValley valley, Int2D dest) {
@@ -94,7 +95,7 @@ public class DemographicBehaviorHousehold implements BehaviorModule{
 					Int2D minSettle2 = null;
 					Int2D bestSett = new Int2D(xh,yh);
 					for (Int2D ps : potSettle) {
-						if (ValleyFloor.distance(bestSett, ps) < minDist) {
+						if (ValleyFloor.distance(bestSett, ps) < minDist2) {
 							minDist2 = ValleyFloor.distance(bestSett, ps);
 							minSettle2 = ps;
 						}
@@ -173,11 +174,11 @@ public class DemographicBehaviorHousehold implements BehaviorModule{
 
 			//if no possible settlement is found, leave the system
 			if (!settlementFound) {
-				household.die((ValleyFloor) valley.getField());
+				household.die(valley);
 			}
 		
 		} else {  //no farms available
-			household.die((ValleyFloor) valley.getField());
+			household.die(valley);
 		}
 	}
 	

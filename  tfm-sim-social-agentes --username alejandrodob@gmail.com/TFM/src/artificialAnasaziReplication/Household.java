@@ -145,7 +145,7 @@ public class Household extends DemographicItem {
 				Int2D minSettle2 = null;
 				Int2D bestSett = new Int2D(xh,yh);
 				for (Int2D ps : potSettle) {
-					if (ValleyFloor.distance(bestSett, ps) < minDist) {
+					if (ValleyFloor.distance(bestSett, ps) < minDist2) {
 						minDist2 = ValleyFloor.distance(bestSett, ps);
 						minSettle2 = ps;
 					}
@@ -224,7 +224,7 @@ public class Household extends DemographicItem {
 		return settlementFound;
 	}
 	
-	public void die(ValleyFloor floor) {
+	/*public void die(ValleyFloor floor) {
 		//remove this household from its settlement
 		//((ValleyFloor) field)
 		floor.getFloor()[location.x][location.y].decHouseholdNum();
@@ -233,5 +233,16 @@ public class Household extends DemographicItem {
 		floor.getFloor()[farmlocation.x][farmlocation.y].setOcfarm(false);
 		//remove the agent from the simulation
 		stop.stop();
+	}*/
+	public void die(LongHouseValley valley) {
+		//remove this household from its settlement
+		//((ValleyFloor) field)
+		((ValleyFloor)valley.getField()).getFloor()[location.x][location.y].decHouseholdNum();
+		//remove the farmplot this household was farming
+		//((ValleyFloor) field)
+		((ValleyFloor)valley.getField()).getFloor()[farmlocation.x][farmlocation.y].setOcfarm(false);
+		//remove the agent from the simulation
+		stop.stop();
+		valley.registerDeath(null);
 	}
 }
