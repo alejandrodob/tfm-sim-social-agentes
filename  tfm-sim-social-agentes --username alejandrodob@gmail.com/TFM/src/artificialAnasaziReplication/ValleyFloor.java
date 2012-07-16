@@ -44,14 +44,14 @@ public class ValleyFloor extends MutableField2D {
 	@Override
 	public void step(SimState state) {
 		calculateYield(((LongHouseValley) state).getYear());
-		calculateBaseYield(((LongHouseValley) state).harvestAdjustment);
+		calculateBaseYield(((LongHouseValley) state).harvestAdjustment,((LongHouseValley) state).getYear());
 		water(((LongHouseValley) state).getYear());
 	}
 	
-	public void calculateBaseYield(double harvestAdjustment) {
+	public void calculateBaseYield(double harvestAdjustment,int year) {
 		for (int x = 0;x< WIDTH;x++) {
 			for (int y = 0;y<HEIGHT;y++) {
-				floor[x][y].calculateBaseYield(harvestAdjustment);
+				floor[x][y].calculateBaseYield(harvestAdjustment,year);
 			}
 		} 
 	}
@@ -326,18 +326,18 @@ public class ValleyFloor extends MutableField2D {
 	//the next inner class represents a plot (100m x 100m size) in the valley, the equivalent to 
 	//a patch in NetLogo
 	class Plot {
-		Color color;
-		boolean watersource;
-		Zone zone;
-		double apdsi;
-		double hydro;
-		double quality;
-		MaizeZone maizeZone;
-		double yield;
-		double BaseYield;
-		boolean ocfarm;
-		int ochousehold;
-		int nrh;
+		private Color color;
+		private boolean watersource;
+		private Zone zone;
+		private double apdsi;
+		private double hydro;
+		private double quality;
+		private MaizeZone maizeZone;
+		private double yield;
+		private double BaseYield;
+		private boolean ocfarm;
+		private int ochousehold;
+		private int nrh;
 		public Color getValue() {
 			return color;
 		}
@@ -396,6 +396,8 @@ public class ValleyFloor extends MutableField2D {
 			return ocfarm;
 		}
 		public void setOcfarm(boolean ocfarm) {
+			/*if (ocfarm) System.out.println("se pone granja en parcela ");
+			else System.out.println("se quita granja de parcela");*/
 			this.ocfarm = ocfarm;
 		}
 		public int getOchousehold() {
@@ -411,8 +413,9 @@ public class ValleyFloor extends MutableField2D {
 			this.nrh = nrh;
 		}
 		
-		public void calculateBaseYield(double harvestAdjustment) {
-			setBaseYield(getYield() * getQuality() * harvestAdjustment);
+		public void calculateBaseYield(double harvestAdjustment,int year) {
+			if (year == 800) setBaseYield(getYield()*getQuality());
+			else setBaseYield(getYield() * getQuality() * harvestAdjustment);
 		}
 		
 		public void incHousholdNum() {

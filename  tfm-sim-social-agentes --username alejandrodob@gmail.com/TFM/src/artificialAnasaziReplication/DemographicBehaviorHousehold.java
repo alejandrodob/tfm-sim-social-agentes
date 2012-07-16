@@ -174,11 +174,11 @@ public class DemographicBehaviorHousehold implements BehaviorModule{
 
 			//if no possible settlement is found, leave the system
 			if (!settlementFound) {
-				household.die(valley);
+				//household.die(valley);
 			}
 		
 		} else {  //no farms available
-			household.die(valley);
+			//household.die(valley);
 		}
 	}
 	
