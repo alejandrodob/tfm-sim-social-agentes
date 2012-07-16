@@ -242,7 +242,7 @@ public class Household extends DemographicItem {
 		//((ValleyFloor) field)
 		((ValleyFloor)valley.getField()).getFloor()[farmlocation.x][farmlocation.y].setOcfarm(false);
 		//remove the agent from the simulation
+		valley.registerDeath(this);
 		stop.stop();
-		valley.registerDeath(null);
 	}
 }

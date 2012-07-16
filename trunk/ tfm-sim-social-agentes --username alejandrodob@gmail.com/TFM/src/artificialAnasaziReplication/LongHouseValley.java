@@ -43,16 +43,18 @@ public class LongHouseValley extends SimpleWorld {
 	public void start() {
 		super.start();
 		field = new ValleyFloor();
+		System.out.println("inicialmente hay farmas ocupadas: "+((ValleyFloor) field).ocFarms());
 		schedule.scheduleRepeating(schedule.getTime() + 1, 0, (Steppable) field);
 		/*((ValleyFloor) field).water(year);
 		((ValleyFloor) field).calculateYield(year);
-		((ValleyFloor) field).calculateBaseYield(harvestAdjustment);*/
+		((ValleyFloor) field).calculateBaseYield(harvestAdjustment,year);*/
 		//create the initial households and place them randomly in the valley
 		for (int i = 0;i<14;i++) {
 			Household hh = new Household();
 			//random location for farming
 			Int2D farmLoc = new Int2D(random.nextInt(((ValleyFloor) field).getWidth()),random.nextInt(((ValleyFloor) field).getHeight()));
 			hh.setFarmlocation(farmLoc);
+			((ValleyFloor) field).getFloor()[hh.getFarmlocation().x][hh.getFarmlocation().y].setOcfarm(true);
 			//find a settlement nearby
 			if (hh.findInitialSettlementNearFarm((ValleyFloor) field)) {
 				//occupy the plot
@@ -66,11 +68,16 @@ public class LongHouseValley extends SimpleWorld {
 			public void step(SimState state) {
 				if (year%5==0) { //cada 5 años para no ser un cansino 
 					System.out.println("poblacion en el año "+year+": "+ numHouseholds);
+					determinePotentialFarms();
 					System.out.println("potential farmsites en el año "+year+": "+farmSitesAvailable);
-					System.out.println("parcelas ocupadas con farm "+ ((ValleyFloor) field).ocFarms());
+					System.out.println("parcelas ocupadas con farm en el año "+year+": "+ ((ValleyFloor) field).ocFarms());
 					}
 				((LongHouseValley) state).setYear(year + 1);
-				if (year > 1350) state.finish(); //end the simulation at year 1350		
+				if (year > 1350) {
+					System.out.println("finalmente hay farmas ocupadas: "+((ValleyFloor) field).ocFarms());
+
+					state.finish(); //end the simulation at year 1350		
+				}
 			}
 		};
 		schedule.scheduleRepeating(schedule.getTime() + 1,0,yearIncrem);
@@ -91,11 +98,13 @@ public class LongHouseValley extends SimpleWorld {
 	@Override
 	public void registerDeath(DemographicItem person) {
 		numHouseholds--;
+		System.out.println(person.toString()+" se muere");
 	}
 
 	@Override
 	public void registerBirth(DemographicItem newborn, DemographicItem mother) {
 		numHouseholds++;
+		System.out.println(" acaba de nacer");
 	}
 	
 	public int getYear() {
@@ -148,8 +157,10 @@ public class LongHouseValley extends SimpleWorld {
 	public Household createFissionedHousehold(Household parent) {
 		Household fisHousehold = new Household();
 		fisHousehold.setLocation(new Int2D(parent.getLocation().x,parent.getLocation().y));
+		((ValleyFloor) field).getFloor()[parent.getLocation().x][parent.getLocation().y].incHousholdNum();
 		fisHousehold.setAge(0);
 		fisHousehold.setFarmlocation(fisHousehold.getLocation()); //absurd farmlocation so that it is not null
+		((ValleyFloor) field).getFloor()[fisHousehold.getFarmlocation().x][fisHousehold.getFarmlocation().y].setOcfarm(true);
 		//set cornStocks received from parent
 		double[] childCornStocks = parent.getAgedCornStocks();
 		int ys = Household.yearsOfStock;
