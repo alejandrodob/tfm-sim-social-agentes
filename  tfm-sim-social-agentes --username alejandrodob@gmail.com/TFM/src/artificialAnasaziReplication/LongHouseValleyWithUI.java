@@ -61,6 +61,11 @@ public class LongHouseValleyWithUI extends GUIState {
 		super.start();
 		setupPortrayals();
 	}
+	
+	public void finish() {
+		super.finish();
+		state = new LongHouseValley(System.currentTimeMillis());
+	}
 
 	public void load(SimState state) {
 		super.load(state);
@@ -90,23 +95,25 @@ public class LongHouseValleyWithUI extends GUIState {
 								0, 5.0, Color.orange, true));
 		
 		//and for the historical settlements
-		hisHouseholdsPortrayal.setPortrayalForAll(new CircledPortrayal2D(
-				new LabelledPortrayal2D(
-						new OvalPortrayal2D(){
-							public void draw(Object object, Graphics2D graphics, DrawInfo2D info){
-								paint = Color.green;
-								super.draw(object, graphics, info);
-							}
-						},
-						5.0, null, Color.black, false),
-						0, 5.0, Color.orange, true));
-		
+		LabelledPortrayal2D portrayal = new LabelledPortrayal2D(
+				new OvalPortrayal2D(){
+					public void draw(Object object, Graphics2D graphics, DrawInfo2D info){
+						paint = Color.green;
+						super.draw(object, graphics, info);
+					}
+				},
+				0.0, null, Color.black, false);
+		hisHouseholdsPortrayal.setPortrayalForAll(portrayal);
 		//reschedule
 		simValleyDisplay.reset();
 		simValleyDisplay.setBackdrop(Color.white);
+		hisValleyDisplay.reset();
+		hisValleyDisplay.setBackdrop(Color.white);
 		
 		//repaint
 		simValleyDisplay.repaint();
+		hisValleyDisplay.repaint();
+		
 	}
 	
 	public void init(Controller c) {
@@ -119,7 +126,7 @@ public class LongHouseValleyWithUI extends GUIState {
 		simValleyFrame.setTitle("Simulated");
 		c.registerFrame(simValleyFrame); // so the frame appears in the "Display" list
 		simValleyFrame.setVisible(true);
-		simValleyDisplay.attach(landCoverPortrayal, "Valley land type");
+		simValleyDisplay.attach(landCoverPortrayal, "Valley land zones");
 		simValleyDisplay.attach(simHouseholdsPortrayal, "Households");
 		
 		//historical data display
@@ -128,8 +135,8 @@ public class LongHouseValleyWithUI extends GUIState {
 		hisValleyFrame = hisValleyDisplay.createFrame();
 		hisValleyFrame.setTitle("Historical");
 		c.registerFrame(hisValleyFrame); // so the frame appears in the "Display" list
-		simValleyFrame.setVisible(true);
-		hisValleyDisplay.attach(landCoverPortrayal, "Valley land type");
+		hisValleyFrame.setVisible(true);
+		hisValleyDisplay.attach(landCoverPortrayal, "Valley land zones");
 		hisValleyDisplay.attach(hisHouseholdsPortrayal, "Households");
 		
 	}

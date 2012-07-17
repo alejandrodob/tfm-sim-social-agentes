@@ -245,4 +245,10 @@ public class Household extends DemographicItem {
 		valley.registerDeath(this);
 		stop.stop();
 	}
+	
+	@Override
+	public String toString() {
+		return new String("");
+		//implement if want to show a label with this string in the GUI
+	}
 }

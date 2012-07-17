@@ -58,7 +58,10 @@ public class ValleyFloor extends MutableField2D {
 		updateHistoricalData(year);
 	}
 	
-	public void updateHistoricalData(int year) {
+	/**Updates the grid of historical settlements, acording to their existence dates.
+	 * Returns the population (number of historical households,
+	 * i.e. sum of the households in each settlement*/
+	public int updateHistoricalData(int year) {
 		/*Bag hisSettlements = new Bag(hisPopulation.getAllObjects());
 		for (Object o : hisSettlements) {
 			HistoricalSettlement hs = (HistoricalSettlement) o;
@@ -70,14 +73,21 @@ public class ValleyFloor extends MutableField2D {
 			HistoricalSettlement hs = (HistoricalSettlement) o;
 			hisPopulation.setObjectLocation(hs, hs.location);
 		}*/
-		hisPopulation = new SparseGrid2D(WIDTH,HEIGHT);
+		//hisPopulation = new SparseGrid2D(WIDTH,HEIGHT);
+		int population = 0;
 		for (HistoricalSettlement hs : historicalSettlements) {
 			hs.checkVisibility(year);
 			hs.setnrhouseholds(year);
-			if (hs.visible){ hisPopulation.setObjectLocation(hs, hs.location);
-			System.out.println("historical population at year "+ year+ "  :"+hisPopulation.size());
+			if (hs.visible){
+				hisPopulation.setObjectLocation(hs, hs.location);
+				//System.out.println("number of historical settlements at "+ year+ "  :"+hisPopulation.size());
+				population+=hs.nrhouseholds;
+			} else {
+				hisPopulation.remove(hs);
 			}
 		}
+		System.out.println("historical population at year "+ year+ "  :"+population);
+		return population;
 	}
 	
 	public void calculateBaseYield(double harvestAdjustment,int year) {
@@ -222,7 +232,7 @@ public class ValleyFloor extends MutableField2D {
 					SARG, meterNorth, meterEast, startdate, enddate,
 					mediandate, typeset, sizeset, description, roomcount,
 					elevation, baselinehouseholds, nrhouseholds, visible));
-			/*hisPopulation.setObjectLocation(new HistoricalSettlement(location,
+		/*	hisPopulation.setObjectLocation(new HistoricalSettlement(location,
 					SARG, meterNorth, meterEast, startdate, enddate,
 					mediandate, typeset, sizeset, description, roomcount,
 					elevation, baselinehouseholds, nrhouseholds, visible),
@@ -411,7 +421,7 @@ public class ValleyFloor extends MutableField2D {
 	
 	//the next inner class represents a plot (100m x 100m size) in the valley, the equivalent to 
 	//a patch in NetLogo
-	class Plot {
+	public class Plot {
 		private Color color;
 		private boolean watersource;
 		private Zone zone;
@@ -515,7 +525,7 @@ public class ValleyFloor extends MutableField2D {
 		public Plot() {}
 	}
 	
-	class Waterpoint {
+	public class Waterpoint {
 		final int x;
 		final int y;
 		final int sarg;
@@ -537,7 +547,7 @@ public class ValleyFloor extends MutableField2D {
 		}
 	}
 	
-	class HistoricalSettlement {
+	public class HistoricalSettlement {
 		Int2D location;
 		double SARG;
 		double meterNorth;
@@ -595,7 +605,7 @@ public class ValleyFloor extends MutableField2D {
 		
 		@Override
 		public String toString() {
-			return new String("Settlement size; "+nrhouseholds);
+			return new String("# households: "+nrhouseholds);
 		}
 	}
 	
