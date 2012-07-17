@@ -29,7 +29,7 @@ public class ValleyFloor extends MutableField2D {
 	private Vector<Double> environmentdata;
 	//el settlements aun no se lo meto
 	
-	private enum Zone {
+	public enum Zone {
 		General, North, NorthDunes, Mid, MidDunes, Natural, Upland, Kinbiko, Empty
 	}
 	
@@ -84,7 +84,7 @@ public class ValleyFloor extends MutableField2D {
 			e.printStackTrace();
 		}
 		int xx = 0;
-		int yy = 119;
+		int yy = 0;
 		for (int val:mapdata) {
 			switch (val) {
 			case 0 : {
@@ -143,8 +143,8 @@ public class ValleyFloor extends MutableField2D {
 				break;
 			}
 			}
-			if (yy > 0) yy--;
-			else {xx++; yy = 119;}
+			if (yy <119) yy++;
+			else {xx++; yy = 0;}
 		}
 
 		//create the waterpoints
