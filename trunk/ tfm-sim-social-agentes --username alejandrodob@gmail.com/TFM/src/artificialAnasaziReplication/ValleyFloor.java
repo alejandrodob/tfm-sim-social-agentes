@@ -4,11 +4,14 @@ import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Vector;
 
 import sim.engine.SimState;
 import sim.field.grid.ObjectGrid2D;
+import sim.field.grid.SparseGrid2D;
+import sim.util.Bag;
 import sim.util.Int2D;
 
 import ec.util.MersenneTwisterFast;
@@ -16,8 +19,8 @@ import field.MutableField2D;
 
 public class ValleyFloor extends MutableField2D {
 	
-	private static final int WIDTH = 80;
-	private static final int HEIGHT = 120;
+	public static final int WIDTH = 80;
+	public static final int HEIGHT = 120;
 	private static MersenneTwisterFast random = new MersenneTwisterFast();
 	private ObjectGrid2D grid = new ObjectGrid2D(WIDTH,HEIGHT);
 	private boolean streamsexist;
@@ -27,7 +30,11 @@ public class ValleyFloor extends MutableField2D {
 	private Vector<Integer> waterdata;
 	private Vector<Double> apdsidata;
 	private Vector<Double> environmentdata;
-	//el settlements aun no se lo meto
+	private Vector<Double> historicaldata;
+	private Vector<HistoricalSettlement> historicalSettlements;
+	
+	//where the historical settlements will be represented
+	public SparseGrid2D hisPopulation = new SparseGrid2D(WIDTH,HEIGHT);
 	
 	public enum Zone {
 		General, North, NorthDunes, Mid, MidDunes, Natural, Upland, Kinbiko, Empty
@@ -44,9 +51,33 @@ public class ValleyFloor extends MutableField2D {
 
 	@Override
 	public void step(SimState state) {
-		calculateYield(((LongHouseValley) state).getYear());
-		calculateBaseYield(((LongHouseValley) state).harvestAdjustment,((LongHouseValley) state).getYear());
-		water(((LongHouseValley) state).getYear());
+		int year = ((LongHouseValley) state).getYear();
+		calculateYield(year);
+		calculateBaseYield(((LongHouseValley) state).harvestAdjustment,year);
+		water(year);
+		updateHistoricalData(year);
+	}
+	
+	public void updateHistoricalData(int year) {
+		/*Bag hisSettlements = new Bag(hisPopulation.getAllObjects());
+		for (Object o : hisSettlements) {
+			HistoricalSettlement hs = (HistoricalSettlement) o;
+			hs.checkVisibility(year);
+			hs.setnrhouseholds(year);
+		}
+		hisPopulation = new SparseGrid2D(WIDTH, HEIGHT);
+		for (Object o : hisSettlements) {
+			HistoricalSettlement hs = (HistoricalSettlement) o;
+			hisPopulation.setObjectLocation(hs, hs.location);
+		}*/
+		hisPopulation = new SparseGrid2D(WIDTH,HEIGHT);
+		for (HistoricalSettlement hs : historicalSettlements) {
+			hs.checkVisibility(year);
+			hs.setnrhouseholds(year);
+			if (hs.visible){ hisPopulation.setObjectLocation(hs, hs.location);
+			System.out.println("historical population at year "+ year+ "  :"+hisPopulation.size());
+			}
+		}
 	}
 	
 	public void calculateBaseYield(double harvestAdjustment,int year) {
@@ -150,7 +181,7 @@ public class ValleyFloor extends MutableField2D {
 		//create the waterpoints
 		waterpoints = new Vector<Waterpoint>();
 		int i = 0;
-		while (i+6 <= waterdata.size()) {
+		while (i+6 < waterdata.size()) {
 			int sarg = waterdata.get(i); i++;
 			int meterNorth = waterdata.get(i); i++;
 			int meterEast = waterdata.get(i); i++;
@@ -163,6 +194,39 @@ public class ValleyFloor extends MutableField2D {
 			if (x>0 && y>0) {
 			waterpoints.add(new Waterpoint(x,y,sarg,meterNorth,meterEast,typeWater,startDate,endDate));
 			}
+		}
+		
+		//create the historical settlements
+		historicalSettlements = new Vector<HistoricalSettlement>();
+		int k = 0;
+		while (k+12 < historicaldata.size()) {
+			double SARG = historicaldata.get(k);k++;
+			double meterNorth = historicaldata.get(k);k++;
+			double meterEast = historicaldata.get(k);k++;
+			double startdate = historicaldata.get(k);k++;
+			double enddate = historicaldata.get(k);k++;
+			double mediandate = 1950 - historicaldata.get(k);k++;
+			double typeset = historicaldata.get(k);k++;
+			double sizeset = historicaldata.get(k);k++;
+			double description = historicaldata.get(k);k++;
+			double roomcount = historicaldata.get(k);k++;
+			double elevation = historicaldata.get(k);k++;
+			double baselinehouseholds = historicaldata.get(k);k++;
+			
+			int x = (int) (25 + ((meterEast - 2392) / 93.5)); //this is a translation from the input data in meters into location on the map.
+			int y = (int) Math.floor(45 + (37.6 + ((meterNorth - 7954) / 93.5)));
+			Int2D location = new Int2D(x,y);
+			int nrhouseholds = 0;
+			boolean visible = false;
+			historicalSettlements.add(new HistoricalSettlement(location,
+					SARG, meterNorth, meterEast, startdate, enddate,
+					mediandate, typeset, sizeset, description, roomcount,
+					elevation, baselinehouseholds, nrhouseholds, visible));
+			/*hisPopulation.setObjectLocation(new HistoricalSettlement(location,
+					SARG, meterNorth, meterEast, startdate, enddate,
+					mediandate, typeset, sizeset, description, roomcount,
+					elevation, baselinehouseholds, nrhouseholds, visible),
+					location);*/
 		}
 	}
 
@@ -211,6 +275,18 @@ public class ValleyFloor extends MutableField2D {
         	environmentdata = new Vector<Double>();
         	while (s.hasNext()) {
         		environmentdata.add(Double.parseDouble(s.next()));
+        	}
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+        }
+        
+        try {
+        	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/settlements.txt")));
+        	historicaldata = new Vector<Double>();
+        	while (s.hasNext()) {
+        		historicaldata.add(Double.parseDouble(s.next()));
         	}
         } finally {
             if (s != null) {
@@ -458,6 +534,68 @@ public class ValleyFloor extends MutableField2D {
 			this.typeWater = typeWater;
 			this.startDate = startDate;
 			this.endDate = endDate;
+		}
+	}
+	
+	class HistoricalSettlement {
+		Int2D location;
+		double SARG;
+		double meterNorth;
+		double meterEast;
+		double startdate;
+		double enddate;
+		double mediandate;
+		double typeset;
+		double sizeset;
+		double description;
+		double roomcount;
+		double elevation;
+		double baselinehouseholds;
+		int nrhouseholds;
+		boolean visible;
+
+		public HistoricalSettlement(Int2D location, double sARG,
+				double meterNorth, double meterEast, double startdate,
+				double enddate, double mediandate, double typeset, double sizeset,
+				double description, double roomcount, double elevation,
+				double baselinehouseholds, int nrhouseholds, boolean visible) {
+			this.location = location;
+			SARG = sARG;
+			this.meterNorth = meterNorth;
+			this.meterEast = meterEast;
+			this.startdate = startdate;
+			this.enddate = enddate;
+			this.mediandate = mediandate;
+			this.typeset = typeset;
+			this.sizeset = sizeset;
+			this.description = description;
+			this.roomcount = roomcount;
+			this.elevation = elevation;
+			this.baselinehouseholds = baselinehouseholds;
+			this.nrhouseholds = nrhouseholds;
+			this.visible = visible;
+		}
+		
+		public void checkVisibility(int year) {
+			//if in the year "year" the settlement existed, visibility will be set to true, 
+			//otherwise it will be set to false
+			visible = ((year >= startdate) && (year < enddate) && ((int) typeset == 1));
+		}
+		
+		public void setnrhouseholds(int year) {
+			if ((year > mediandate) && (year != enddate)) {
+				nrhouseholds = (int) Math.ceil((baselinehouseholds * (enddate - year) / (enddate - mediandate)));
+				if (nrhouseholds < 1) nrhouseholds = 1;
+			}
+			if ((year <= mediandate) && (mediandate != startdate)) {
+				nrhouseholds = (int) Math.ceil((baselinehouseholds * (year - startdate) / (mediandate - startdate)));
+				if (nrhouseholds < 1) nrhouseholds = 1;
+			}
+		}
+		
+		@Override
+		public String toString() {
+			return new String("Settlement size; "+nrhouseholds);
 		}
 	}
 	

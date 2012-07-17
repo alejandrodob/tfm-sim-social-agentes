@@ -5,6 +5,7 @@ import java.util.Vector;
 import sim.engine.Schedule;
 import sim.engine.SimState;
 import sim.engine.Steppable;
+import sim.field.grid.SparseGrid2D;
 import sim.util.Int2D;
 import agent.DemographicItem;
 import model.SimpleWorld;
@@ -33,7 +34,9 @@ public class LongHouseValley extends SimpleWorld {
 	//statistics
 	public int numHouseholds = initialNumberHouseholds;
 
-
+	//population
+	//in this case we don't place the agents in the field directly, so we need to keep them somewhere else
+	public SparseGrid2D population;
 	
 	public LongHouseValley(long seed) {
 		super(seed);
@@ -43,6 +46,7 @@ public class LongHouseValley extends SimpleWorld {
 	public void start() {
 		super.start();
 		field = new ValleyFloor();
+		population = new SparseGrid2D(ValleyFloor.WIDTH, ValleyFloor.HEIGHT);
 		System.out.println("inicialmente hay farmas ocupadas: "+((ValleyFloor) field).ocFarms());
 		schedule.scheduleRepeating(schedule.getTime() + 1, 0, (Steppable) field);
 		/*((ValleyFloor) field).water(year);
@@ -68,6 +72,7 @@ public class LongHouseValley extends SimpleWorld {
 			public void step(SimState state) {
 				if (year%5==0) { //cada 5 años para no ser un cansino 
 					System.out.println("poblacion en el año "+year+": "+ numHouseholds);
+					System.out.println("poblacion segun el sparsegrid :"+population.size());
 					determinePotentialFarms();
 					System.out.println("potential farmsites en el año "+year+": "+farmSitesAvailable);
 					System.out.println("parcelas ocupadas con farm en el año "+year+": "+ ((ValleyFloor) field).ocFarms());
@@ -85,19 +90,19 @@ public class LongHouseValley extends SimpleWorld {
 
 	@Override
 	public void addIndividual(DemographicItem person, Int2D location) {
-		
+		population.setObjectLocation(person, location);
 		person.setStop(schedule.scheduleRepeating(schedule.getTime() + 1, 1, person));
 	}
 
 	@Override
 	public void removeIndividual(DemographicItem person) {
-		// TODO Auto-generated method stub
-		
+		population.remove(person);		
 	}
 
 	@Override
 	public void registerDeath(DemographicItem person) {
 		numHouseholds--;
+		removeIndividual(person);
 		System.out.println(person.toString()+" se muere");
 	}
 
