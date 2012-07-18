@@ -1,6 +1,7 @@
-package environment;
+package pruebaMADAM;
 
 import ec.util.MersenneTwisterFast;
+import environment.Mortality;
 import agent.DemographicItem;
 import agent.Person;
 
