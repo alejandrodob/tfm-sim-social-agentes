@@ -3,8 +3,6 @@ package pruebaMADAM;
 import model.SimpleWorld;
 import sim.util.Int2D;
 import ec.util.MersenneTwisterFast;
-import environment.MortalityExample;
-import environment.NatalityExample;
 import agent.Person;
 import agent.DemographicItem;
 import agent.behavior.BasicDemographicBehavior;

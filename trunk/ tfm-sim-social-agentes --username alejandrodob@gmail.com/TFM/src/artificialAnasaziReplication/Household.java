@@ -37,6 +37,7 @@ public class Household extends DemographicItem {
 		setAge(LongHouseValley.householdMinInitialAge + random.nextInt(LongHouseValley.householdMaxInitialAge));
 		setNutritionNeed(LongHouseValley.householdMinNutritionNeed + random.nextInt(LongHouseValley.householdMaxNutritionNeed - LongHouseValley.householdMinNutritionNeed + 1));
 		setFertilityAge(LongHouseValley.minFertilityAge + random.nextInt(LongHouseValley.maxFertilityAge - LongHouseValley.minFertilityAge + 1));
+		setNutritionNeedRemaining(0);
 		setLastHarvest(0);
 	}
 
@@ -113,14 +114,14 @@ public class Household extends DemographicItem {
 		return bestFarm;
 	}
 	
-	public boolean findInitialSettlementNearFarm(ValleyFloor valley) {
+	public boolean findInitialSettlementNearFarm(LongHouseValley valley) {
 
 		boolean settlementFound = false;
 		int xh = 0;
 		int yh = 0;
 
-		double by = valley.plotAt(farmlocation.x,farmlocation.y).getYield();
-		Vector<Int2D> potSettle = valley.potentialSettlements(by);
+		double by = ((ValleyFloor) valley.getField()).plotAt(farmlocation.x,farmlocation.y).getYield();
+		Vector<Int2D> potSettle = ((ValleyFloor) valley.getField()).potentialSettlements(by);
 
 		//if there are cells with water which are not farmed and in a zone that is less productive than the zone where the favorite farm plot is located
 		if (potSettle.size() > 0) {
@@ -140,7 +141,7 @@ public class Household extends DemographicItem {
 				settlementFound = false;
 			}
 			if (settlementFound) {
-				potSettle = valley.potentialSettlementsRelaxed();
+				potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsRelaxed();
 				double minDist2 = Float.POSITIVE_INFINITY;
 				Int2D minSettle2 = null;
 				Int2D bestSett = new Int2D(xh,yh);
@@ -157,7 +158,7 @@ public class Household extends DemographicItem {
 
 		//if no settlement is found yet
 		if (!settlementFound) {
-			potSettle = valley.potentialSettlementsReRelaxed();
+			potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsReRelaxed();
 			double minDist3 = Float.POSITIVE_INFINITY;
 			Int2D minSettle3 = null;
 			for (Int2D ps : potSettle) {
@@ -174,7 +175,7 @@ public class Household extends DemographicItem {
 				settlementFound = false;
 			}
 			if (settlementFound) {
-				potSettle = valley.potentialSettlementsRelaxed();
+				potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsRelaxed();
 				double minDist4 = Float.POSITIVE_INFINITY;
 				Int2D minSettle4 = null;
 				Int2D bestSett = new Int2D(xh,yh);
@@ -191,7 +192,7 @@ public class Household extends DemographicItem {
 
 		// if not settlement found, don't worry about nearby watersources...
 		if (!settlementFound) {
-			potSettle = valley.potentialSettlementsReRelaxed();
+			potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsReRelaxed();
 			double minDist3 = Float.POSITIVE_INFINITY;
 			Int2D minSettle3 = null;
 			for (Int2D ps : potSettle) {
@@ -204,7 +205,7 @@ public class Household extends DemographicItem {
 			yh = minSettle3.y;
 			settlementFound = true;
 			if (settlementFound) {
-				potSettle = valley.potentialSettlementsRelaxed();
+				potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsRelaxed();
 				double minDist4 = Float.POSITIVE_INFINITY;
 				Int2D minSettle4 = null;
 				Int2D bestSett = new Int2D(xh,yh);
@@ -219,7 +220,7 @@ public class Household extends DemographicItem {
 			}
 		}
 		if (settlementFound) {
-			setLocation(new Int2D(xh,yh));
+			valley.registerMigration(this, null, new Int2D(xh,yh));
 		}
 		return settlementFound;
 	}
@@ -235,13 +236,6 @@ public class Household extends DemographicItem {
 		stop.stop();
 	}*/
 	public void die(LongHouseValley valley) {
-		//remove this household from its settlement
-		//((ValleyFloor) field)
-		((ValleyFloor)valley.getField()).plotAt(location.x,location.y).decHouseholdNum();
-		//remove the farmplot this household was farming
-		//((ValleyFloor) field)
-		((ValleyFloor)valley.getField()).plotAt(farmlocation.x,farmlocation.y).setOcfarm(false);
-		//remove the agent from the simulation
 		valley.registerDeath(this);
 		stop.stop();
 	}

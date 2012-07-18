@@ -1,7 +1,7 @@
-package environment;
+package pruebaMADAM;
 
 import ec.util.MersenneTwisterFast;
-import pruebaMADAM.MujerPrueba;
+import environment.Natality;
 import agent.DemographicItem;
 import agent.Person;
 

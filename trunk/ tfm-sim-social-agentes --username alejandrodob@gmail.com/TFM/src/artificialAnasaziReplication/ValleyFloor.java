@@ -44,6 +44,221 @@ public class ValleyFloor extends MutableField2D {
 		Yield1, Yield2, Yield3, SandDune, NoYield, Empty
 	}
 	
+	//the next inner class represents a plot (100m x 100m size) in the valley, the equivalent to 
+	//a patch in NetLogo
+	public class Plot {
+		private Color color;
+		private boolean watersource;
+		private Zone zone;
+		private double apdsi;
+		private double hydro;
+		private double quality;
+		private MaizeZone maizeZone;
+		private double yield;
+		private double BaseYield;
+		private boolean ocfarm;
+		private int ochousehold;
+		private int nrh;
+		
+		public Color whatColor() {
+			return color;
+		}
+		public void setColor(Color color) {
+			this.color = color;
+		}
+		public boolean isWatersource() {
+			return watersource;
+		}
+		public void setWatersource(boolean watersource) {
+			this.watersource = watersource;
+		}
+		public Zone getZone() {
+			return zone;
+		}
+		public void setZone(Zone zone) {
+			this.zone = zone;
+		}
+		public double getApdsi() {
+			return apdsi;
+		}
+		public void setApdsi(double apdsi) {
+			this.apdsi = apdsi;
+		}
+		public double getHydro() {
+			return hydro;
+		}
+		public void setHydro(double generalhydro) {
+			this.hydro = generalhydro;
+		}
+		public double getQuality() {
+			return quality;
+		}
+		public void setQuality(double quality) {
+			this.quality = quality;
+		}
+		public MaizeZone getMaizeZone() {
+			return maizeZone;
+		}
+		public void setMaizeZone(MaizeZone maizeZone) {
+			this.maizeZone = maizeZone;
+		}
+		public double getYield() {
+			return yield;
+		}
+		public void setYield(double yield) {
+			this.yield = yield;
+		}
+		public double getBaseYield() {
+			return BaseYield;
+		}
+		public void setBaseYield(double d) {
+			BaseYield = d;
+		}
+		public boolean isOcfarm() {
+			return ocfarm;
+		}
+		public void setOcfarm(boolean ocfarm) {
+			/*if (ocfarm) System.out.println("se pone granja en parcela ");
+			else System.out.println("se quita granja de parcela");*/
+			this.ocfarm = ocfarm;
+		}
+		public int getOchousehold() {
+			return ochousehold;
+		}
+		public void setOchousehold(int ochousehold) {
+			this.ochousehold = ochousehold;
+		}
+		public int getNrh() {
+			return nrh;
+		}
+		public void setNrh(int nrh) {
+			this.nrh = nrh;
+		}
+		
+		public void calculateBaseYield(double harvestAdjustment,int year) {
+			if (year == 800) setBaseYield(getYield()*getQuality());
+			else setBaseYield(getYield() * getQuality() * harvestAdjustment);
+		}
+		
+		public void incHousholdNum() {
+			setOchousehold(getOchousehold() + 1);
+		}
+		
+		public void decHouseholdNum() {
+			setOchousehold(getOchousehold() - 1);
+		}
+		
+		public Plot() {}
+	}
+	
+	public class Waterpoint {
+		final int x;
+		final int y;
+		final int sarg;
+		final int meterNorth;
+		final int meterEast;
+		final int typeWater;
+		final int startDate;
+		final int endDate;
+		
+		public Waterpoint(int x, int y, int sarg, int meterNorth, int meterEast, int typeWater, int startDate, int endDate) {
+			this.x = x;
+			this.y = y;
+			this.sarg = sarg;
+			this.meterNorth = meterNorth;
+			this.meterEast = meterEast;
+			this.typeWater = typeWater;
+			this.startDate = startDate;
+			this.endDate = endDate;
+		}
+	}
+	
+	public class HistoricalSettlement {
+		Int2D location;
+		double SARG;
+		double meterNorth;
+		double meterEast;
+		double startdate;
+		double enddate;
+		double mediandate;
+		double typeset;
+		double sizeset;
+		double description;
+		double roomcount;
+		double elevation;
+		double baselinehouseholds;
+		int nrhouseholds;
+		boolean visible;
+
+		public HistoricalSettlement(Int2D location, double sARG,
+				double meterNorth, double meterEast, double startdate,
+				double enddate, double mediandate, double typeset, double sizeset,
+				double description, double roomcount, double elevation,
+				double baselinehouseholds, int nrhouseholds, boolean visible) {
+			this.location = location;
+			SARG = sARG;
+			this.meterNorth = meterNorth;
+			this.meterEast = meterEast;
+			this.startdate = startdate;
+			this.enddate = enddate;
+			this.mediandate = mediandate;
+			this.typeset = typeset;
+			this.sizeset = sizeset;
+			this.description = description;
+			this.roomcount = roomcount;
+			this.elevation = elevation;
+			this.baselinehouseholds = baselinehouseholds;
+			this.nrhouseholds = nrhouseholds;
+			this.visible = visible;
+		}
+		
+		public double getStartdate() {
+			return startdate;
+		}
+
+		public void setStartdate(double startdate) {
+			this.startdate = startdate;
+		}
+
+		public double getEnddate() {
+			return enddate;
+		}
+
+		public void setEnddate(double enddate) {
+			this.enddate = enddate;
+		}
+
+		public int getNrhouseholds() {
+			return nrhouseholds;
+		}
+
+		public void setNrhouseholds(int nrhouseholds) {
+			this.nrhouseholds = nrhouseholds;
+		}
+
+		public void checkVisibility(int year) {
+			//if in the year "year" the settlement existed, visibility will be set to true, 
+			//otherwise it will be set to false
+			visible = ((year >= startdate) && (year < enddate) && ((int) typeset == 1));
+		}
+		
+		public void setnrhouseholds(int year) {
+			if ((year > mediandate) && (year != enddate)) {
+				nrhouseholds = (int) Math.ceil((baselinehouseholds * (enddate - year) / (enddate - mediandate)));
+				if (nrhouseholds < 1) nrhouseholds = 1;
+			}
+			if ((year <= mediandate) && (mediandate != startdate)) {
+				nrhouseholds = (int) Math.ceil((baselinehouseholds * (year - startdate) / (mediandate - startdate)));
+				if (nrhouseholds < 1) nrhouseholds = 1;
+			}
+		}
+		
+		@Override
+		public String toString() {
+			return new String(""+nrhouseholds);
+		}
+	}
+	
 	public ValleyFloor() {
 		super(WIDTH,HEIGHT);
 		initMap();
@@ -68,13 +283,11 @@ public class ValleyFloor extends MutableField2D {
 			hs.setnrhouseholds(year);
 			if (hs.visible){
 				hisPopulation.setObjectLocation(hs, hs.location);
-				//System.out.println("number of historical settlements at "+ year+ "  :"+hisPopulation.size());
 				population+=hs.nrhouseholds;
 			} else {
 				hisPopulation.remove(hs);
 			}
 		}
-		System.out.println("historical population at year "+ year+ "  :"+population);
 		return population;
 	}
 	
@@ -405,220 +618,6 @@ public class ValleyFloor extends MutableField2D {
 		}
 	}
 	
-	//the next inner class represents a plot (100m x 100m size) in the valley, the equivalent to 
-	//a patch in NetLogo
-	public class Plot {
-		private Color color;
-		private boolean watersource;
-		private Zone zone;
-		private double apdsi;
-		private double hydro;
-		private double quality;
-		private MaizeZone maizeZone;
-		private double yield;
-		private double BaseYield;
-		private boolean ocfarm;
-		private int ochousehold;
-		private int nrh;
-		
-		public Color whatColor() {
-			return color;
-		}
-		public void setColor(Color color) {
-			this.color = color;
-		}
-		public boolean isWatersource() {
-			return watersource;
-		}
-		public void setWatersource(boolean watersource) {
-			this.watersource = watersource;
-		}
-		public Zone getZone() {
-			return zone;
-		}
-		public void setZone(Zone zone) {
-			this.zone = zone;
-		}
-		public double getApdsi() {
-			return apdsi;
-		}
-		public void setApdsi(double apdsi) {
-			this.apdsi = apdsi;
-		}
-		public double getHydro() {
-			return hydro;
-		}
-		public void setHydro(double generalhydro) {
-			this.hydro = generalhydro;
-		}
-		public double getQuality() {
-			return quality;
-		}
-		public void setQuality(double quality) {
-			this.quality = quality;
-		}
-		public MaizeZone getMaizeZone() {
-			return maizeZone;
-		}
-		public void setMaizeZone(MaizeZone maizeZone) {
-			this.maizeZone = maizeZone;
-		}
-		public double getYield() {
-			return yield;
-		}
-		public void setYield(double yield) {
-			this.yield = yield;
-		}
-		public double getBaseYield() {
-			return BaseYield;
-		}
-		public void setBaseYield(double d) {
-			BaseYield = d;
-		}
-		public boolean isOcfarm() {
-			return ocfarm;
-		}
-		public void setOcfarm(boolean ocfarm) {
-			if (ocfarm) System.out.println("se pone granja en parcela ");
-			else System.out.println("se quita granja de parcela");
-			this.ocfarm = ocfarm;
-		}
-		public int getOchousehold() {
-			return ochousehold;
-		}
-		public void setOchousehold(int ochousehold) {
-			this.ochousehold = ochousehold;
-		}
-		public int getNrh() {
-			return nrh;
-		}
-		public void setNrh(int nrh) {
-			this.nrh = nrh;
-		}
-		
-		public void calculateBaseYield(double harvestAdjustment,int year) {
-			if (year == 800) setBaseYield(getYield()*getQuality());
-			else setBaseYield(getYield() * getQuality() * harvestAdjustment);
-		}
-		
-		public void incHousholdNum() {
-			setOchousehold(getOchousehold() + 1);
-		}
-		
-		public void decHouseholdNum() {
-			setOchousehold(getOchousehold() - 1);
-		}
-		
-		public Plot() {}
-	}
-	
-	public class Waterpoint {
-		final int x;
-		final int y;
-		final int sarg;
-		final int meterNorth;
-		final int meterEast;
-		final int typeWater;
-		final int startDate;
-		final int endDate;
-		
-		public Waterpoint(int x, int y, int sarg, int meterNorth, int meterEast, int typeWater, int startDate, int endDate) {
-			this.x = x;
-			this.y = y;
-			this.sarg = sarg;
-			this.meterNorth = meterNorth;
-			this.meterEast = meterEast;
-			this.typeWater = typeWater;
-			this.startDate = startDate;
-			this.endDate = endDate;
-		}
-	}
-	
-	public class HistoricalSettlement {
-		Int2D location;
-		double SARG;
-		double meterNorth;
-		double meterEast;
-		double startdate;
-		double enddate;
-		double mediandate;
-		double typeset;
-		double sizeset;
-		double description;
-		double roomcount;
-		double elevation;
-		double baselinehouseholds;
-		int nrhouseholds;
-		boolean visible;
-
-		public HistoricalSettlement(Int2D location, double sARG,
-				double meterNorth, double meterEast, double startdate,
-				double enddate, double mediandate, double typeset, double sizeset,
-				double description, double roomcount, double elevation,
-				double baselinehouseholds, int nrhouseholds, boolean visible) {
-			this.location = location;
-			SARG = sARG;
-			this.meterNorth = meterNorth;
-			this.meterEast = meterEast;
-			this.startdate = startdate;
-			this.enddate = enddate;
-			this.mediandate = mediandate;
-			this.typeset = typeset;
-			this.sizeset = sizeset;
-			this.description = description;
-			this.roomcount = roomcount;
-			this.elevation = elevation;
-			this.baselinehouseholds = baselinehouseholds;
-			this.nrhouseholds = nrhouseholds;
-			this.visible = visible;
-		}
-		
-		public double getStartdate() {
-			return startdate;
-		}
-
-		public void setStartdate(double startdate) {
-			this.startdate = startdate;
-		}
-
-		public double getEnddate() {
-			return enddate;
-		}
-
-		public void setEnddate(double enddate) {
-			this.enddate = enddate;
-		}
-
-		public int getNrhouseholds() {
-			return nrhouseholds;
-		}
-
-		public void setNrhouseholds(int nrhouseholds) {
-			this.nrhouseholds = nrhouseholds;
-		}
-
-		public void checkVisibility(int year) {
-			//if in the year "year" the settlement existed, visibility will be set to true, 
-			//otherwise it will be set to false
-			visible = ((year >= startdate) && (year < enddate) && ((int) typeset == 1));
-		}
-		
-		public void setnrhouseholds(int year) {
-			if ((year > mediandate) && (year != enddate)) {
-				nrhouseholds = (int) Math.ceil((baselinehouseholds * (enddate - year) / (enddate - mediandate)));
-				if (nrhouseholds < 1) nrhouseholds = 1;
-			}
-			if ((year <= mediandate) && (mediandate != startdate)) {
-				nrhouseholds = (int) Math.ceil((baselinehouseholds * (year - startdate) / (mediandate - startdate)));
-				if (nrhouseholds < 1) nrhouseholds = 1;
-			}
-		}
-		
-		@Override
-		public String toString() {
-			return new String(""+nrhouseholds);
-		}
-	}
 	
 	public static double distance(Int2D orig, Int2D dest) {
 		return Math.sqrt(Math.abs(orig.x - dest.x) + Math.abs(orig.y - dest.y));
