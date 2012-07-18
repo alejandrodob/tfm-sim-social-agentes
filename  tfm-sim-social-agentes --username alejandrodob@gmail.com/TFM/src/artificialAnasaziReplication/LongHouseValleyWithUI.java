@@ -34,6 +34,8 @@ public class LongHouseValleyWithUI extends GUIState {
 	
 	//portrayals
 	public ValleyLandGridPortrayal2D landCoverPortrayal = new ValleyLandGridPortrayal2D(false);
+	public ValleyWaterGridPortrayal2D waterSourcesPortrayal = new ValleyWaterGridPortrayal2D(false);
+	public ValleyOccupGridPortrayal2D occupPortrayal = new ValleyOccupGridPortrayal2D(false);
 	public SparseGridPortrayal2D simHouseholdsPortrayal = new SparseGridPortrayal2D();
 	public SparseGridPortrayal2D hisHouseholdsPortrayal = new SparseGridPortrayal2D();
 	
@@ -77,10 +79,13 @@ public class LongHouseValleyWithUI extends GUIState {
 		
 		//set the fields for the portrayals
 		landCoverPortrayal.setField(((ValleyFloor) valley.getField()).getGrid());
+		waterSourcesPortrayal.setField(((ValleyFloor) valley.getField()).getGrid());
+		occupPortrayal.setField(((ValleyFloor) valley.getField()).getGrid());
 		simHouseholdsPortrayal.setField(valley.population);
 		hisHouseholdsPortrayal.setField(((ValleyFloor) valley.getField()).hisPopulation);
 		
 		//set the simplePortrayals for agents
+		
 		//for the simulated households
 		simHouseholdsPortrayal.setPortrayalForAll(
 				new CircledPortrayal2D(
@@ -102,7 +107,8 @@ public class LongHouseValleyWithUI extends GUIState {
 						super.draw(object, graphics, info);
 					}
 				},
-				0.0, null, Color.black, false);
+				0.0, null, Color.lightGray, false);
+		portrayal.align = LabelledPortrayal2D.ALIGN_CENTER;
 		hisHouseholdsPortrayal.setPortrayalForAll(portrayal);
 		//reschedule
 		simValleyDisplay.reset();
@@ -124,20 +130,22 @@ public class LongHouseValleyWithUI extends GUIState {
 		simValleyDisplay.setClipping(false);
 		simValleyFrame = simValleyDisplay.createFrame();
 		simValleyFrame.setTitle("Simulated");
-		c.registerFrame(simValleyFrame); // so the frame appears in the "Display" list
+		c.registerFrame(simValleyFrame); // so that the frame appears in the "Display" list
 		simValleyFrame.setVisible(true);
 		simValleyDisplay.attach(landCoverPortrayal, "Valley land zones");
-		simValleyDisplay.attach(simHouseholdsPortrayal, "Households");
+		simValleyDisplay.attach(waterSourcesPortrayal, "Water sources", false);
+		simValleyDisplay.attach(occupPortrayal, "Occupation (red=farms,yellow=settlements",false);
+		simValleyDisplay.attach(simHouseholdsPortrayal, "Households");//attach the last one because every one covers the previous ones
 		
 		//historical data display
 		hisValleyDisplay = new Display2D(320,480,this);
 		hisValleyDisplay.setClipping(false);
 		hisValleyFrame = hisValleyDisplay.createFrame();
 		hisValleyFrame.setTitle("Historical");
-		c.registerFrame(hisValleyFrame); // so the frame appears in the "Display" list
+		c.registerFrame(hisValleyFrame); // so that the frame appears in the "Display" list
 		hisValleyFrame.setVisible(true);
 		hisValleyDisplay.attach(landCoverPortrayal, "Valley land zones");
-		hisValleyDisplay.attach(hisHouseholdsPortrayal, "Households");
+		hisValleyDisplay.attach(hisHouseholdsPortrayal, "Historical settlements");
 		
 	}
 

@@ -25,7 +25,7 @@ public class ValleyLandGridPortrayal2D extends FastObjectGridPortrayal2D {
 	public double doubleValue(Object obj) {
 		if (obj instanceof Plot) {
 			Plot plot = (Plot) obj;
-			Color color = plot.getValue();
+			Color color = plot.whatColor();
 			if (color == Color.black) return 0;
 			else if (color == Color.blue) return 1;
 			else if (color == Color.gray) return 2;

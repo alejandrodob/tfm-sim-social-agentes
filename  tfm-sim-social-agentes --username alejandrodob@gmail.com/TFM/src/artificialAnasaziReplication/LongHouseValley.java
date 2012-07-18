@@ -49,11 +49,11 @@ public class LongHouseValley extends SimpleWorld {
 		population = new SparseGrid2D(ValleyFloor.WIDTH, ValleyFloor.HEIGHT);
 		System.out.println("inicialmente hay farmas ocupadas: "+((ValleyFloor) field).ocFarms());
 		schedule.scheduleRepeating(schedule.getTime() + 1, 0, (Steppable) field);
-		/*((ValleyFloor) field).water(year);
+		((ValleyFloor) field).water(year);
 		((ValleyFloor) field).calculateYield(year);
-		((ValleyFloor) field).calculateBaseYield(harvestAdjustment,year);*/
+		((ValleyFloor) field).calculateBaseYield(harvestAdjustment,year);
 		//create the initial households and place them randomly in the valley
-		for (int i = 0;i<14;i++) {
+		for (int i = 0;i<initialNumberHouseholds;i++) {
 			Household hh = new Household();
 			//random location for farming
 			Int2D farmLoc = new Int2D(random.nextInt(((ValleyFloor) field).getWidth()),random.nextInt(((ValleyFloor) field).getHeight()));
@@ -110,6 +110,12 @@ public class LongHouseValley extends SimpleWorld {
 	public void registerBirth(DemographicItem newborn, DemographicItem mother) {
 		numHouseholds++;
 		System.out.println(" acaba de nacer");
+	}
+	
+	@Override
+	public void registerMigration(DemographicItem person, Int2D from, Int2D to) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public int getYear() {
@@ -182,4 +188,5 @@ public class LongHouseValley extends SimpleWorld {
 		doLoop(LongHouseValley.class, args);
 		System.exit(0);
 	}
+
 }

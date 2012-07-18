@@ -1,6 +1,7 @@
 package model;
 
 import agent.DemographicItem;
+import agent.Person;
 import environment.Mobility;
 import environment.Mortality;
 import environment.Natality;
@@ -41,5 +42,7 @@ public abstract class SimpleWorld extends SimState {
 	public abstract void registerDeath(DemographicItem person);
 
 	public abstract void registerBirth(DemographicItem newborn, DemographicItem mother);
+	
+	public abstract void registerMigration(DemographicItem person, Int2D from, Int2D to);
 
 }

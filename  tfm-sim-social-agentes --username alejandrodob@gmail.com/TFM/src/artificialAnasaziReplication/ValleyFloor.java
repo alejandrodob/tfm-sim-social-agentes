@@ -62,18 +62,6 @@ public class ValleyFloor extends MutableField2D {
 	 * Returns the population (number of historical households,
 	 * i.e. sum of the households in each settlement*/
 	public int updateHistoricalData(int year) {
-		/*Bag hisSettlements = new Bag(hisPopulation.getAllObjects());
-		for (Object o : hisSettlements) {
-			HistoricalSettlement hs = (HistoricalSettlement) o;
-			hs.checkVisibility(year);
-			hs.setnrhouseholds(year);
-		}
-		hisPopulation = new SparseGrid2D(WIDTH, HEIGHT);
-		for (Object o : hisSettlements) {
-			HistoricalSettlement hs = (HistoricalSettlement) o;
-			hisPopulation.setObjectLocation(hs, hs.location);
-		}*/
-		//hisPopulation = new SparseGrid2D(WIDTH,HEIGHT);
 		int population = 0;
 		for (HistoricalSettlement hs : historicalSettlements) {
 			hs.checkVisibility(year);
@@ -202,7 +190,7 @@ public class ValleyFloor extends MutableField2D {
 			int y = (int) Math.floor(45 + (37.6 + ((meterNorth - 7954) / 93.5)));
 			//there are 2 waterpoints which seem to be wrong, because they both have meterNorth = 0 and meterEast = 0. ignore them
 			if (x>0 && y>0) {
-			waterpoints.add(new Waterpoint(x,y,sarg,meterNorth,meterEast,typeWater,startDate,endDate));
+			waterpoints.add(new Waterpoint(x,119-y,sarg,meterNorth,meterEast,typeWater,startDate,endDate));
 			}
 		}
 		
@@ -225,19 +213,17 @@ public class ValleyFloor extends MutableField2D {
 			
 			int x = (int) (25 + ((meterEast - 2392) / 93.5)); //this is a translation from the input data in meters into location on the map.
 			int y = (int) Math.floor(45 + (37.6 + ((meterNorth - 7954) / 93.5)));
-			Int2D location = new Int2D(x,y);
+			Int2D location = new Int2D(x,119-y);
 			int nrhouseholds = 0;
 			boolean visible = false;
 			historicalSettlements.add(new HistoricalSettlement(location,
 					SARG, meterNorth, meterEast, startdate, enddate,
 					mediandate, typeset, sizeset, description, roomcount,
 					elevation, baselinehouseholds, nrhouseholds, visible));
-		/*	hisPopulation.setObjectLocation(new HistoricalSettlement(location,
-					SARG, meterNorth, meterEast, startdate, enddate,
-					mediandate, typeset, sizeset, description, roomcount,
-					elevation, baselinehouseholds, nrhouseholds, visible),
-					location);*/
 		}
+		//the next is done in order to have the settlements shown in the GUI before the simulation starts
+		int initialYear = 800;
+		updateHistoricalData(initialYear);
 	}
 
 	private void loadDataFiles() throws IOException {
@@ -404,14 +390,14 @@ public class ValleyFloor extends MutableField2D {
 			}
 		}
 		
-		plotAt(72,114).setWatersource(true);
-		plotAt(70,113).setWatersource(true);
-		plotAt(69,112).setWatersource(true);
-		plotAt(68,111).setWatersource(true);
-		plotAt(67,110).setWatersource(true);
-		plotAt(66,109).setWatersource(true);
-		plotAt(65,108).setWatersource(true);
-		plotAt(65,107).setWatersource(true);
+		plotAt(72,119-114).setWatersource(true);
+		plotAt(70,119-113).setWatersource(true);
+		plotAt(69,119-112).setWatersource(true);
+		plotAt(68,119-111).setWatersource(true);
+		plotAt(67,119-110).setWatersource(true);
+		plotAt(66,119-109).setWatersource(true);
+		plotAt(65,119-108).setWatersource(true);
+		plotAt(65,119-107).setWatersource(true);
 
 		for (Waterpoint wp : waterpoints) {
 			boolean ws = (wp.typeWater == 2) || (wp.typeWater == 3 && (year >= wp.startDate && year <= wp.endDate));
@@ -434,7 +420,8 @@ public class ValleyFloor extends MutableField2D {
 		private boolean ocfarm;
 		private int ochousehold;
 		private int nrh;
-		public Color getValue() {
+		
+		public Color whatColor() {
 			return color;
 		}
 		public void setColor(Color color) {
@@ -492,8 +479,8 @@ public class ValleyFloor extends MutableField2D {
 			return ocfarm;
 		}
 		public void setOcfarm(boolean ocfarm) {
-			/*if (ocfarm) System.out.println("se pone granja en parcela ");
-			else System.out.println("se quita granja de parcela");*/
+			if (ocfarm) System.out.println("se pone granja en parcela ");
+			else System.out.println("se quita granja de parcela");
 			this.ocfarm = ocfarm;
 		}
 		public int getOchousehold() {
@@ -586,6 +573,30 @@ public class ValleyFloor extends MutableField2D {
 			this.visible = visible;
 		}
 		
+		public double getStartdate() {
+			return startdate;
+		}
+
+		public void setStartdate(double startdate) {
+			this.startdate = startdate;
+		}
+
+		public double getEnddate() {
+			return enddate;
+		}
+
+		public void setEnddate(double enddate) {
+			this.enddate = enddate;
+		}
+
+		public int getNrhouseholds() {
+			return nrhouseholds;
+		}
+
+		public void setNrhouseholds(int nrhouseholds) {
+			this.nrhouseholds = nrhouseholds;
+		}
+
 		public void checkVisibility(int year) {
 			//if in the year "year" the settlement existed, visibility will be set to true, 
 			//otherwise it will be set to false
@@ -605,7 +616,7 @@ public class ValleyFloor extends MutableField2D {
 		
 		@Override
 		public String toString() {
-			return new String("# households: "+nrhouseholds);
+			return new String(""+nrhouseholds);
 		}
 	}
 	
