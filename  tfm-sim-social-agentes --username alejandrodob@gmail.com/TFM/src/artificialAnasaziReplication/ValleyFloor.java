@@ -119,14 +119,14 @@ public class ValleyFloor extends MutableField2D {
 		}
 		public void setOcfarm(boolean ocfarm) {
 			if (ocfarm) {
-				System.out.println("se pone granja en parcela ");
+				System.out.println("se pone granja en parcela "+toString());
 				if (isOcfarm()) System.out.println("pero la parcela ya estaba ocupada-->>acsurdo es");
 				else System.out.println("y la parcela no estaba ocupada-->>bien");
 			}
 			else{
-				System.out.println("se quita granja de parcela");
-				if (isOcfarm()) System.out.println("pero ooohhh era incecesario-->>acsurdo!!");
-				else System.out.println("es que estaba ocupada-->>bien miau");
+				System.out.println("se quita granja de parcela "+toString());
+				if (isOcfarm()) System.out.println("es que estaba ocupada-->>bien miau");
+				else System.out.println("pero ooohhh era incecesario-->>acsurdo!!");
 			}
 			this.ocfarm = ocfarm;
 		}
