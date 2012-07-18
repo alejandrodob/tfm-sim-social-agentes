@@ -45,6 +45,14 @@ public class World extends SimpleWorld implements SocialWorld {
 		population.addRelation((Person) mother, (Person) newborn,
 				SocialNetwork.relation.MOTHER_SON);
 	}
+	
+	@Override
+	public void registerMigration(DemographicItem person, Int2D from, Int2D to) {
+		// hasta que no lo use en algo concreto, integre el GIS y defina un poco
+		// mejor lo de las
+		// ubicaciones, esto no lo toco
+
+	}
 
 	@Override
 	public void registerWedding(Person p1, Person p2) {
@@ -54,14 +62,6 @@ public class World extends SimpleWorld implements SocialWorld {
 	@Override
 	public void registerDivorce(Person p1, Person p2) {
 		population.removeRelation(p1, p2, SocialNetwork.relation.COUPLE);
-	}
-
-	@Override
-	public void registerMigration(Person person, Int2D from, Int2D to) {
-		// hasta que no lo use en algo concreto, integre el GIS y defina un poco
-		// mejor lo de las
-		// ubicaciones, esto no lo toco
-
 	}
 
 	@Override
