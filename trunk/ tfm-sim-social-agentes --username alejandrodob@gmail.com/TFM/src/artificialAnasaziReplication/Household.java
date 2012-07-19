@@ -10,6 +10,8 @@ import agent.behavior.ListBehavior;
 
 public class Household extends DemographicItem {
 	
+	public String hijo = "yo soy un oriyinol";
+	
 	private static MersenneTwisterFast random = new MersenneTwisterFast();
 
 	private Int2D farmlocation;
@@ -114,7 +116,7 @@ public class Household extends DemographicItem {
 		return bestFarm;
 	}
 	
-	public boolean findInitialSettlementNearFarm(LongHouseValley valley) {
+	public Int2D findInitialSettlementNearFarm(LongHouseValley valley) {
 
 		boolean settlementFound = false;
 		int xh = 0;
@@ -220,9 +222,9 @@ public class Household extends DemographicItem {
 			}
 		}
 		if (settlementFound) {
-			valley.registerMigration(this, null, new Int2D(xh,yh));
+			return new Int2D(xh,yh);
 		}
-		return settlementFound;
+		return null;
 	}
 	
 	/*public void die(ValleyFloor floor) {
@@ -240,4 +242,7 @@ public class Household extends DemographicItem {
 		stop.stop();
 	}
 	
+	public String toString(){
+		return hijo;
+	}
 }
