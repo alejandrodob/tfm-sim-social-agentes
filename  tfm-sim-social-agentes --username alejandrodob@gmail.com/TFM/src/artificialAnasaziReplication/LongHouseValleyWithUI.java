@@ -2,18 +2,23 @@ package artificialAnasaziReplication;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.net.MalformedURLException;
+import java.util.Properties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import sim.display.Console;
 import sim.display.Controller;
 import sim.display.Display2D;
 import sim.display.GUIState;
 import sim.engine.SimState;
+import sim.engine.Steppable;
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
+import sim.portrayal.SimpleInspector;
 import sim.portrayal.grid.FastObjectGridPortrayal2D;
 import sim.portrayal.grid.SparseGridPortrayal2D;
 import sim.portrayal.simple.CircledPortrayal2D;
@@ -23,7 +28,7 @@ import sim.portrayal.simple.MovablePortrayal2D;
 import sim.portrayal.simple.OvalPortrayal2D;
 
 public class LongHouseValleyWithUI extends GUIState {
-	
+
 	//display for the simulated data
 	public Display2D simValleyDisplay;
 	public JFrame simValleyFrame;
@@ -39,6 +44,15 @@ public class LongHouseValleyWithUI extends GUIState {
 	public ValleyYieldGridPortrayal2D yieldPortrayal = new ValleyYieldGridPortrayal2D(false);
 	public SparseGridPortrayal2D simHouseholdsPortrayal = new SparseGridPortrayal2D();
 	public SparseGridPortrayal2D hisHouseholdsPortrayal = new SparseGridPortrayal2D();
+	
+	//variables for charting population
+	org.jfree.data.xy.XYSeries seriesSim;
+	org.jfree.data.xy.XYSeries seriesDat;
+    sim.util.media.chart.TimeSeriesChartGenerator chart;
+
+/*	//inspector
+	public Inspector statisticsInspector;
+	public JFrame statInspectorFrame;*/
 	
 	public static void main(String[] args) {
 		LongHouseValleyWithUI vid = new LongHouseValleyWithUI();
@@ -63,6 +77,37 @@ public class LongHouseValleyWithUI extends GUIState {
 	public void start() {
 		super.start();
 		setupPortrayals();
+		
+		chart.removeAllSeries();
+		seriesSim = new org.jfree.data.xy.XYSeries("Simulated population",false);
+		seriesDat = new org.jfree.data.xy.XYSeries("Historical data population",false);
+		
+		chart.addSeries(seriesSim, null);
+		scheduleImmediateRepeat(true, new Steppable() {
+			public void step(SimState state) {
+
+				double time = state.schedule.getTime(); 
+				double simPop = ((LongHouseValley) state).numHouseholds;
+				double dataPop = ((LongHouseValley) state).historicalHouseholds();
+
+				// now add the data
+				if (time >= state.schedule.EPOCH && time < state.schedule.AFTER_SIMULATION)
+					seriesSim.add(time + 800, simPop, true);
+			}
+		});
+		chart.addSeries(seriesDat, null);
+		scheduleImmediateRepeat(true, new Steppable() {
+			public void step(SimState state) {
+
+				double time = state.schedule.getTime(); 
+				double simPop = ((LongHouseValley) state).numHouseholds;
+				double dataPop = ((LongHouseValley) state).historicalHouseholds();
+
+				// now add the data
+				if (time >= state.schedule.EPOCH && time < state.schedule.AFTER_SIMULATION)
+					seriesDat.add(time + 800, dataPop, true);
+			}
+		});
 	}
 	
 	public void finish() {
@@ -151,6 +196,40 @@ public class LongHouseValleyWithUI extends GUIState {
 		hisValleyDisplay.attach(landCoverPortrayal, "Valley land zones");
 		hisValleyDisplay.attach(hisHouseholdsPortrayal, "Historical settlements");
 		
+		for (Object fr : c.getAllFrames()) {
+			JFrame frame = (JFrame) fr;
+			if (frame.equals(hisValleyFrame)) {
+				Point loc = frame.getLocationOnScreen();
+				loc.setLocation(loc.x+350,loc.y);
+				frame.setLocation(loc);
+			}
+		}
+		
+		//create the charts for statistics
+		chart = new sim.util.media.chart.TimeSeriesChartGenerator();
+		chart.setTitle("Evolution of the population");
+		chart.setRangeAxisLabel("Households");
+		chart.setDomainAxisLabel("Year");
+		JFrame frame = chart.createFrame(this);
+		// perhaps you might move the chart to where you like.
+		frame.show();
+		frame.pack();
+		c.registerFrame(frame);
+/*		
+		//create an inspector for the statistics
+		statisticsInspector = new SimpleInspector(((LongHouseValley) state).statistics, this, "Population evolution") {
+			@Override
+			public void updateInspector() {
+				System.out.println("me estoy actualizando, que conste en actasDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+				SwingUtilities.invokeLater(new Runnable() { public void run() { repaint(); }});
+			}
+		};
+		c.registerInspector(statisticsInspector,null);
+		statisticsInspector.setVolatile(true);
+		statisticsInspector.setVisible(true);
+		statInspectorFrame = statisticsInspector.createFrame(null);
+		statInspectorFrame.setVisible(true);
+		statInspectorFrame.setTitle("Statistics");*/
 	}
 
 	public void quit() {

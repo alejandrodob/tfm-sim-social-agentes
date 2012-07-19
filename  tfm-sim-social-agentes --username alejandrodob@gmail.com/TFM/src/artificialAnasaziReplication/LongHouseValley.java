@@ -33,6 +33,11 @@ public class LongHouseValley extends SimpleWorld {
 	
 	//statistics
 	public int numHouseholds = initialNumberHouseholds;
+	public int historicalHouseholds() {
+		ValleyFloor f = (ValleyFloor) field;
+		if (f != null) return f.hisPopulation.size();
+		else return 0;
+	}
 
 	//population
 	//in this case we don't place the agents in the field directly, so we need to keep them somewhere else
@@ -65,7 +70,7 @@ public class LongHouseValley extends SimpleWorld {
 				rand = !((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).isOcfarm();
 			}
 			hh.setFarmlocation(randomFarm);
-			((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).setOcfarm(true);
+			((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).ssetOcfarm(true);
 			//now a decent one
 			potFarms = determinePotentialFarms();
 			System.out.println("potFarms size "+potFarms.size());
@@ -117,7 +122,7 @@ public class LongHouseValley extends SimpleWorld {
 	@Override
 	public void removeIndividual(DemographicItem person) {
 		((ValleyFloor) field).plotAt(person.getLocation().x,person.getLocation().y).decHouseholdNum();
-		((ValleyFloor) field).plotAt(((Household) person).getFarmlocation().x,((Household) person).getFarmlocation().y).setOcfarm(false);
+		((ValleyFloor) field).plotAt(((Household) person).getFarmlocation().x,((Household) person).getFarmlocation().y).ssetOcfarm(false);
 		population.remove(person);
 	}
 
@@ -140,7 +145,7 @@ public class LongHouseValley extends SimpleWorld {
 			rand = !((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).isOcfarm();
 		}
 		newhh.setFarmlocation(randomFarm);
-		((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).setOcfarm(true);
+		((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).ssetOcfarm(true);
 		//now a decent one
 		potFarms = determinePotentialFarms();
 		System.out.println("potFarms size "+potFarms.size());
@@ -169,7 +174,7 @@ public class LongHouseValley extends SimpleWorld {
 		((ValleyFloor) field).plotAt(to.x, to.y).incHousholdNum();
 	}
 	
-	public int getYear() {
+	public int year() {
 		return year;
 	}
 
@@ -201,7 +206,7 @@ public class LongHouseValley extends SimpleWorld {
 		this.fertilityEndsAge = fertilityEndsAge;
 	}
 
-	public int getFarmSitesAvailable() {
+	public int farmSitesAvailable() {
 		return farmSitesAvailable;
 	}
 
@@ -209,6 +214,22 @@ public class LongHouseValley extends SimpleWorld {
 		this.farmSitesAvailable = farmSitesAvailable;
 	}
 	
+	public double getHarvestAdjustment() {
+		return harvestAdjustment;
+	}
+
+	public void setHarvestAdjustment(double harvestAdjustment) {
+		this.harvestAdjustment = harvestAdjustment;
+	}
+
+	public double getHarvestVariance() {
+		return harvestVariance;
+	}
+
+	public void setHarvestVariance(double harvestVariance) {
+		this.harvestVariance = harvestVariance;
+	}
+
 	public Vector<Int2D> determinePotentialFarms() {
 		//determine the list of potential locations for a farm to move to. A potential location to farm is a place where nobody is farming and where the baseyield is higher than the minimum amount of food needed and where nobody has build a settlement
 		Vector<Int2D> potFarm = ((ValleyFloor) field).determinePotFarms(householdMinNutritionNeed);
@@ -236,8 +257,8 @@ fisHousehold.hijo="yo he sido creado por mi creador ";
 	
 	public void changeFarmLocation(Household hh, Int2D farmDest) {
 		Int2D formerLocation = hh.getFarmlocation();
-		((ValleyFloor) field).plotAt(farmDest.x, farmDest.y).setOcfarm(true);
-		((ValleyFloor) field).plotAt(formerLocation.x, formerLocation.y).setOcfarm(false);
+		((ValleyFloor) field).plotAt(farmDest.x, farmDest.y).ssetOcfarm(true);
+		((ValleyFloor) field).plotAt(formerLocation.x, formerLocation.y).ssetOcfarm(false);
 		hh.setFarmlocation(farmDest);
 	}
 	
