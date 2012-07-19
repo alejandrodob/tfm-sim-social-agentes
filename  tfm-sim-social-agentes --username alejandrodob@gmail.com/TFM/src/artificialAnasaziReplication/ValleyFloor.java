@@ -638,9 +638,12 @@ public class ValleyFloor extends MutableField2D {
 		//determine the list of potential locations for a farm to move to. A potential location to farm is a place where nobody is farming and where the baseyield is higher than the minimum amount of food needed and where nobody has build a settlement
 
 		Vector<Int2D> potfarms = new Vector<Int2D>();
-		for (int x = 0;x< WIDTH;x++) {
-			for (int y = 0;y<HEIGHT;y++) {
-				if ((plotAt(x,y).zone != Zone.Empty) && !plotAt(x,y).isOcfarm() && (plotAt(x,y).getOchousehold() == 0) && (plotAt(x,y).getBaseYield() >= householdMinNutritionNeed)) {
+		for (int x = 0; x < WIDTH; x++) {
+			for (int y = 0; y < HEIGHT; y++) {
+				if ((plotAt(x,y).zone != Zone.Empty)
+						&& !plotAt(x,y).isOcfarm()
+						&& (plotAt(x,y).getOchousehold() == 0)
+						&& (plotAt(x,y).getBaseYield() >= householdMinNutritionNeed)) {
 					potfarms.add(new Int2D(x,y));
 				}
 			}

@@ -39,16 +39,14 @@ public class DemographicBehaviorHousehold implements BehaviorModule{
 			agedCornStocks[ys] = (1 - LongHouseValley.maizeGiveToChild) * agedCornStocks[ys];
 			ys--;
 		}
-		if (findFarmAndSettlement(valley.createFissionedHousehold(household),valley))
-				System.out.println("exito encontrando farmandsettlement de una recien fisionada");;
-		valley.registerBirth(null, null);
+		valley.registerBirth(null,household);
 	}
 	
 	private void moveHousehold(Household household, LongHouseValley valley, Int2D dest) {
 		valley.registerMigration(household, null, dest);
 	}
 	
-	public boolean findFarmAndSettlement(Household household, LongHouseValley valley) {
+	private boolean findFarmAndSettlement(Household household, LongHouseValley valley) {
 		
 		//find a new spot for the settlement (might remain the same location as before)
 		boolean settlementFound = false;
@@ -182,12 +180,12 @@ public class DemographicBehaviorHousehold implements BehaviorModule{
 
 	@Override
 	public void behave(DemographicItem individual, SimpleWorld environment) {
-		death((Household) individual, (LongHouseValley) environment);
+		//this should be in farming behavior, change it 
 		((Household) individual).estimateHarvest();
 		//see if needs to move
 		if (((Household) individual).getEstimate() < ((Household) individual).getNutritionNeed()) {
 			if (findFarmAndSettlement((Household) individual, (LongHouseValley) environment))
-				System.out.println("exito al encontrar nueva granja y tal para no morir de hambre");;
+				System.out.println("exito al encontrar nueva granja y tal para no morir de hambre");
 		}
 		//see if household fissions
 		if ( ((Household) individual).getAge() > ((Household) individual).getFertilityAge() && 
@@ -197,6 +195,7 @@ public class DemographicBehaviorHousehold implements BehaviorModule{
 				fissioning((Household) individual, (LongHouseValley) environment);
 			}
 		}
+		death((Household) individual, (LongHouseValley) environment);
 		age((Household) individual);
 	}
 
