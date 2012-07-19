@@ -118,7 +118,7 @@ public class ValleyFloor extends MutableField2D {
 			return ocfarm;
 		}
 		public void setOcfarm(boolean ocfarm) {
-			if (ocfarm) {
+			/*if (ocfarm) {
 				System.out.println("se pone granja en parcela "+toString());
 				if (isOcfarm()) System.out.println("pero la parcela ya estaba ocupada-->>acsurdo es");
 				else System.out.println("y la parcela no estaba ocupada-->>bien");
@@ -127,7 +127,7 @@ public class ValleyFloor extends MutableField2D {
 				System.out.println("se quita granja de parcela "+toString());
 				if (isOcfarm()) System.out.println("es que estaba ocupada-->>bien miau");
 				else System.out.println("pero ooohhh era incecesario-->>acsurdo!!");
-			}
+			}*/
 			this.ocfarm = ocfarm;
 		}
 		public int getOchousehold() {
@@ -143,9 +143,10 @@ public class ValleyFloor extends MutableField2D {
 			this.nrh = nrh;
 		}
 		
-		public void calculateBaseYield(double harvestAdjustment,int year) {
-			if (year == 800) setBaseYield(getYield()*getQuality());
-			else setBaseYield(getYield() * getQuality() * harvestAdjustment);
+		public void calculateBaseYield(double harvestAdjustment) {
+			//if (year == 800) setBaseYield(getYield()*getQuality());
+			//else
+			setBaseYield(getYield() * getQuality() * harvestAdjustment);
 		}
 		
 		public void incHousholdNum() {
@@ -279,7 +280,7 @@ public class ValleyFloor extends MutableField2D {
 	public void step(SimState state) {
 		int year = ((LongHouseValley) state).getYear();
 		calculateYield(year);
-		calculateBaseYield(((LongHouseValley) state).harvestAdjustment,year);
+		calculateBaseYield(((LongHouseValley) state).harvestAdjustment);
 		water(year);
 		updateHistoricalData(year);
 	}
@@ -302,10 +303,10 @@ public class ValleyFloor extends MutableField2D {
 		return population;
 	}
 	
-	public void calculateBaseYield(double harvestAdjustment,int year) {
+	public void calculateBaseYield(double harvestAdjustment) {
 		for (int x = 0;x< WIDTH;x++) {
 			for (int y = 0;y<HEIGHT;y++) {
-				plotAt(x,y).calculateBaseYield(harvestAdjustment,year);
+				plotAt(x,y).calculateBaseYield(harvestAdjustment);
 			}
 		} 
 	}
