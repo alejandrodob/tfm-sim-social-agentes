@@ -35,7 +35,7 @@ public class FarmingBehavior implements BehaviorModule{
 		
 		//if there are no potential farm spots available the agent is removed from the system
 		Vector<Int2D> potFarm = valley.determinePotentialFarms();
-		if (valley.getFarmSitesAvailable() > 0) {
+		if (valley.farmSitesAvailable() > 0) {
 			Int2D bestFarm = household.determineBestFarm(potFarm);
 			double by = ((ValleyFloor) valley.getField()).plotAt(bestFarm.x,bestFarm.y).getYield();
 			//leave the current farm and move to the new better one
@@ -187,8 +187,7 @@ public class FarmingBehavior implements BehaviorModule{
 		((Household) individual).estimateHarvest();
 		//see if needs to move
 		if (((Household) individual).getEstimate() < ((Household) individual).getNutritionNeed()) {
-			if (findFarmAndSettlement((Household) individual, (LongHouseValley) environment))
-				System.out.println("exito al encontrar nueva granja y tal para no morir de hambre");
+			findFarmAndSettlement((Household) individual, (LongHouseValley) environment);
 		}
 	}
 
