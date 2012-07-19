@@ -565,6 +565,7 @@ public class ValleyFloor extends MutableField2D {
 					break;
 				}
 				}
+				
 				switch (plotAt(x,y).getMaizeZone()) {
 				case NoYield : {
 					plotAt(x,y).setYield(0);
@@ -574,6 +575,14 @@ public class ValleyFloor extends MutableField2D {
 					plotAt(x,y).setYield(0);
 					break;
 				}
+				case Yield1 : {
+					if (plotAt(x,y).getApdsi() >= 3.0) plotAt(x,y).setYield(1153);
+					else if ((plotAt(x,y).getApdsi() >= 1.0) && (plotAt(x,y).getApdsi() < 3.0)) plotAt(x,y).setYield(988);
+					else if ((plotAt(x,y).getApdsi() > -1.0) && (plotAt(x,y).getApdsi() < 1.0)) plotAt(x,y).setYield(821);
+					else if ((plotAt(x,y).getApdsi() > -3.0) && (plotAt(x,y).getApdsi() <= -1.0)) plotAt(x,y).setYield(719);
+					else if (plotAt(x,y).getApdsi() <= -3.0) plotAt(x,y).setYield(617);
+					break;
+					}	
 				case Yield2 : {
 					if (plotAt(x,y).getApdsi() >= 3.0) plotAt(x,y).setYield(961);
 					else if ((plotAt(x,y).getApdsi() >= 1.0) && (plotAt(x,y).getApdsi() < 3.0)) plotAt(x,y).setYield(824);
