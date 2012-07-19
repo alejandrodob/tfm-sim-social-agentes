@@ -51,7 +51,7 @@ public class LongHouseValley extends SimpleWorld {
 		schedule.scheduleRepeating(schedule.getTime() + 1, 0, (Steppable) field);
 		((ValleyFloor) field).water(year);
 		((ValleyFloor) field).calculateYield(year);
-		((ValleyFloor) field).calculateBaseYield(harvestAdjustment,year);
+		((ValleyFloor) field).calculateBaseYield(harvestAdjustment);
 		//create the initial households and place them randomly in the valley
 		for (int i = 0;i<initialNumberHouseholds;i++) {
 			Vector<Int2D> potFarms = determinePotentialFarms();

@@ -36,6 +36,7 @@ public class LongHouseValleyWithUI extends GUIState {
 	public ValleyLandGridPortrayal2D landCoverPortrayal = new ValleyLandGridPortrayal2D(false);
 	public ValleyWaterGridPortrayal2D waterSourcesPortrayal = new ValleyWaterGridPortrayal2D(false);
 	public ValleyOccupGridPortrayal2D occupPortrayal = new ValleyOccupGridPortrayal2D(false);
+	public ValleyYieldGridPortrayal2D yieldPortrayal = new ValleyYieldGridPortrayal2D(false);
 	public SparseGridPortrayal2D simHouseholdsPortrayal = new SparseGridPortrayal2D();
 	public SparseGridPortrayal2D hisHouseholdsPortrayal = new SparseGridPortrayal2D();
 	
@@ -81,6 +82,8 @@ public class LongHouseValleyWithUI extends GUIState {
 		landCoverPortrayal.setField(((ValleyFloor) valley.getField()).getGrid());
 		waterSourcesPortrayal.setField(((ValleyFloor) valley.getField()).getGrid());
 		occupPortrayal.setField(((ValleyFloor) valley.getField()).getGrid());
+		yieldPortrayal.setField(((ValleyFloor) valley.getField()).getGrid());
+		
 		simHouseholdsPortrayal.setField(valley.population);
 		hisHouseholdsPortrayal.setField(((ValleyFloor) valley.getField()).hisPopulation);
 		
@@ -134,7 +137,8 @@ public class LongHouseValleyWithUI extends GUIState {
 		simValleyFrame.setVisible(true);
 		simValleyDisplay.attach(landCoverPortrayal, "Valley land zones");
 		simValleyDisplay.attach(waterSourcesPortrayal, "Water sources", false);
-		simValleyDisplay.attach(occupPortrayal, "Occupation (red=farms,yellow=settlements",false);
+		simValleyDisplay.attach(occupPortrayal, "Occupation (red=settlements,yellow=farms",false);
+		simValleyDisplay.attach(yieldPortrayal, "Yield", false);
 		simValleyDisplay.attach(simHouseholdsPortrayal, "Households");//attach the last one because every one covers the previous ones
 		
 		//historical data display
