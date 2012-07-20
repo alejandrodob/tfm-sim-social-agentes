@@ -28,7 +28,7 @@ import sim.portrayal.simple.MovablePortrayal2D;
 import sim.portrayal.simple.OvalPortrayal2D;
 
 public class LongHouseValleyWithUI extends GUIState {
-
+	
 	//display for the simulated data
 	public Display2D simValleyDisplay;
 	public JFrame simValleyFrame;
@@ -49,10 +49,7 @@ public class LongHouseValleyWithUI extends GUIState {
 	org.jfree.data.xy.XYSeries seriesSim;
 	org.jfree.data.xy.XYSeries seriesDat;
     sim.util.media.chart.TimeSeriesChartGenerator chart;
-
-/*	//inspector
-	public Inspector statisticsInspector;
-	public JFrame statInspectorFrame;*/
+    
 	
 	public static void main(String[] args) {
 		LongHouseValleyWithUI vid = new LongHouseValleyWithUI();
@@ -108,11 +105,6 @@ public class LongHouseValleyWithUI extends GUIState {
 					seriesDat.add(time + 800, dataPop, true);
 			}
 		});
-	}
-	
-	public void finish() {
-		super.finish();
-		state = new LongHouseValley(System.currentTimeMillis());
 	}
 
 	public void load(SimState state) {

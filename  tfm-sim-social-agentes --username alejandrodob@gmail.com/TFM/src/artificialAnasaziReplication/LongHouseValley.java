@@ -63,6 +63,9 @@ public class LongHouseValley extends SimpleWorld {
 	@Override
 	public void start() {
 		super.start();
+		year = 800;
+		farmSitesAvailable = 0;
+		numHouseholds = initialNumberHouseholds;
 		field = new ValleyFloor();
 		population = new SparseGrid2D(ValleyFloor.WIDTH, ValleyFloor.HEIGHT);
 		System.out.println("inicialmente hay farmas ocupadas: "+((ValleyFloor) field).ocFarms());
@@ -203,6 +206,7 @@ public class LongHouseValley extends SimpleWorld {
 	}
 
 	public void setDeathAge(int deathAge) {
+		System.out.println("EOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO "+deathAge);
 		this.deathAge = deathAge;
 	}
 
