@@ -161,19 +161,24 @@ public class LongHouseValley extends SimpleWorld {
 		//now a decent one
 		potFarms = determinePotentialFarms();
 		System.out.println("potFarms size "+potFarms.size());
-		Int2D bestFarm = newhh.determineBestFarm(potFarms);
-		changeFarmLocation(newhh,bestFarm);
-		//find a settlement nearby
-		boolean settled = false;
-		while (!settled) {
-			newhh.setLocation(newhh.findInitialSettlementNearFarm(this));
-			((ValleyFloor) field).plotAt(newhh.getLocation().x, newhh.getLocation().y).incHousholdNum();
-			settled = (newhh.getLocation()!= null);
-			//add the household to the simulation
-			if (settled) addIndividual(newhh,newhh.getLocation());
+		if (potFarms.size() > 0) {
+			Int2D bestFarm = newhh.determineBestFarm(potFarms);
+			changeFarmLocation(newhh,bestFarm);
+			//find a settlement nearby
+			boolean settled = false;
+			while (!settled) {
+				newhh.setLocation(newhh.findInitialSettlementNearFarm(this));
+				((ValleyFloor) field).plotAt(newhh.getLocation().x, newhh.getLocation().y).incHousholdNum();
+				settled = (newhh.getLocation()!= null);
+				//add the household to the simulation
+				if (settled) addIndividual(newhh,newhh.getLocation());
+			}
+			numHouseholds++;
+			System.out.println(" acaba de nacer");
+		} else {
+			//no farmsite available for the new household, so cannot enter the system
+			((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).ssetOcfarm(false);
 		}
-		numHouseholds++;
-		System.out.println(" acaba de nacer");
 	}
 	
 	@Override
