@@ -207,21 +207,7 @@ public class LongHouseValleyWithUI extends GUIState {
 		frame.show();
 		frame.pack();
 		c.registerFrame(frame);
-/*		
-		//create an inspector for the statistics
-		statisticsInspector = new SimpleInspector(((LongHouseValley) state).statistics, this, "Population evolution") {
-			@Override
-			public void updateInspector() {
-				System.out.println("me estoy actualizando, que conste en actasDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
-				SwingUtilities.invokeLater(new Runnable() { public void run() { repaint(); }});
-			}
-		};
-		c.registerInspector(statisticsInspector,null);
-		statisticsInspector.setVolatile(true);
-		statisticsInspector.setVisible(true);
-		statInspectorFrame = statisticsInspector.createFrame(null);
-		statInspectorFrame.setVisible(true);
-		statInspectorFrame.setTitle("Statistics");*/
+
 	}
 
 	public void quit() {
