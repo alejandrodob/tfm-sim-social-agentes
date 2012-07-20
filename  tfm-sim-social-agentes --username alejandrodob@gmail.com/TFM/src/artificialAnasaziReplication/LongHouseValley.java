@@ -6,36 +6,48 @@ import sim.engine.Schedule;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.field.grid.SparseGrid2D;
+import sim.util.Bag;
 import sim.util.Int2D;
 import agent.DemographicItem;
+import artificialAnasaziReplication.ValleyFloor.HistoricalSettlement;
 import model.SimpleWorld;
 
 public class LongHouseValley extends SimpleWorld {
 	
 	private int year = 800;
+	private int farmSitesAvailable = 0;
+
 	public double harvestAdjustment = 0.54;
 	public double harvestVariance = 0.4;
-	private int farmSitesAvailable = 0;
+	private int deathAge = 38;
+	private double fertility = 0.155;
+	private int fertilityEndsAge = 34;
+	
 	public static final double waterSourceDistance = 16.0;
 	public static final double maizeGiveToChild = 0.33;
 	public static final int householdMinInitialCorn = 2000;
 	public static final int householdMaxInitialCorn = 2400;
 	public static final int householdMinInitialAge = 0;
 	public static final int householdMaxInitialAge = 29;
-	public static final int householdMinNutritionNeed = 800; //160kg/person * 5 persons in a household
+	public static final int householdMinNutritionNeed = 800; //160kg/person * 5 persons a household
 	public static final int householdMaxNutritionNeed = 800;
 	public static final int minFertilityAge = 16;
 	public static final int maxFertilityAge = 16;
-	private int deathAge = 38;
-	private double fertility = 0.155;
-	private int fertilityEndsAge = 34;
 	private static final int initialNumberHouseholds = 14;
 	
 	//statistics
 	public int numHouseholds = initialNumberHouseholds;
 	public int historicalHouseholds() {
 		ValleyFloor f = (ValleyFloor) field;
-		if (f != null) return f.hisPopulation.size();
+		if (f != null) {
+			Bag aux = new Bag(f.hisPopulation.getAllObjects());
+			int total = 0;
+			for (Object o : aux) {
+				HistoricalSettlement hs = (HistoricalSettlement) o;
+				total += hs.getNrhouseholds();
+			}
+			return total;
+		}
 		else return 0;
 	}
 
