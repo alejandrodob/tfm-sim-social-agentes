@@ -18,11 +18,12 @@ public class LongHouseValley extends SimpleWorld {
 	private int farmSitesAvailable = 0;
 
 	public double harvestAdjustment = 0.54;
-	public double harvestVariance = 0.4;
+	public double harvestVariance = initialHarvestVariance;
 	private int deathAge = 38;
 	private double fertility = 0.155;
 	private int fertilityEndsAge = 34;
 	
+	public static final double initialHarvestVariance = 0.4;
 	public static final double waterSourceDistance = 16.0;
 	public static final double maizeGiveToChild = 0.33;
 	public static final int householdMinInitialCorn = 2000;
