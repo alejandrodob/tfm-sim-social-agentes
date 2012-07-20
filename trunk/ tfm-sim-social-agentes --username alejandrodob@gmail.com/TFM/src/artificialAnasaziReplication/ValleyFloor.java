@@ -319,7 +319,7 @@ public class ValleyFloor extends MutableField2D {
 			for (int y = 0;y<HEIGHT;y++) {
 				Plot plot = new Plot();
 				plot.ssetWatersource(false);
-				double quality = random.nextGaussian() * LongHouseValley.initialHarvestVariance + 1;
+				double quality = random.nextGaussian() * LongHouseValley.spatialHarvestVariance + 1;
 				if (quality >= 0) plot.ssetQuality(quality);
 				else plot.ssetQuality(0);
 				setPlotAt(x,y,plot);

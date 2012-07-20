@@ -18,12 +18,12 @@ public class LongHouseValley extends SimpleWorld {
 	private int farmSitesAvailable = 0;
 
 	public double harvestAdjustment = 0.54;
-	public double harvestVariance = initialHarvestVariance;
+	public double harvestVariance = 0.1;
 	private int deathAge = 38;
 	private double fertility = 0.155;
 	private int fertilityEndsAge = 34;
 	
-	public static final double initialHarvestVariance = 0.4;
+	public static final double spatialHarvestVariance = 0.4;
 	public static final double waterSourceDistance = 16.0;
 	public static final double maizeGiveToChild = 0.33;
 	public static final int householdMinInitialCorn = 2000;
@@ -87,24 +87,22 @@ public class LongHouseValley extends SimpleWorld {
 			//now a decent one
 			potFarms = determinePotentialFarms();
 			System.out.println("potFarms size "+potFarms.size());
-			Int2D bestFarm = hh.determineBestFarm(potFarms);
-			changeFarmLocation(hh,bestFarm);
-			//find a settlement nearby
-			boolean settled = false;
-			while (!settled) {
-				hh.setLocation(hh.findInitialSettlementNearFarm(this));
-				((ValleyFloor) field).plotAt(hh.getLocation().x, hh.getLocation().y).incHousholdNum();
-				settled = (hh.getLocation()!= null);
-				//add the household to the simulation
-				if (settled) addIndividual(hh,hh.getLocation());
+			if (potFarms.size() > 0) {
+				Int2D bestFarm = hh.determineBestFarm(potFarms);
+				changeFarmLocation(hh,bestFarm);
+				//find a settlement nearby
+				boolean settled = false;
+				while (!settled) {
+					hh.setLocation(hh.findInitialSettlementNearFarm(this));
+					((ValleyFloor) field).plotAt(hh.getLocation().x, hh.getLocation().y).incHousholdNum();
+					settled = (hh.getLocation()!= null);
+					//add the household to the simulation
+					if (settled) addIndividual(hh,hh.getLocation());
+				}
+			} else {
+				//no farmsites available, so agent cannot enter the system
+				((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).ssetOcfarm(false);
 			}
-			/*boolean settled = false;
-			DemographicBehaviorHousehold.getInstance().findFarmAndSettlement(hh,this);
-			while (!settled) {
-				settled = hh.findInitialSettlementNearFarm(this);
-				//add the household to the simulation
-				if (settled) addIndividual(hh,hh.getLocation());
-			}*/
 		}
 		//add a steppable that increments the year after the agents have stepped in the current year
 		Steppable yearIncrem = new Steppable() {
