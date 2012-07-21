@@ -9,9 +9,7 @@ import agent.DemographicItem;
 import agent.behavior.ListBehavior;
 
 public class Household extends DemographicItem {
-	
-	public String hijo = "yo soy un oriyinol";
-	
+		
 	private static MersenneTwisterFast random = new MersenneTwisterFast();
 
 	private Int2D farmlocation;
@@ -23,7 +21,6 @@ public class Household extends DemographicItem {
 	private int nutritionNeed;
 	private double nutritionNeedRemaining;
 	public final static int yearsOfStock = 2; //number of years the corn harvest can be stored
-	///////////hay que inicializar el field
 	
 	public Household() {
 		behavior = new ListBehavior();
@@ -105,7 +102,7 @@ public class Household extends DemographicItem {
 	public Int2D determineBestFarm(Vector<Int2D> potfarms) {
 		Int2D existingFarm = new Int2D(getFarmlocation().x,getFarmlocation().y);
 		Int2D bestFarm = null;
-		double distancetns = 1000;
+		double distancetns = Double.MAX_VALUE;
 		for (Int2D farm : potfarms) {
 			double dist = ValleyFloor.distance(existingFarm, farm);
 			if (dist < distancetns) {
@@ -127,7 +124,7 @@ public class Household extends DemographicItem {
 
 		//if there are cells with water which are not farmed and in a zone that is less productive than the zone where the favorite farm plot is located
 		if (potSettle.size() > 0) {
-			double minDist = Float.POSITIVE_INFINITY;
+			double minDist = Double.MAX_VALUE;
 			Int2D minSettle = null;
 			for (Int2D ps : potSettle) {
 				if (ValleyFloor.distance(farmlocation, ps) < minDist) {
@@ -135,7 +132,7 @@ public class Household extends DemographicItem {
 					minSettle = ps;
 				}
 			}
-			if (minDist <= LongHouseValley.waterSourceDistance) {
+			if (minDist <= LongHouseValley.farmToResidenceDistance) {
 				xh = minSettle.x;
 				yh = minSettle.y;
 				settlementFound = true;
@@ -144,7 +141,7 @@ public class Household extends DemographicItem {
 			}
 			if (settlementFound) {
 				potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsRelaxed();
-				double minDist2 = Float.POSITIVE_INFINITY;
+				double minDist2 = Double.MAX_VALUE;
 				Int2D minSettle2 = null;
 				Int2D bestSett = new Int2D(xh,yh);
 				for (Int2D ps : potSettle) {
@@ -161,7 +158,7 @@ public class Household extends DemographicItem {
 		//if no settlement is found yet
 		if (!settlementFound) {
 			potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsReRelaxed();
-			double minDist3 = Float.POSITIVE_INFINITY;
+			double minDist3 = Double.MAX_VALUE;
 			Int2D minSettle3 = null;
 			for (Int2D ps : potSettle) {
 				if (ValleyFloor.distance(farmlocation, ps) < minDist3) {
@@ -169,7 +166,7 @@ public class Household extends DemographicItem {
 					minSettle3 = ps;
 				}
 			}
-			if (minDist3 <= LongHouseValley.waterSourceDistance) {
+			if (minDist3 <= LongHouseValley.farmToResidenceDistance) {
 				xh = minSettle3.x;
 				yh = minSettle3.y;
 				settlementFound = true;
@@ -178,7 +175,7 @@ public class Household extends DemographicItem {
 			}
 			if (settlementFound) {
 				potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsRelaxed();
-				double minDist4 = Float.POSITIVE_INFINITY;
+				double minDist4 = Double.MAX_VALUE;
 				Int2D minSettle4 = null;
 				Int2D bestSett = new Int2D(xh,yh);
 				for (Int2D ps : potSettle) {
@@ -195,7 +192,7 @@ public class Household extends DemographicItem {
 		// if not settlement found, don't worry about nearby watersources...
 		if (!settlementFound) {
 			potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsReRelaxed();
-			double minDist3 = Float.POSITIVE_INFINITY;
+			double minDist3 = Double.MAX_VALUE;
 			Int2D minSettle3 = null;
 			for (Int2D ps : potSettle) {
 				if (ValleyFloor.distance(farmlocation, ps) < minDist3) {
@@ -208,7 +205,7 @@ public class Household extends DemographicItem {
 			settlementFound = true;
 			if (settlementFound) {
 				potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsRelaxed();
-				double minDist4 = Float.POSITIVE_INFINITY;
+				double minDist4 = Double.MAX_VALUE;
 				Int2D minSettle4 = null;
 				Int2D bestSett = new Int2D(xh,yh);
 				for (Int2D ps : potSettle) {
@@ -227,22 +224,9 @@ public class Household extends DemographicItem {
 		return null;
 	}
 	
-	/*public void die(ValleyFloor floor) {
-		//remove this household from its settlement
-		//((ValleyFloor) field)
-		floor.getFloor()[location.x][location.y].decHouseholdNum();
-		//remove the farmplot this household was farming
-		//((ValleyFloor) field)
-		floor.getFloor()[farmlocation.x][farmlocation.y].setOcfarm(false);
-		//remove the agent from the simulation
-		stop.stop();
-	}*/
 	public void die(LongHouseValley valley) {
 		valley.registerDeath(this);
 		stop.stop();
 	}
 	
-	public String toString(){
-		return hijo;
-	}
 }

@@ -45,7 +45,7 @@ public class FarmingBehavior implements BehaviorModule{
 			
 			//if there are cells with water which are not farmed and in a zone that is less productive than the zone where the favorite farm plot is located
 			if (potSettle.size() > 0) {
-				double minDist = Float.POSITIVE_INFINITY;
+				double minDist = Double.MAX_VALUE;
 				Int2D minSettle = null;
 				for (Int2D ps : potSettle) {
 					if (ValleyFloor.distance(bestFarm, ps) < minDist) {
@@ -53,7 +53,7 @@ public class FarmingBehavior implements BehaviorModule{
 						minSettle = ps;
 					}
 				}
-				if (minDist <= LongHouseValley.waterSourceDistance) {
+				if (minDist <= LongHouseValley.farmToResidenceDistance) {
 					xh = minSettle.x;
 					yh = minSettle.y;
 					settlementFound = true;
@@ -62,7 +62,7 @@ public class FarmingBehavior implements BehaviorModule{
 				}
 				if (settlementFound) {
 					potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsRelaxed();
-					double minDist2 = Float.POSITIVE_INFINITY;
+					double minDist2 = Double.MAX_VALUE;
 					Int2D minSettle2 = null;
 					Int2D bestSett = new Int2D(xh,yh);
 					for (Int2D ps : potSettle) {
@@ -80,7 +80,7 @@ public class FarmingBehavior implements BehaviorModule{
 			//if no settlement is found yet
 			if (!settlementFound) {
 				potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsReRelaxed();
-				double minDist3 = Float.POSITIVE_INFINITY;
+				double minDist3 = Double.MAX_VALUE;
 				Int2D minSettle3 = null;
 				for (Int2D ps : potSettle) {
 					if (ValleyFloor.distance(bestFarm, ps) < minDist3) {
@@ -88,7 +88,7 @@ public class FarmingBehavior implements BehaviorModule{
 						minSettle3 = ps;
 					}
 				}
-				if (minDist3 <= LongHouseValley.waterSourceDistance) {
+				if (minDist3 <= LongHouseValley.farmToResidenceDistance) {
 					xh = minSettle3.x;
 					yh = minSettle3.y;
 					settlementFound = true;
@@ -97,7 +97,7 @@ public class FarmingBehavior implements BehaviorModule{
 				}
 				if (settlementFound) {
 					potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsRelaxed();
-					double minDist4 = Float.POSITIVE_INFINITY;
+					double minDist4 = Double.MAX_VALUE;
 					Int2D minSettle4 = null;
 					Int2D bestSett = new Int2D(xh,yh);
 					for (Int2D ps : potSettle) {
@@ -115,7 +115,7 @@ public class FarmingBehavior implements BehaviorModule{
 			// if not settlement found, don't worry about nearby watersources...
 			if (!settlementFound) {
 				potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsReRelaxed();
-				double minDist3 = Float.POSITIVE_INFINITY;
+				double minDist3 = Double.MAX_VALUE;
 				Int2D minSettle3 = null;
 				for (Int2D ps : potSettle) {
 					if (ValleyFloor.distance(bestFarm, ps) < minDist3) {
@@ -128,7 +128,7 @@ public class FarmingBehavior implements BehaviorModule{
 				settlementFound = true;
 				if (settlementFound) {
 					potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsRelaxed();
-					double minDist4 = Float.POSITIVE_INFINITY;
+					double minDist4 = Double.MAX_VALUE;
 					Int2D minSettle4 = null;
 					Int2D bestSett = new Int2D(xh,yh);
 					for (Int2D ps : potSettle) {
@@ -145,13 +145,11 @@ public class FarmingBehavior implements BehaviorModule{
 
 			//if no possible settlement is found, leave the system
 			if (!settlementFound) {
-				//household.die(valley);
 				//should not happen, but it's free to be cautious. kill the agent so he unoccupies his farm and plot
 				household.die(valley);
 			}
 		
 		} else {  //no farms available
-			//household.die(valley);
 		}
 		return settlementFound;
 	}

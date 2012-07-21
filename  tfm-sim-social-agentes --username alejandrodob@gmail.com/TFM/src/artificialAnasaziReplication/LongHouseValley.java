@@ -24,7 +24,7 @@ public class LongHouseValley extends SimpleWorld {
 	private int fertilityEndsAge = 34;
 	
 	public static final double spatialHarvestVariance = 0.4;
-	public static final double waterSourceDistance = 16.0;
+	public static final double farmToResidenceDistance = 16.0;
 	public static final double maizeGiveToChild = 0.33;
 	public static final int householdMinInitialCorn = 2000;
 	public static final int householdMaxInitialCorn = 2400;
@@ -68,7 +68,6 @@ public class LongHouseValley extends SimpleWorld {
 		numHouseholds = initialNumberHouseholds;
 		field = new ValleyFloor();
 		population = new SparseGrid2D(ValleyFloor.WIDTH, ValleyFloor.HEIGHT);
-		System.out.println("inicialmente hay farmas ocupadas: "+((ValleyFloor) field).ocFarms());
 		schedule.scheduleRepeating(schedule.getTime() + 1, 0, (Steppable) field);
 		((ValleyFloor) field).water(year);
 		((ValleyFloor) field).calculateYield(year);
@@ -77,7 +76,6 @@ public class LongHouseValley extends SimpleWorld {
 		for (int i = 0;i<initialNumberHouseholds;i++) {
 			Vector<Int2D> potFarms = determinePotentialFarms();
 			Household hh = new Household();
-			System.out.println("nuevo hh");
 			//random location for farming
 			boolean rand = false;
 			Int2D randomFarm = null;
@@ -89,7 +87,6 @@ public class LongHouseValley extends SimpleWorld {
 			((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).ssetOcfarm(true);
 			//now a decent one
 			potFarms = determinePotentialFarms();
-			System.out.println("potFarms size "+potFarms.size());
 			if (potFarms.size() > 0) {
 				Int2D bestFarm = hh.determineBestFarm(potFarms);
 				changeFarmLocation(hh,bestFarm);
@@ -111,13 +108,6 @@ public class LongHouseValley extends SimpleWorld {
 		Steppable yearIncrem = new Steppable() {
 			@Override
 			public void step(SimState state) {
-				if (year%5==0) { //cada 5 años para no ser un cansino 
-					System.out.println("poblacion en el año "+year+": "+ numHouseholds);
-					System.out.println("poblacion segun el sparsegrid :"+population.size());
-					determinePotentialFarms();
-					System.out.println("potential farmsites en el año "+year+": "+farmSitesAvailable);
-					System.out.println("parcelas ocupadas con farm en el año "+year+": "+ ((ValleyFloor) field).ocFarms());
-					}
 				((LongHouseValley) state).setYear(year + 1);
 				if (year > 1350) {
 					state.finish(); //end the simulation at year 1350		
@@ -144,7 +134,6 @@ public class LongHouseValley extends SimpleWorld {
 	public void registerDeath(DemographicItem person) {
 		numHouseholds--;
 		removeIndividual(person);
-		System.out.println(person.toString()+" se muere");
 	}
 
 	@Override
@@ -162,7 +151,6 @@ public class LongHouseValley extends SimpleWorld {
 		((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).ssetOcfarm(true);
 		//now a decent one
 		potFarms = determinePotentialFarms();
-		System.out.println("potFarms size "+potFarms.size());
 		if (potFarms.size() > 0) {
 			Int2D bestFarm = newhh.determineBestFarm(potFarms);
 			changeFarmLocation(newhh,bestFarm);
@@ -176,7 +164,6 @@ public class LongHouseValley extends SimpleWorld {
 				if (settled) addIndividual(newhh,newhh.getLocation());
 			}
 			numHouseholds++;
-			System.out.println(" acaba de nacer");
 		} else {
 			//no farmsite available for the new household, so cannot enter the system
 			((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).ssetOcfarm(false);
@@ -206,7 +193,6 @@ public class LongHouseValley extends SimpleWorld {
 	}
 
 	public void setDeathAge(int deathAge) {
-		System.out.println("EOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO "+deathAge);
 		this.deathAge = deathAge;
 	}
 
@@ -262,8 +248,6 @@ public class LongHouseValley extends SimpleWorld {
 		Household fisHousehold = new Household();
 		fisHousehold.setLocation(parent.getLocation());
 		fisHousehold.setAge(0);
-fisHousehold.hijo="yo he sido creado por mi creador ";
-		//changeFarmLocation(fisHousehold,fisHousehold.getLocation());//absurd farmlocation so that it is not null
 		//set cornStocks received from parent
 		double[] childCornStocks = parent.getAgedCornStocks();
 		int ys = Household.yearsOfStock;
