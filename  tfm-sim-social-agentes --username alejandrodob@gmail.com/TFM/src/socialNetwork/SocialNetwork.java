@@ -2,11 +2,10 @@ package socialNetwork;
 
 import java.util.Iterator;
 
-import agent.Person;
-
 import sim.field.network.Edge;
 import sim.field.network.Network;
 import sim.util.Bag;
+import agent.Person;
 
 public class SocialNetwork {
 

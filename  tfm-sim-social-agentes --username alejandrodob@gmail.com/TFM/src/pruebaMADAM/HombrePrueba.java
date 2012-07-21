@@ -1,11 +1,8 @@
 package pruebaMADAM;
 
 import sim.util.Int2D;
-import ec.util.MersenneTwisterFast;
-import agent.Education;
 import agent.Man;
-import agent.SocioeconomicLevel;
-import agent.behavior.Behavior;
+import ec.util.MersenneTwisterFast;
 
 public class HombrePrueba extends Man {
 	

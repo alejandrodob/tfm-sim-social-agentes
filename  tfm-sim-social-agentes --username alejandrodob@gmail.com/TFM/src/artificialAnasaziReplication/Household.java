@@ -2,11 +2,10 @@ package artificialAnasaziReplication;
 
 import java.util.Vector;
 
-import ec.util.MersenneTwisterFast;
-
 import sim.util.Int2D;
 import agent.DemographicItem;
 import agent.behavior.ListBehavior;
+import ec.util.MersenneTwisterFast;
 
 public class Household extends DemographicItem {
 		

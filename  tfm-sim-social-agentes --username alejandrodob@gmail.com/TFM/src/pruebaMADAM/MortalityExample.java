@@ -1,9 +1,9 @@
 package pruebaMADAM;
 
-import ec.util.MersenneTwisterFast;
-import environment.Mortality;
 import agent.DemographicItem;
 import agent.Person;
+import ec.util.MersenneTwisterFast;
+import environment.Mortality;
 
 public class MortalityExample implements Mortality {
 	

@@ -3,7 +3,6 @@ package agent.behavior;
 import java.util.ArrayList;
 
 import model.SimpleWorld;
-
 import agent.DemographicItem;
 
 public class ListBehavior implements Behavior {

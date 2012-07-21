@@ -2,10 +2,9 @@ package agent.social;
 
 import java.util.ArrayList;
 
-import agent.DemographicItem;
+import agent.Man;
 import agent.Person;
 import agent.Woman;
-import agent.Man;
 
 public interface FriendsNetwork {
 

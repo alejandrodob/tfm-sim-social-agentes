@@ -1,13 +1,9 @@
 package artificialAnasaziReplication;
 
-import java.util.Vector;
-
-import sim.util.Int2D;
-
-import ec.util.MersenneTwisterFast;
+import model.SimpleWorld;
 import agent.DemographicItem;
 import agent.behavior.BehaviorModule;
-import model.SimpleWorld;
+import ec.util.MersenneTwisterFast;
 
 public class DemographicBehaviorHousehold implements BehaviorModule{
 	

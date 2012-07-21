@@ -2,12 +2,11 @@ package artificialAnasaziReplication;
 
 import java.util.Vector;
 
-import pruebaMADAM.DemographicBehavior;
-import sim.util.Int2D;
-import ec.util.MersenneTwisterFast;
 import model.SimpleWorld;
+import sim.util.Int2D;
 import agent.DemographicItem;
 import agent.behavior.BehaviorModule;
+import ec.util.MersenneTwisterFast;
 
 public class FarmingBehavior implements BehaviorModule{
 	

@@ -1,9 +1,8 @@
 package pruebaMADAM;
 
+import agent.DemographicItem;
 import ec.util.MersenneTwisterFast;
 import environment.Natality;
-import agent.DemographicItem;
-import agent.Person;
 
 public class NatalityExample implements Natality {
 

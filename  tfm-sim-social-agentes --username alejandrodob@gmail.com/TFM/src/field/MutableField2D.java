@@ -2,11 +2,6 @@ package field;
 
 import java.util.Iterator;
 
-import agent.behavior.Behavior;
-import agent.behavior.BehaviorModule;
-import agent.behavior.ListBehavior;
-
-import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.field.SparseField;
 import sim.field.grid.SparseGrid2D;

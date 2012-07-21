@@ -1,6 +1,5 @@
 package model;
 
-import sim.util.Int2D;
 import socialNetwork.SocialNetwork;
 import agent.Person;
 

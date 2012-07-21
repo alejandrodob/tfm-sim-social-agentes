@@ -1,21 +1,19 @@
 package agent;
 
+import household.Household;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import sim.util.Bag;
+import sim.util.Int2D;
 import agent.behavior.BasicSocialBehavior;
 import agent.behavior.Behavior;
 import agent.behavior.BehaviorModule;
 import agent.behavior.ListBehavior;
-import agent.social.AgentSocialNetwork;
 import agent.social.FamilyListNetwork;
 import agent.social.FriendsListNetwork;
-
-import sim.field.grid.SparseGrid2D;
-import sim.util.Bag;
-import sim.util.Int2D;
-import household.Household;
 
 public abstract class Person extends DemographicItem implements Socializable {
 	

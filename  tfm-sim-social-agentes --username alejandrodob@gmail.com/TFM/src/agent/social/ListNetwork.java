@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import agent.DemographicItem;
-import agent.social.ListNetwork.ListElement;
 
 public class ListNetwork implements AgentSocialNetwork {
 

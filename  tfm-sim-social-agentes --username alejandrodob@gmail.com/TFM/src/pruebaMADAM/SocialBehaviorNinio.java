@@ -2,11 +2,10 @@ package pruebaMADAM;
 
 import java.util.ArrayList;
 
-import ec.util.MersenneTwisterFast;
-
 import agent.DemographicItem;
 import agent.Person;
 import agent.behavior.BasicSocialBehavior;
+import ec.util.MersenneTwisterFast;
 
 public class SocialBehaviorNinio extends BasicSocialBehavior {
 	
