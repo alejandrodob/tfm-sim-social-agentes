@@ -4,16 +4,13 @@ import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Vector;
 
 import sim.engine.SimState;
 import sim.field.grid.ObjectGrid2D;
 import sim.field.grid.SparseGrid2D;
-import sim.util.Bag;
 import sim.util.Int2D;
-
 import ec.util.MersenneTwisterFast;
 import field.MutableField2D;
 

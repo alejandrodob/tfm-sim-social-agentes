@@ -1,15 +1,13 @@
 package agent;
 
-import field.AbstractField2D;
 import model.SimpleWorld;
-import model.World;
-import agent.behavior.Behavior;
-import agent.behavior.BehaviorModule;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
-import sim.field.grid.SparseGrid2D;
 import sim.util.Int2D;
+import agent.behavior.Behavior;
+import agent.behavior.BehaviorModule;
+import field.AbstractField2D;
 
 public class DemographicItem implements Steppable {
 

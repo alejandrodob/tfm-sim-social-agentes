@@ -1,13 +1,9 @@
 package model;
 
-import agent.Person;
-import agent.DemographicItem;
-import environment.*;
-import sim.engine.SimState;
-import sim.field.grid.SparseGrid2D;
-import sim.field.network.Network;
 import sim.util.Int2D;
 import socialNetwork.SocialNetwork;
+import agent.DemographicItem;
+import agent.Person;
 
 public class World extends SimpleWorld implements SocialWorld {
 

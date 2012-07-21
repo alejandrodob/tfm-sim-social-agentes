@@ -2,9 +2,9 @@ package artificialAnasaziReplication;
 
 import java.awt.Color;
 
-import artificialAnasaziReplication.ValleyFloor.Plot;
 import sim.portrayal.grid.FastObjectGridPortrayal2D;
 import sim.util.gui.SimpleColorMap;
+import artificialAnasaziReplication.ValleyFloor.Plot;
 
 public class ValleyOccupGridPortrayal2D extends FastObjectGridPortrayal2D {
 	static Color[] colorTable = {Color.yellow, Color.red, Color.black};

@@ -1,8 +1,8 @@
 package agent;
 
+import sim.util.Int2D;
 import agent.behavior.ListBehavior;
 import agent.social.Kinship;
-import sim.util.Int2D;
 
 public class Man extends Person {
 

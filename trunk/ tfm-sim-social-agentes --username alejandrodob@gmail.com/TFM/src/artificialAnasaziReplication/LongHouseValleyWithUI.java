@@ -3,12 +3,8 @@ package artificialAnasaziReplication;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.net.MalformedURLException;
-import java.util.Properties;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import sim.display.Console;
 import sim.display.Controller;
@@ -18,13 +14,9 @@ import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
-import sim.portrayal.SimpleInspector;
-import sim.portrayal.grid.FastObjectGridPortrayal2D;
 import sim.portrayal.grid.SparseGridPortrayal2D;
 import sim.portrayal.simple.CircledPortrayal2D;
-import sim.portrayal.simple.ImagePortrayal2D;
 import sim.portrayal.simple.LabelledPortrayal2D;
-import sim.portrayal.simple.MovablePortrayal2D;
 import sim.portrayal.simple.OvalPortrayal2D;
 
 public class LongHouseValleyWithUI extends GUIState {

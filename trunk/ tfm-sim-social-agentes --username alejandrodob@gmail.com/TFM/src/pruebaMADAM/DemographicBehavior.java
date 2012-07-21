@@ -2,11 +2,11 @@ package pruebaMADAM;
 
 import model.SimpleWorld;
 import sim.util.Int2D;
-import ec.util.MersenneTwisterFast;
-import agent.Person;
 import agent.DemographicItem;
+import agent.Person;
 import agent.behavior.BasicDemographicBehavior;
 import agent.social.Kinship;
+import ec.util.MersenneTwisterFast;
 
 public class DemographicBehavior extends BasicDemographicBehavior {
 	

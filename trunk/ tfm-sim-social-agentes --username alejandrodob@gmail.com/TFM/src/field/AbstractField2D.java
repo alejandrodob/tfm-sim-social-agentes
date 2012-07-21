@@ -3,7 +3,6 @@ package field;
 import java.util.Iterator;
 
 import sim.field.grid.Grid2D;
-import sim.field.grid.SparseGrid2D;
 import sim.util.Bag;
 import sim.util.Double2D;
 import sim.util.Int2D;

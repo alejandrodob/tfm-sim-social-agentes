@@ -2,7 +2,7 @@ package artificialAnasaziReplication;
 
 import java.util.Vector;
 
-import sim.engine.Schedule;
+import model.SimpleWorld;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.field.grid.SparseGrid2D;
@@ -10,7 +10,6 @@ import sim.util.Bag;
 import sim.util.Int2D;
 import agent.DemographicItem;
 import artificialAnasaziReplication.ValleyFloor.HistoricalSettlement;
-import model.SimpleWorld;
 
 public class LongHouseValley extends SimpleWorld {
 	

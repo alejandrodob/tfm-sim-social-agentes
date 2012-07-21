@@ -2,10 +2,9 @@ package artificialAnasaziReplication;
 
 import java.awt.Color;
 
-import artificialAnasaziReplication.ValleyFloor.Plot;
 import sim.portrayal.grid.FastObjectGridPortrayal2D;
-import sim.util.gui.ColorMap;
 import sim.util.gui.SimpleColorMap;
+import artificialAnasaziReplication.ValleyFloor.Plot;
 
 public class ValleyLandGridPortrayal2D extends FastObjectGridPortrayal2D {
 

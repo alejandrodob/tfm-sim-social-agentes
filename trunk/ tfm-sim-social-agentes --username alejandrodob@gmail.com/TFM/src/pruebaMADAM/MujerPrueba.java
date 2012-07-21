@@ -1,9 +1,8 @@
 package pruebaMADAM;
 
-import pruebaMADAM.HombrePrueba.Caracteristicas;
 import sim.util.Int2D;
-import ec.util.MersenneTwisterFast;
 import agent.Woman;
+import ec.util.MersenneTwisterFast;
 
 public class MujerPrueba extends Woman {
 
