@@ -146,8 +146,8 @@ public class FarmingBehavior implements BehaviorModule{
 			//if no possible settlement is found, leave the system
 			if (!settlementFound) {
 				//household.die(valley);
-				//should not happen, but it's free to be cautious
-				((ValleyFloor) valley.getField()).plotAt(bestFarm.x, bestFarm.y).ssetOcfarm(false);
+				//should not happen, but it's free to be cautious. kill the agent so he unoccupies his farm and plot
+				household.die(valley);
 			}
 		
 		} else {  //no farms available
