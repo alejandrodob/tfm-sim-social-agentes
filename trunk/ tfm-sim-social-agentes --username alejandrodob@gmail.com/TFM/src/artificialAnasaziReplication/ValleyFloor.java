@@ -5,6 +5,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -432,9 +435,19 @@ public class ValleyFloor extends MutableField2D {
 
 	private void loadDataFiles() throws IOException {
 		Scanner s = null;
-		String path = "data" + File.separator;
+		InputStream is1 = getClass().getResourceAsStream("Map.txt");
+		InputStream is2 = getClass().getResourceAsStream("adjustedPDSI.txt");
+		InputStream is3 = getClass().getResourceAsStream("water.txt");
+		InputStream is4 = getClass().getResourceAsStream("environment.txt");
+		InputStream is5 = getClass().getResourceAsStream("settlements.txt");
+		InputStreamReader isr1 = new InputStreamReader(is1);
+		InputStreamReader isr2 = new InputStreamReader(is2);
+		InputStreamReader isr3 = new InputStreamReader(is3);
+		InputStreamReader isr4 = new InputStreamReader(is4);
+		InputStreamReader isr5 = new InputStreamReader(is5);
+
         try {
-            s = new Scanner(new BufferedReader(new FileReader(path+"Map.txt")));
+            s = new Scanner(new BufferedReader(isr1));
             mapdata = new Vector<Integer>();
             
             while (s.hasNext()) {
@@ -447,7 +460,7 @@ public class ValleyFloor extends MutableField2D {
         }
         
         try {
-        	s = new Scanner(new BufferedReader(new FileReader(path+"adjustedPDSI.txt")));
+        	s = new Scanner(new BufferedReader(isr2));
         	apdsidata = new Vector<Double>();
         	while (s.hasNext()) {
         		apdsidata.add(Double.parseDouble(s.next()));
@@ -459,7 +472,7 @@ public class ValleyFloor extends MutableField2D {
         }
         
         try {
-        	s = new Scanner(new BufferedReader(new FileReader(path+"water.txt")));
+        	s = new Scanner(new BufferedReader(isr3));
         	waterdata = new Vector<Integer>();
         	while (s.hasNext()) {
         		waterdata.add((s.nextInt()));
@@ -471,7 +484,7 @@ public class ValleyFloor extends MutableField2D {
         }
         
         try {
-        	s = new Scanner(new BufferedReader(new FileReader(path+"environment.txt")));
+        	s = new Scanner(new BufferedReader(isr4));
         	environmentdata = new Vector<Double>();
         	while (s.hasNext()) {
         		environmentdata.add(Double.parseDouble(s.next()));
@@ -483,7 +496,7 @@ public class ValleyFloor extends MutableField2D {
         }
         
         try {
-        	s = new Scanner(new BufferedReader(new FileReader(path+"settlements.txt")));
+        	s = new Scanner(new BufferedReader(isr5));
         	historicaldata = new Vector<Double>();
         	while (s.hasNext()) {
         		historicaldata.add(Double.parseDouble(s.next()));
