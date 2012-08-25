@@ -2,18 +2,18 @@ package pruebaMADAM;
 
 import agent.DemographicItem;
 import ec.util.MersenneTwisterFast;
-import environment.Natality;
+import environment.Fertility;
 
-public class NatalityExample implements Natality {
+public class FertilityExample implements Fertility {
 
 	//SINGLETON
 
 	private static MersenneTwisterFast random = new MersenneTwisterFast();
-	private static NatalityExample INSTANCE = new NatalityExample();
+	private static FertilityExample INSTANCE = new FertilityExample();
 	
-	private NatalityExample() {}
+	private FertilityExample() {}
 	
-	public static NatalityExample getInstance() {
+	public static FertilityExample getInstance() {
 		return INSTANCE;
 	}
 	
