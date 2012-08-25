@@ -25,7 +25,7 @@ public class DemographicBehavior extends BasicDemographicBehavior {
 	protected void haveChild(DemographicItem person, SimpleWorld environment) {
 		// Una vez al a�o ( o dos, lo voy cambiando)
 		if (((Person) person).getSteps()%100 == 0) {
-			NatalityExample nat = NatalityExample.getInstance();
+			FertilityExample nat = FertilityExample.getInstance();
 			if (nat.newChild(person)) {
 				if (random.nextBoolean()) {
 					HombrePrueba child = new HombrePrueba(new Int2D(person.getLocation().getX(),person.getLocation().getY()),0,false);

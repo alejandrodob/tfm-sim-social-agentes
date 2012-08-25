@@ -5,7 +5,7 @@ import sim.util.Int2D;
 import agent.DemographicItem;
 import environment.Mobility;
 import environment.Mortality;
-import environment.Natality;
+import environment.Fertility;
 import environment.Nuptiality;
 import field.AbstractField2D;
 
@@ -14,7 +14,7 @@ public abstract class SimpleWorld extends SimState {
 	
 	protected AbstractField2D field;
 	
-	public Natality natality;
+	public Fertility fertility;
 	public Mortality mortality;
 	public Mobility mobility;
 	public Nuptiality nuptiality;

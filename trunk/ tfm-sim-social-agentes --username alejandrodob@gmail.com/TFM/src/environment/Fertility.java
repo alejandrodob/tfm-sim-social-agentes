@@ -2,7 +2,7 @@ package environment;
 
 import agent.DemographicItem;
 
-public interface Natality {
+public interface Fertility {
 
 	public double birthProbability(DemographicItem female);
 	
