@@ -12,7 +12,7 @@ public class Man extends Person {
 
 	public Man(Int2D location, int age, boolean coupled,
 			SocioeconomicLevel socLevel, Education education) {
-		super(location, new ListBehavior(), age, coupled, socLevel, education);
+		super(location, new ListBehavior(), age, coupled, false);
 	}
 	
 	//these methods are here because Person is a more general purpose class, maybe one should

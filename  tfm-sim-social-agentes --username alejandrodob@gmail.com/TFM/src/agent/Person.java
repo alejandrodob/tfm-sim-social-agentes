@@ -14,48 +14,45 @@ import agent.behavior.BehaviorModule;
 import agent.behavior.ListBehavior;
 import agent.social.FamilyListNetwork;
 import agent.social.FriendsListNetwork;
+import agent.social.Kinship;
 
-public abstract class Person extends DemographicItem implements Socializable {
+public class Person extends DemographicItem implements Socializable {
 	
-	///////////////////////////////////////////////////////
-	//esto de que sea abstract, no sé yo, igual lo cambio//
-	///////////////////////////////////////////////////////
+	private enum Gender {
+		FEMALE, MALE
+	}
 	
 	protected int ageInYears;
 	protected int ageInSimulationSteps;
 	protected final static int stepsPerYear = 50;//maybe should be in the class World, as it is a general parameter of the simulation
 	protected boolean coupled;
-	protected SocioeconomicLevel socLevel;
-	protected Education education;
-	protected Household household;
+	public final Gender gender;
+
 	protected FamilyListNetwork family;
 	protected FriendsListNetwork friends;
 
 	public Person() {
 		super();
+		gender = Gender.FEMALE; //default value
 	}
 
-	public Person(int age, boolean coupled, SocioeconomicLevel socLevel,
-			Education education) {
+	public Person(int age, boolean coupled, boolean female) {
 		super();
 		this.ageInYears = age;
 		this.ageInSimulationSteps = ageInYears * stepsPerYear;
 		this.coupled = coupled;
-		this.socLevel = socLevel;
-		this.education = education;
+		this.gender = female ? Gender.FEMALE : Gender.MALE;
 		family = new FamilyListNetwork();
 		friends = new FriendsListNetwork();
 		behavior = new ListBehavior();
 	}
 
-	public Person(Int2D location, Behavior behavior, int age, boolean coupled,
-			SocioeconomicLevel socLevel, Education education) {
+	public Person(Int2D location, Behavior behavior, int age, boolean coupled, boolean female) {
 		super(location, behavior);
 		this.ageInYears = age;
 		this.ageInSimulationSteps = ageInYears * stepsPerYear;
 		this.coupled = coupled;
-		this.socLevel = socLevel;
-		this.education = education;
+		this.gender = female ? Gender.FEMALE : Gender.MALE;
 		family = new FamilyListNetwork();
 		friends = new FriendsListNetwork();
 	}
@@ -79,29 +76,13 @@ public abstract class Person extends DemographicItem implements Socializable {
 	public void setCoupled(boolean coupled) {
 		this.coupled = coupled;
 	}
-
-	public SocioeconomicLevel getSocLevel() {
-		return socLevel;
+	
+	public boolean female() {
+		return gender == Gender.FEMALE;
 	}
-
-	public void setSocLevel(SocioeconomicLevel socLevel) {
-		this.socLevel = socLevel;
-	}
-
-	public Education getEducation() {
-		return education;
-	}
-
-	public void setEducation(Education education) {
-		this.education = education;
-	}
-
-	public Household getHousehold() {
-		return household;
-	}
-
-	public void setHousehold(Household household) {
-		this.household = household;
+	
+	public boolean male() {
+		return gender == Gender.MALE;
 	}
 
 	public FamilyListNetwork getFamily() {
@@ -182,6 +163,26 @@ public abstract class Person extends DemographicItem implements Socializable {
 			found = (social instanceof BasicSocialBehavior);
 		}
 		return found && ((BasicSocialBehavior)social).acceptMarriage(candidate,this);
+	}
+
+	@Override
+	public void divorce() {
+		if (isCoupled()) {
+			family.removeMember(family.couple());
+			setCoupled(false);
+		}	
+	}
+
+	@Override
+	public void marry(Person partner) {
+		if (!isCoupled()) {
+			if (male()) {
+				family.addMember(partner,Kinship.WIFE);
+			} else {
+				family.addMember(partner,Kinship.HUSBAND);
+			}
+			setCoupled(true);
+		}
 	}
 
 }

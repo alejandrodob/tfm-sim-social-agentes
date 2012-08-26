@@ -85,7 +85,7 @@ public class SocialBehaviorAdulto extends BasicSocialBehavior {
 		if (me.getAge() <= 60) {
 			FriendsNetwork amigos = (FriendsNetwork)me.getFriends();
 			if (me instanceof HombrePrueba) {
-				ArrayList<Woman> candidatos = amigos.femaleFriends();
+				ArrayList<Person> candidatos = amigos.femaleFriends();
 				if (candidatos.size() > 0) {
 					MujerPrueba candidata = (MujerPrueba) candidatos.get(random.nextInt(candidatos.size()));
 					if (cumpleRequisitos(candidata,me)) {//si me gusta como posible pareja, "pido su mano"
@@ -96,7 +96,7 @@ public class SocialBehaviorAdulto extends BasicSocialBehavior {
 					}
 				}
 			} else if (me instanceof MujerPrueba) {
-				ArrayList<Man> candidatos = amigos.maleFriends();
+				ArrayList<Person> candidatos = amigos.maleFriends();
 				if (candidatos.size() > 0) {
 					HombrePrueba candidato = (HombrePrueba) candidatos.get(random.nextInt(candidatos.size()));
 					if (cumpleRequisitos(candidato,me)) {//si me gusta como posible pareja, "pido su mano"
