@@ -8,9 +8,9 @@ import agent.Woman;
 
 public interface FriendsNetwork {
 
-	public ArrayList<Woman> femaleFriends();
+	public ArrayList<Person> femaleFriends();
 
-	public ArrayList<Man> maleFriends();
+	public ArrayList<Person> maleFriends();
 	
 	public ArrayList<Person> friends();
 	

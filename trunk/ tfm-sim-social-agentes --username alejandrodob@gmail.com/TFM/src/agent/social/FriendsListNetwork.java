@@ -9,21 +9,21 @@ import agent.Woman;
 public class FriendsListNetwork extends ListNetwork implements FriendsNetwork {
 
 	@Override
-	public ArrayList<Woman> femaleFriends() {
-		ArrayList<Woman> femFriends = new ArrayList<Woman>();
+	public ArrayList<Person> femaleFriends() {
+		ArrayList<Person> femFriends = new ArrayList<Person>();
 		for (ListElement f : network) {
-			if (f.agent instanceof Woman)
-				femFriends.add((Woman) f.agent);
+			if (((Person) f.agent).female())
+				femFriends.add((Person) f.agent);
 		}
 		return femFriends;
 	}
 
 	@Override
-	public ArrayList<Man> maleFriends() {
-		ArrayList<Man> masFriends = new ArrayList<Man>();
+	public ArrayList<Person> maleFriends() {
+		ArrayList<Person> masFriends = new ArrayList<Person>();
 		for (ListElement f : network) {
-			if (f.agent instanceof Man)
-				masFriends.add((Man) f.agent);
+			if (((Person) f.agent).male())
+				masFriends.add((Person) f.agent);
 		}
 		return masFriends;
 	}
