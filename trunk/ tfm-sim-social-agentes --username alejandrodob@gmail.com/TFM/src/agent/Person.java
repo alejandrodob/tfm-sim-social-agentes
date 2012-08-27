@@ -16,7 +16,7 @@ import agent.social.Kinship;
 
 public class Person extends DemographicItem implements Socializable {
 	
-	private enum Gender {
+	protected enum Gender {
 		FEMALE, MALE
 	}
 	
