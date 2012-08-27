@@ -1,12 +1,21 @@
 package environment;
 
-import agent.Man;
-import agent.Woman;
+import agent.DemographicItem;
 
 public interface Nuptiality {
+	
+	public double crudeNuptialityRate();
+	
+	public double generalNuptialityRate();
+	
+	public double ageSpecificNuptialityRate(int age);
+	
+	public int meanAgeAtFirstMarriage();
+	
+	public double divorceRate();
 
-	public double probabilidadBoda(Man hombre, Woman mujer);
+	public double weddingProbability(DemographicItem man, DemographicItem woman);
 
-	public double probabilidadDivorcio(Man hombre, Woman mujer);
+	public double probabilidadDivorcio(DemographicItem man, DemographicItem woman);
 
 }

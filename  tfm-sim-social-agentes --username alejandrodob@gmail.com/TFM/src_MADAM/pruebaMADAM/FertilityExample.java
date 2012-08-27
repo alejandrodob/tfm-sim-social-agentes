@@ -20,8 +20,8 @@ public class FertilityExample implements Fertility {
 
 	@Override
 	public double birthProbability(DemographicItem female) {
-		// TODO Auto-generated method stub
-		return 0;
+		MujerPrueba woman = (MujerPrueba) female;
+		return Math.exp(-0.0875*woman.getAge());
 	}
 	
 	@Override
@@ -31,7 +31,7 @@ public class FertilityExample implements Fertility {
 		if ((woman instanceof MujerPrueba) && (woman.getAge() >= 16)
 				&& (woman.getAge() <= 50) && woman.isCoupled()
 				&& woman.numHijos() < woman.getNumHijosMax())
-			return (random.nextBoolean(Math.exp(-0.0875*woman.getAge())));//no muy realista, pero bueno
+			return (random.nextBoolean(birthProbability(female)));//no muy realista, pero bueno
 		return false;
 	}
 
@@ -42,10 +42,41 @@ public class FertilityExample implements Fertility {
 	}
 
 	@Override
-	public int multipleBirth(DemographicItem female) {
+	public double crudeBirthRate() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public double generalFertilityRate() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int meanAgeOfMother() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int meanNumberOfChildrenPerWoman() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int meanTimeBetweenBirths() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double ageSpecificFertilityRate(int age) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 
 }
