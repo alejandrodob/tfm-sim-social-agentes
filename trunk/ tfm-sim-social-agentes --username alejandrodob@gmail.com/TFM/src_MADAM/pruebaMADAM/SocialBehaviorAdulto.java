@@ -3,9 +3,7 @@ package pruebaMADAM;
 import java.util.ArrayList;
 
 import agent.DemographicItem;
-import agent.Man;
 import agent.Person;
-import agent.Woman;
 import agent.behavior.BasicSocialBehavior;
 import agent.social.FriendsNetwork;
 import ec.util.MersenneTwisterFast;

@@ -3,9 +3,7 @@ package agent.social;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import agent.Man;
 import agent.Person;
-import agent.Woman;
 
 public class FamilyListNetwork extends ListNetwork implements FamilyNetwork {
 
@@ -21,30 +19,30 @@ public class FamilyListNetwork extends ListNetwork implements FamilyNetwork {
 	}
 
 	@Override
-	public Man father() {
+	public Person father() {
 		Iterator<ListElement> it = network.iterator();
 		boolean found = false;
-		Man father = null;
+		Person father = null;
 		while (it.hasNext() && !found) {
 			ListElement next = it.next();
 			if (next.atribute.equals(Kinship.FATHER)) {
 				found = true;
-				father = (Man) next.agent;
+				father = (Person) next.agent;
 			}
 		}
 		return father;
 	}
 
 	@Override
-	public Woman mother() {
+	public Person mother() {
 		Iterator<ListElement> it = network.iterator();
 		boolean found = false;
-		Woman mother = null;
+		Person mother = null;
 		while (it.hasNext() && !found) {
 			ListElement next = it.next();
 			if (next.atribute.equals(Kinship.MOTHER)) {
 				found = true;
-				mother = (Woman) next.agent;
+				mother = (Person) next.agent;
 			}
 		}
 		return mother;

@@ -2,9 +2,7 @@ package agent.social;
 
 import java.util.ArrayList;
 
-import agent.Man;
 import agent.Person;
-import agent.Woman;
 
 public class FriendsListNetwork extends ListNetwork implements FriendsNetwork {
 
