@@ -1,9 +1,17 @@
 package environment;
 
-import household.Household;
+import agent.DemographicItem;
 
 public interface Mobility {
 
-	public double probabilidadMigrar(Household familia);
-
+	public int totalAmountOfEmigrants();
+	
+	public int totalAmountOfImmigrants();
+	
+	public double crudeEmigrationRate();
+	
+	public double crudeImmigrationRate();
+	
+	public double emigrationProbability(DemographicItem person);
+	
 }

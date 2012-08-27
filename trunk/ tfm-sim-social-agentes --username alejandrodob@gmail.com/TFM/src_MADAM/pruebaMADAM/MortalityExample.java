@@ -19,12 +19,6 @@ public class MortalityExample implements Mortality {
 	}
 
 	@Override
-	public double annualDeathProbability(DemographicItem persona) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public boolean timeToDie(DemographicItem persona) {
 		// TODO Auto-generated method stub
 		return false;
@@ -43,6 +37,51 @@ public class MortalityExample implements Mortality {
 				return (age + random.nextInt(5))*50;
 			}
 		return 100*50;
+	}
+	
+	@Override
+	public double crudeDeathRate() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int lifeExpectancy(DemographicItem person) {
+		int age = ((Person) person).getAge();
+		if (age == 1){
+			if (random.nextBoolean(probabilidadMuerte(age))){
+				return (random.nextInt(4))*50;
+			}
+		}
+		else 
+			if (random.nextBoolean(probabilidadMuerte(age))){
+				return (random.nextInt(5))*50;
+			}
+		return 100*50;
+	}
+
+	@Override
+	public double deathProbability(DemographicItem person) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double ageSpecificDeathRate(int age) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double sexSpecificDeathRate(boolean man) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double ageSexSpecificDeathRate(int age, boolean man) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 
@@ -98,6 +137,5 @@ public class MortalityExample implements Mortality {
 
 		return pm;
 	}
-	
 
 }
