@@ -1,6 +1,7 @@
 package model;
 
 import sim.util.Int2D;
+import socialNetwork.Relation;
 import socialNetwork.SocialNetwork;
 import agent.DemographicItem;
 import agent.Person;
@@ -39,7 +40,7 @@ public class World extends SimpleWorld implements SocialWorld {
 	public void registerBirth(DemographicItem newborn, DemographicItem mother) {
 		addIndividual(newborn, newborn.getLocation());
 		population.addRelation((Person) mother, (Person) newborn,
-				SocialNetwork.relation.MOTHER_SON);
+				Relation.MOTHER_SON);
 	}
 	
 	@Override
@@ -52,22 +53,22 @@ public class World extends SimpleWorld implements SocialWorld {
 
 	@Override
 	public void registerWedding(Person p1, Person p2) {
-		population.addRelation(p1, p2, SocialNetwork.relation.COUPLE);
+		population.addRelation(p1, p2, Relation.COUPLE);
 	}
 
 	@Override
 	public void registerDivorce(Person p1, Person p2) {
-		population.removeRelation(p1, p2, SocialNetwork.relation.COUPLE);
+		population.removeRelation(p1, p2, Relation.COUPLE);
 	}
 
 	@Override
-	public void addFamilyLink(Person p1, Person p2, SocialNetwork.relation rel) {
+	public void addFamilyLink(Person p1, Person p2, Relation rel) {
 		population.addRelation(p1, p2, rel);
 	}
 
 	@Override
 	public void addFriendshipLink(Person p1, Person p2) {
-		population.addRelation(p1, p2, SocialNetwork.relation.FRIENDS);
+		population.addRelation(p1, p2, Relation.FRIENDS);
 	}
 
 }
