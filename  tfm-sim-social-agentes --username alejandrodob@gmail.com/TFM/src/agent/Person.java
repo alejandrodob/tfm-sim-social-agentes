@@ -6,6 +6,9 @@ import java.util.Iterator;
 
 import sim.util.Bag;
 import sim.util.Int2D;
+import agent.attributes.EconomicStatus;
+import agent.attributes.EducationLevel;
+import agent.attributes.SocialStatus;
 import agent.behavior.BasicSocialBehavior;
 import agent.behavior.Behavior;
 import agent.behavior.BehaviorModule;
@@ -23,8 +26,13 @@ public class Person extends DemographicItem implements Socializable {
 	protected int ageInYears;
 	protected int ageInSimulationSteps;
 	protected final static int stepsPerYear = 50;//maybe should be in the class World, as it is a general parameter of the simulation
+	
 	protected boolean coupled;
 	public final Gender gender;
+	
+	EconomicStatus economicStatus;
+	EducationLevel educationLevel;
+	SocialStatus socialStatus;
 
 	protected FamilyListNetwork family;
 	protected FriendsListNetwork friends;

@@ -26,7 +26,7 @@ public class FilePruebas {
 
 
     	try {
-            s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/Map.txt")));
+            s = new Scanner(new BufferedReader(new FileReader("C:\\Users\\Alejandro\\workspace-mason\\TFM\\src\\pruebas\\Map.txt")));
             mapdata = new Vector<Integer>();
             
             while (s.hasNext()) {
@@ -41,7 +41,7 @@ public class FilePruebas {
             }
         }
 		try {
-        	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/water.txt")));
+        	s = new Scanner(new BufferedReader(new FileReader("C:\\Users\\Alejandro\\workspace-mason\\TFM\\src\\pruebas\\water.txt")));
         	waterdata = new Vector<Integer>();
         	while (s.hasNext()) {
         		waterdata.add(s.nextInt());
@@ -68,9 +68,10 @@ public class FilePruebas {
 			int x = (int) (25 + ((meterEast - 2392) / 93.5));
 			int y = (int) Math.floor(45 + (37.6 + ((meterNorth - 7954) / 93.5)));
 			waterpoints.add(new Waterpoint(x,y,sarg,meterNorth,meterEast,typeWater,startDate,endDate));
+			if (meterNorth == 0) {System.out.println(i);System.out.println(meterNorth);System.out.println(meterEast);System.out.println(startDate);System.out.println(endDate);}
 		}
 		try {
-        	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/adjustedPDSI.txt")));
+        	s = new Scanner(new BufferedReader(new FileReader("C:\\Users\\Alejandro\\workspace-mason\\TFM\\src\\pruebas\\adjustedPDSI.txt")));
         	apdsidata = new Vector<Float>();
         	while (s.hasNext()) {
         		apdsidata.add(Float.parseFloat(s.next()));
@@ -84,7 +85,7 @@ public class FilePruebas {
             }
         }
 		 try {
-	        	s = new Scanner(new BufferedReader(new FileReader("/home/alejandro/workspace-mason/TFM/src/artificialAnasaziReplication/mapfiles/environment.txt")));
+	        	s = new Scanner(new BufferedReader(new FileReader("C:\\Users\\Alejandro\\workspace-mason\\TFM\\src\\pruebas\\environment.txt")));
 	        	environmentdata = new Vector<Float>();
 	        	while (s.hasNext()) {
 	        		environmentdata.add(Float.parseFloat(s.next()));
@@ -102,7 +103,7 @@ public class FilePruebas {
 		//System.out.println(mapdata);
 		
 		//System.out.println(waterdata);
-		//System.out.println(waterpoints);
+		System.out.println(waterpoints);
 
 		//System.out.println(apdsidata);
 
