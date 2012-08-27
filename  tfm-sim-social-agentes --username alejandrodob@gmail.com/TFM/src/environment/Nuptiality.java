@@ -16,6 +16,6 @@ public interface Nuptiality {
 
 	public double weddingProbability(DemographicItem man, DemographicItem woman);
 
-	public double probabilidadDivorcio(DemographicItem man, DemographicItem woman);
+	public double divorceProbability(DemographicItem man, DemographicItem woman);
 
 }
