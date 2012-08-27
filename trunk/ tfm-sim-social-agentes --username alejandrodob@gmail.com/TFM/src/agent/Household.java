@@ -1,19 +1,25 @@
 package agent;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public abstract class Household extends DemographicItem {
-	//this class is intended to be used when a household is not the minimmum unit int the simulation.
-	//otherwise, one should use DemographicItem and make a subclass of it
-		
-	protected int size;
-
-	public abstract void addMember(Person member);
+public interface Household {
 	
-	public abstract void removeMember(Person member);
+	public void addMember(DemographicItem member);
 	
-	public abstract Household fission();
+	public void removeMember(DemographicItem member);
 	
-	public abstract void disolve();
+	public Household fission();
+	
+	public void disolve();
+	
+	public List<DemographicItem> members();
+	
+	public DemographicItem father();
+	
+	public DemographicItem mother();
+	
+	public List<DemographicItem> sons();
+	
+	public int size();
 	
 }
