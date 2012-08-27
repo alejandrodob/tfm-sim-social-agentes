@@ -11,10 +11,6 @@ public class SocialNetwork {
 
 	private Network network;
 
-	public enum relation {
-		MOTHER_SON, FATHER_SON, FRIENDS, SIBLINGS, COUPLE
-	}
-
 	public SocialNetwork() {
 		super();
 		network = new Network(false);
@@ -28,11 +24,11 @@ public class SocialNetwork {
 		removeNode(person);
 	}
 
-	public void addRelation(Person p1, Person p2, relation rel) {
+	public void addRelation(Person p1, Person p2, Relation rel) {
 		addEdge(p1, p2, rel);
 	}
 
-	public void removeRelation(Person p1, Person p2, relation rel) { 
+	public void removeRelation(Person p1, Person p2, Relation rel) { 
 		Bag aux = new Bag();
 		Edge link = null;
 		aux.addAll(getEdgesIn(p1));
