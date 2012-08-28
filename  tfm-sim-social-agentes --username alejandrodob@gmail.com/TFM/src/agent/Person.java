@@ -23,10 +23,6 @@ public class Person extends DemographicItem implements Socializable {
 		FEMALE, MALE
 	}
 	
-	protected int ageInYears;
-	protected int ageInSimulationSteps;
-	protected final static int stepsPerYear = 50;//maybe should be in the class World, as it is a general parameter of the simulation
-	
 	protected boolean coupled;
 	public final Gender gender;
 	
@@ -61,18 +57,6 @@ public class Person extends DemographicItem implements Socializable {
 		this.gender = female ? Gender.FEMALE : Gender.MALE;
 		family = new FamilyListNetwork();
 		friends = new FriendsListNetwork();
-	}
-
-	public int getAge() {
-		return ageInYears;
-	}
-
-	public void setAge(int age) {
-		ageInYears = age;
-	}
-	
-	public int getSteps() {
-		return ageInSimulationSteps;
 	}
 
 	public boolean isCoupled() {

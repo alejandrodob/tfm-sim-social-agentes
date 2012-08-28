@@ -8,13 +8,13 @@ public abstract class BasicDemographicBehavior implements BehaviorModule {
 
 	@Override
 	public void behave(DemographicItem person, SimpleWorld environment) {
-		age((Person) person);
+		age(person);
 		haveChild((Person) person,environment);
 		migrate((Person) person,environment);
 		die((Person) person,environment);
 	}
 
-	protected void age(Person person) {
+	protected void age(DemographicItem person) {
 		person.setAge(person.getAge() + 1);
 	}
 
