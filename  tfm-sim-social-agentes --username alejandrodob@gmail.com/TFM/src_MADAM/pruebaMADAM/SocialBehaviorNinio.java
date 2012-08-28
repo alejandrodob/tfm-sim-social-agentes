@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import agent.DemographicItem;
 import agent.Person;
+import agent.Socializable;
 import agent.behavior.BasicSocialBehavior;
 import ec.util.MersenneTwisterFast;
 
@@ -21,8 +22,8 @@ public class SocialBehaviorNinio extends BasicSocialBehavior {
 	}
 
 	@Override
-	protected void meetPeople(Person me) {
-		if (me.getAge() > 7 && me.getSteps()%25 == 0) { //la unica diferencia con adulto es que ha de ser mayor de 7 años
+	protected void meetPeople(Socializable me) {
+		if (((Person) me).getAge() > 7 && ((Person) me).getSteps()%25 == 0) { //la unica diferencia con adulto es que ha de ser mayor de 7 años
 			//va a haber 2 maneras de conocer gente, conocer gente al azar de entre los que est�n a su 
 			//alrededor, o conocer a conocidos de conocidos
 
@@ -47,14 +48,14 @@ public class SocialBehaviorNinio extends BasicSocialBehavior {
 					cont++;
 				}
 				while (me.isFriend(personaB) && (cont <= genteCerca.size()));
-				if (personaB.acceptFriendshipProposal(me)) {
+				if (personaB.acceptFriendshipProposal((Person) me)) {
 					makeNewFriend(personaB,me);
 				}
 			}
 			//segunda manera
 			else {
 				//mis amigos
-				ArrayList<Person> amigos = me.getFriends().friends();
+				ArrayList<Person> amigos = ((Person) me).getFriends().friends();
 				if (amigos.size() > 0) {
 					//se escoge uno al azar, y se obtienen sus amigos
 					Person amigo = amigos.get(random.nextInt(amigos.size()));
@@ -62,7 +63,7 @@ public class SocialBehaviorNinio extends BasicSocialBehavior {
 					if (amigosDeAmigo.size() > 0) {
 						//se escoge uno al azar, y le propongo amistad
 						Person amigoDeAmigo = amigosDeAmigo.get(random.nextInt(amigosDeAmigo.size()));
-						if (amigoDeAmigo.acceptFriendshipProposal(me)) {
+						if (amigoDeAmigo.acceptFriendshipProposal((Person) me)) {
 							makeNewFriend(amigoDeAmigo,me);
 						}
 					}
@@ -72,33 +73,33 @@ public class SocialBehaviorNinio extends BasicSocialBehavior {
 	}
 
 	@Override
-	protected void makeNewFriend(Person friend, Person me) {
-		me.addFriend(friend, null);
+	protected void makeNewFriend(Socializable friend, Socializable me) {
+		me.addFriend((DemographicItem) friend, null);
 	}
 
 	@Override
-	protected void searchForMate(Person me) {
+	protected void searchForMate(Socializable me) {
 		//no busca pareja, es un ninio
 		//eso sí, comprobara en cada ciclo si alcanza los 16 años, momento en el cual
 		//se cambiara de comportamiento a uno de adulto, en que comenzara a buscar pareja
-		if (me.getAge() >= 10) {
-			me.removeBehaviorModule(this);
-			me.addBehaviorModule(SocialBehaviorAdulto.getInstance());
+		if (((Person) me).getAge() >= 10) {
+			((DemographicItem) me).removeBehaviorModule(this);
+			((DemographicItem) me).addBehaviorModule(SocialBehaviorAdulto.getInstance());
 		}
 	}
 
 	@Override
-	protected void marry(Person partner, Person me) {
+	protected void marry(Socializable partner, Socializable me) {
 		//no se casa, es un ninio
 	}
 
 	@Override
-	public boolean acceptFriend(Person friend, Person me) {
+	public boolean acceptFriend(Socializable friend, Socializable me) {
 		return true;
 	}
 
 	@Override
-	public boolean acceptMarriage(Person candidate, Person me) {
+	public boolean acceptMarriage(Socializable candidate, Socializable me) {
 		return false;
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import agent.DemographicItem;
 import agent.Person;
+import agent.Socializable;
 import agent.behavior.BasicSocialBehavior;
 import agent.social.FriendsNetwork;
 import ec.util.MersenneTwisterFast;
@@ -22,9 +23,9 @@ public class SocialBehaviorAdulto extends BasicSocialBehavior {
 	}
 	
 	@Override
-	protected void meetPeople(Person me) {
+	protected void meetPeople(Socializable me) {
 		//se conocen (activamente) a 2 personas al año
-		if (me.getSteps()%25 == 0) {
+		if (((Person) me).getSteps()%25 == 0) {
 			//va a haber 2 maneras de conocer gente, conocer gente al azar de entre los que est�n a su 
 			//alrededor, o conocer a conocidos de conocidos
 
@@ -49,14 +50,14 @@ public class SocialBehaviorAdulto extends BasicSocialBehavior {
 					cont++;
 				}
 				while (me.isFriend(personaB) && (cont <= genteCerca.size()));
-				if (personaB.acceptFriendshipProposal(me)) {
+				if (personaB.acceptFriendshipProposal((Person) me)) {
 					makeNewFriend(personaB,me);
 				}
 			}
 			//segunda manera
 			else {
 				//mis amigos
-				ArrayList<Person> amigos = me.getFriends().friends();
+				ArrayList<Person> amigos = ((Person) me).getFriends().friends();
 				if (amigos.size() > 0) {
 					//se escoge uno al azar, y se obtienen sus amigos
 					Person amigo = amigos.get(random.nextInt(amigos.size()));
@@ -64,7 +65,7 @@ public class SocialBehaviorAdulto extends BasicSocialBehavior {
 					if (amigosDeAmigo.size() > 0) {
 						//se escoge uno al azar, y le propongo amistad
 						Person amigoDeAmigo = amigosDeAmigo.get(random.nextInt(amigosDeAmigo.size()));
-						if (amigoDeAmigo.acceptFriendshipProposal(me)) {
+						if (amigoDeAmigo.acceptFriendshipProposal((Person) me)) {
 							makeNewFriend(amigoDeAmigo,me);
 						}
 					}
@@ -74,21 +75,21 @@ public class SocialBehaviorAdulto extends BasicSocialBehavior {
 	}
 
 	@Override
-	protected void makeNewFriend(Person friend, Person me) {
-		me.addFriend(friend, null);
+	protected void makeNewFriend(Socializable friend, Socializable me) {
+		me.addFriend((DemographicItem) friend, null);
 	}
 
 	@Override
-	protected void searchForMate(Person me) {
-		if (me.getAge() <= 60) {
-			FriendsNetwork amigos = (FriendsNetwork)me.getFriends();
+	protected void searchForMate(Socializable me) {
+		if (((Person) me).getAge() <= 60) {
+			FriendsNetwork amigos = (FriendsNetwork)((Person) me).getFriends();
 			if (me instanceof HombrePrueba) {
 				ArrayList<Person> candidatos = amigos.femaleFriends();
 				if (candidatos.size() > 0) {
 					MujerPrueba candidata = (MujerPrueba) candidatos.get(random.nextInt(candidatos.size()));
-					if (cumpleRequisitos(candidata,me)) {//si me gusta como posible pareja, "pido su mano"
-						if (candidata.acceptMarriageProposal(me)) {
-							if (me.isCoupled()) me.divorce();
+					if (cumpleRequisitos(candidata,(Person) me)) {//si me gusta como posible pareja, "pido su mano"
+						if (candidata.acceptMarriageProposal((Person) me)) {
+							if (((Person) me).isCoupled()) me.divorce();
 							marry(candidata,me);
 						}
 					}
@@ -97,9 +98,9 @@ public class SocialBehaviorAdulto extends BasicSocialBehavior {
 				ArrayList<Person> candidatos = amigos.maleFriends();
 				if (candidatos.size() > 0) {
 					HombrePrueba candidato = (HombrePrueba) candidatos.get(random.nextInt(candidatos.size()));
-					if (cumpleRequisitos(candidato,me)) {//si me gusta como posible pareja, "pido su mano"
-						if (candidato.acceptMarriageProposal(me)) {
-							if (me.isCoupled()) me.divorce();
+					if (cumpleRequisitos(candidato,(Person) me)) {//si me gusta como posible pareja, "pido su mano"
+						if (candidato.acceptMarriageProposal((Person) me)) {
+							if (((Person) me).isCoupled()) me.divorce();
 							marry(candidato,me);
 						}
 					}
@@ -107,22 +108,22 @@ public class SocialBehaviorAdulto extends BasicSocialBehavior {
 			}
 		}
 		//relajamos la exigencia de b�squeda de pareja
-		relajarExigencia(me);
+		relajarExigencia((Person) me);
 	}
 
 	@Override
-	protected void marry(Person partner, Person me) {
-		me.marry(partner);
+	protected void marry(Socializable partner, Socializable me) {
+		me.marry((Person) partner);
 	}
 
 	@Override
-	public boolean acceptFriend(Person friend, Person me) {
+	public boolean acceptFriend(Socializable friend, Socializable me) {
 		return true;
 	}
 
 	@Override
-	public boolean acceptMarriage(Person candidate, Person me) {
-		return cumpleRequisitos(candidate,me);
+	public boolean acceptMarriage(Socializable candidate, Socializable me) {
+		return cumpleRequisitos((Person) candidate,(Person) me);
 	}
 	
 	protected boolean cumpleRequisitos(Person posiblePareja,Person me) {
