@@ -81,6 +81,10 @@ public class DemographicItem implements Steppable {
 	public void addBehaviorModule(BehaviorModule behaviorMod) {
 		behavior.addBehaviorMod(behaviorMod);
 	}
+	
+	public void addBehaviorModule(BehaviorModule behaviorMod, int priority) {
+		behavior.addBehaviorMod(behaviorMod, priority);
+	}
 
 	public void removeBehaviorModule(BehaviorModule behaviorMod) {
 		behavior.removeBehaviorMod(behaviorMod);
