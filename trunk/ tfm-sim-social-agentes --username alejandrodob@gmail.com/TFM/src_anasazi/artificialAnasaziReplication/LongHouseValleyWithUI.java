@@ -78,8 +78,7 @@ public class LongHouseValleyWithUI extends GUIState {
 			public void step(SimState state) {
 
 				double time = state.schedule.getTime(); 
-				double simPop = ((LongHouseValley) state).numHouseholds;
-				double dataPop = ((LongHouseValley) state).historicalHouseholds();
+				double simPop = ((LongHouseValley) state).numHouseholds();
 
 				// now add the data
 				if (time >= state.schedule.EPOCH && time < state.schedule.AFTER_SIMULATION)
@@ -91,7 +90,6 @@ public class LongHouseValleyWithUI extends GUIState {
 			public void step(SimState state) {
 
 				double time = state.schedule.getTime(); 
-				double simPop = ((LongHouseValley) state).numHouseholds;
 				double dataPop = ((LongHouseValley) state).historicalHouseholds();
 
 				// now add the data

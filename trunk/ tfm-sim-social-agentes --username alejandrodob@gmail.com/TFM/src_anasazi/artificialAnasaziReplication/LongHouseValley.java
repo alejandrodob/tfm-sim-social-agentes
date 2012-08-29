@@ -36,7 +36,9 @@ public class LongHouseValley extends SimpleWorld {
 	private static final int initialNumberHouseholds = 14;
 	
 	//statistics
-	public int numHouseholds = initialNumberHouseholds;
+	public int numHouseholds() {
+		return population.size();
+	}
 	public int historicalHouseholds() {
 		ValleyFloor f = (ValleyFloor) field;
 		if (f != null) {
@@ -64,7 +66,6 @@ public class LongHouseValley extends SimpleWorld {
 		super.start();
 		year = 800;
 		farmSitesAvailable = 0;
-		numHouseholds = initialNumberHouseholds;
 		field = new ValleyFloor();
 		population = new SparseGrid2D(ValleyFloor.WIDTH, ValleyFloor.HEIGHT);
 		schedule.scheduleRepeating(schedule.getTime() + 1, 0, (Steppable) field);
@@ -131,7 +132,6 @@ public class LongHouseValley extends SimpleWorld {
 
 	@Override
 	public void registerDeath(DemographicItem person) {
-		numHouseholds--;
 		removeIndividual(person);
 	}
 
@@ -162,7 +162,6 @@ public class LongHouseValley extends SimpleWorld {
 				//add the household to the simulation
 				if (settled) addIndividual(newhh,newhh.getLocation());
 			}
-			numHouseholds++;
 		} else {
 			//no farmsite available for the new household, so cannot enter the system
 			((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).ssetOcfarm(false);
