@@ -87,12 +87,12 @@ public class LongHouseValley extends SimpleWorld {
 			//now a decent one
 			potFarms = determinePotentialFarms();
 			if (potFarms.size() > 0) {
-				Int2D bestFarm = hh.determineBestFarm(potFarms);
+				Int2D bestFarm = FarmingBehavior.getInstance().determineBestFarm(potFarms,hh);
 				changeFarmLocation(hh,bestFarm);
 				//find a settlement nearby
 				boolean settled = false;
 				while (!settled) {
-					hh.setLocation(hh.findInitialSettlementNearFarm(this));
+					hh.setLocation(FarmingBehavior.getInstance().findInitialSettlementNearFarm(hh,this));
 					((ValleyFloor) field).plotAt(hh.getLocation().x, hh.getLocation().y).incHousholdNum();
 					settled = (hh.getLocation()!= null);
 					//add the household to the simulation
@@ -151,12 +151,12 @@ public class LongHouseValley extends SimpleWorld {
 		//now a decent one
 		potFarms = determinePotentialFarms();
 		if (potFarms.size() > 0) {
-			Int2D bestFarm = newhh.determineBestFarm(potFarms);
+			Int2D bestFarm = FarmingBehavior.getInstance().determineBestFarm(potFarms,newhh);
 			changeFarmLocation(newhh,bestFarm);
 			//find a settlement nearby
 			boolean settled = false;
 			while (!settled) {
-				newhh.setLocation(newhh.findInitialSettlementNearFarm(this));
+				newhh.setLocation(FarmingBehavior.getInstance().findInitialSettlementNearFarm(newhh, this));
 				((ValleyFloor) field).plotAt(newhh.getLocation().x, newhh.getLocation().y).incHousholdNum();
 				settled = (newhh.getLocation()!= null);
 				//add the household to the simulation
