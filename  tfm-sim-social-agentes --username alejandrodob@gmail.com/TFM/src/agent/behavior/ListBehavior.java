@@ -21,6 +21,12 @@ public class ListBehavior implements Behavior {
 	public void addBehaviorMod(BehaviorModule behavior) {
 		behaviors.add(behavior);
 	}
+	
+	@Override
+	public void addBehaviorMod(BehaviorModule behaviorMod, int priority) {
+		//ignore priority in this implementation of Behavior
+		addBehaviorMod(behaviorMod);
+	}
 
 	@Override
 	public void removeBehaviorMod(BehaviorModule behavior) {
