@@ -5,6 +5,7 @@ import java.util.Vector;
 import sim.util.Int2D;
 import agent.DemographicItem;
 import agent.behavior.ListBehavior;
+import agent.behavior.PriorityBehavior;
 import ec.util.MersenneTwisterFast;
 
 public class Household extends DemographicItem {
@@ -22,11 +23,11 @@ public class Household extends DemographicItem {
 	public final static int yearsOfStock = 2; //number of years the corn harvest can be stored
 	
 	public Household() {
-		behavior = new ListBehavior();
+		behavior = new PriorityBehavior();
 		
-		//add the behaviors. it's important that farmingBehavior is added first as it should be executed first
-		addBehaviorModule(FarmingBehavior.getInstance());
-		addBehaviorModule(DemographicBehaviorHousehold.getInstance());
+		//add the behaviors. give priority to farmingBehavior as it should be executed first
+		addBehaviorModule(DemographicBehaviorHousehold.getInstance(),0);
+		addBehaviorModule(FarmingBehavior.getInstance(),-1);
 		
 		//the next corresponds to the inithousehold method in NetLogo
 		agedCornStocks[0] = LongHouseValley.householdMinInitialCorn + random.nextDouble() * (LongHouseValley.householdMaxInitialCorn - LongHouseValley.householdMinInitialCorn);
@@ -96,131 +97,6 @@ public class Household extends DemographicItem {
 	        	ys --;
 	        }
 	        setEstimate(total + getLastHarvest());
-	}
-
-	public Int2D determineBestFarm(Vector<Int2D> potfarms) {
-		Int2D existingFarm = new Int2D(getFarmlocation().x,getFarmlocation().y);
-		Int2D bestFarm = null;
-		double distancetns = Double.MAX_VALUE;
-		for (Int2D farm : potfarms) {
-			double dist = ValleyFloor.distance(existingFarm, farm);
-			if (dist < distancetns) {
-				bestFarm = farm;
-				distancetns = dist;
-			}
-		}
-		return bestFarm;
-	}
-	
-	public Int2D findInitialSettlementNearFarm(LongHouseValley valley) {
-
-		boolean settlementFound = false;
-		int xh = 0;
-		int yh = 0;
-
-		double by = ((ValleyFloor) valley.getField()).plotAt(farmlocation.x,farmlocation.y).getYield();
-		Vector<Int2D> potSettle = ((ValleyFloor) valley.getField()).potentialSettlements(by);
-
-		//if there are cells with water which are not farmed and in a zone that is less productive than the zone where the favorite farm plot is located
-		if (potSettle.size() > 0) {
-			double minDist = Double.MAX_VALUE;
-			Int2D minSettle = null;
-			for (Int2D ps : potSettle) {
-				if (ValleyFloor.distance(farmlocation, ps) < minDist) {
-					minDist = ValleyFloor.distance(farmlocation, ps);
-					minSettle = ps;
-				}
-			}
-			if (minDist <= LongHouseValley.farmToResidenceDistance) {
-				xh = minSettle.x;
-				yh = minSettle.y;
-				settlementFound = true;
-			} else {
-				settlementFound = false;
-			}
-			if (settlementFound) {
-				potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsRelaxed();
-				double minDist2 = Double.MAX_VALUE;
-				Int2D minSettle2 = null;
-				Int2D bestSett = new Int2D(xh,yh);
-				for (Int2D ps : potSettle) {
-					if (ValleyFloor.distance(bestSett, ps) < minDist2) {
-						minDist2 = ValleyFloor.distance(bestSett, ps);
-						minSettle2 = ps;
-					}
-				}
-				xh = minSettle2.x;
-				yh = minSettle2.y;
-			}
-		}
-
-		//if no settlement is found yet
-		if (!settlementFound) {
-			potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsReRelaxed();
-			double minDist3 = Double.MAX_VALUE;
-			Int2D minSettle3 = null;
-			for (Int2D ps : potSettle) {
-				if (ValleyFloor.distance(farmlocation, ps) < minDist3) {
-					minDist3 = ValleyFloor.distance(farmlocation, ps);
-					minSettle3 = ps;
-				}
-			}
-			if (minDist3 <= LongHouseValley.farmToResidenceDistance) {
-				xh = minSettle3.x;
-				yh = minSettle3.y;
-				settlementFound = true;
-			} else {
-				settlementFound = false;
-			}
-			if (settlementFound) {
-				potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsRelaxed();
-				double minDist4 = Double.MAX_VALUE;
-				Int2D minSettle4 = null;
-				Int2D bestSett = new Int2D(xh,yh);
-				for (Int2D ps : potSettle) {
-					if (ValleyFloor.distance(bestSett, ps) < minDist4) {
-						minDist4 = ValleyFloor.distance(bestSett, ps);
-						minSettle4 = ps;
-					}
-				}
-				xh = minSettle4.x;
-				yh = minSettle4.y;
-			}
-		}
-
-		// if not settlement found, don't worry about nearby watersources...
-		if (!settlementFound) {
-			potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsReRelaxed();
-			double minDist3 = Double.MAX_VALUE;
-			Int2D minSettle3 = null;
-			for (Int2D ps : potSettle) {
-				if (ValleyFloor.distance(farmlocation, ps) < minDist3) {
-					minDist3 = ValleyFloor.distance(farmlocation, ps);
-					minSettle3 = ps;
-				}
-			}
-			xh = minSettle3.x;
-			yh = minSettle3.y;
-			settlementFound = true;
-			if (settlementFound) {
-				potSettle = ((ValleyFloor) valley.getField()).potentialSettlementsRelaxed();
-				double minDist4 = Double.MAX_VALUE;
-				Int2D minSettle4 = null;
-				Int2D bestSett = new Int2D(xh,yh);
-				for (Int2D ps : potSettle) {
-					if (ValleyFloor.distance(bestSett, ps) < minDist4) {
-						minDist4 = ValleyFloor.distance(bestSett, ps);
-						minSettle4 = ps;
-					}
-				}
-				xh = minSettle4.x;
-				yh = minSettle4.y;
-			}
-		}
-		if (settlementFound) {
-			return new Int2D(xh,yh);
-		}
-		return null;
 	}
 	
 	public void die(LongHouseValley valley) {
