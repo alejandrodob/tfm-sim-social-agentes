@@ -40,6 +40,7 @@ public class LongHouseValleyWithUI extends GUIState {
 	//variables for charting population
 	org.jfree.data.xy.XYSeries seriesSim;
 	org.jfree.data.xy.XYSeries seriesDat;
+	org.jfree.data.xy.XYSeries seriesCCapacity;
     sim.util.media.chart.TimeSeriesChartGenerator chart;
     
 	
@@ -70,6 +71,7 @@ public class LongHouseValleyWithUI extends GUIState {
 		chart.removeAllSeries();
 		seriesSim = new org.jfree.data.xy.XYSeries("Simulated population",false);
 		seriesDat = new org.jfree.data.xy.XYSeries("Historical data population",false);
+		seriesCCapacity = new org.jfree.data.xy.XYSeries("Carrying Capacity",false);
 		
 		chart.addSeries(seriesSim, null);
 		scheduleImmediateRepeat(true, new Steppable() {
@@ -95,6 +97,18 @@ public class LongHouseValleyWithUI extends GUIState {
 				// now add the data
 				if (time >= state.schedule.EPOCH && time < state.schedule.AFTER_SIMULATION)
 					seriesDat.add(time + 800, dataPop, true);
+			}
+		});
+		chart.addSeries(seriesCCapacity, null);
+		scheduleImmediateRepeat(true, new Steppable() {
+			public void step(SimState state) {
+
+				double time = state.schedule.getTime(); 
+				int carryingCapacity = ((ValleyFloor) ((LongHouseValley) state).getField()).calculateCarryingCapacity();
+
+				// now add the data
+				if (time >= state.schedule.EPOCH && time < state.schedule.AFTER_SIMULATION)
+					seriesCCapacity.add(time + 800, carryingCapacity, true);
 			}
 		});
 	}
