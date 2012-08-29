@@ -290,7 +290,19 @@ public class ValleyFloor extends MutableField2D {
 			for (int y = 0;y<HEIGHT;y++) {
 				plotAt(x,y).calculateBaseYield(harvestAdjustment);
 			}
-		} 
+		}
+	}
+	
+	public int calculateCarryingCapacity() {
+		int cc = 0;
+		for (int x = 0;x< WIDTH;x++) {
+			for (int y = 0;y<HEIGHT;y++) {
+				if (plotAt(x,y).getBaseYield() >= LongHouseValley.householdMinNutritionNeed) {
+					cc++;
+				}
+			}
+		}
+		return cc;
 	}
 	
 	public Plot plotAt(int x, int y) {
