@@ -25,7 +25,7 @@ public class Household extends DemographicItem {
 	public Household() {
 		behavior = new PriorityBehavior();
 		
-		//add the behaviors. give priority to farmingBehavior as it should be executed first
+		//add the behaviors. give priority (lower index value) to farmingBehavior as it should be executed first
 		addBehaviorModule(DemographicBehaviorHousehold.getInstance(),0);
 		addBehaviorModule(FarmingBehavior.getInstance(),-1);
 		
@@ -87,16 +87,6 @@ public class Household extends DemographicItem {
 	}
 	public void setNutritionNeedRemaining(double nutritionNeedRemaining) {
 		this.nutritionNeedRemaining = nutritionNeedRemaining;
-	}
-	
-	public void estimateHarvest() {
-		double total = 0;
-		int ys = yearsOfStock - 1;
-	        while (ys > -1) {
-	        	total += getAgedCornStocks()[ys];
-	        	ys --;
-	        }
-	        setEstimate(total + getLastHarvest());
 	}
 	
 	public void die(LongHouseValley valley) {

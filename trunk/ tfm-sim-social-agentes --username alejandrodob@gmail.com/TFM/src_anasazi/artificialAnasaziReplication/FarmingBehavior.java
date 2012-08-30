@@ -305,10 +305,20 @@ public class FarmingBehavior implements BehaviorModule{
 		}
 	}
 	
+	private void estimateHarvest(Household individual) {
+		double total = 0;
+		int ys = Household.yearsOfStock - 1;
+	        while (ys > -1) {
+	        	total += individual.getAgedCornStocks()[ys];
+	        	ys --;
+	        }
+	        individual.setEstimate(total + individual.getLastHarvest());
+	}
+	
 	@Override
 	public void behave(DemographicItem individual, SimpleWorld environment) {
 		harvestConsumption((Household) individual,(LongHouseValley) environment);
-		((Household) individual).estimateHarvest();
+		estimateHarvest((Household) individual);
 		//see if needs to move
 		if (((Household) individual).getEstimate() < ((Household) individual).getNutritionNeed()) {
 			findFarmAndSettlement((Household) individual, (LongHouseValley) environment);
