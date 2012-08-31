@@ -645,7 +645,7 @@ public class ValleyFloor extends MutableField2D {
 	
 	
 	public static double distance(Int2D orig, Int2D dest) {
-		return Math.sqrt(Math.abs(orig.x - dest.x) + Math.abs(orig.y - dest.y));
+		return Math.sqrt((orig.x - dest.x)*(orig.x - dest.x) + (orig.y - dest.y)*(orig.y - dest.y));
 	}
 	
 	public Vector<Int2D> determinePotFarms(int householdMinNutritionNeed) {
