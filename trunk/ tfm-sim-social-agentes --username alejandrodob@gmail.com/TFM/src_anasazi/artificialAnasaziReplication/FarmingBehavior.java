@@ -26,11 +26,11 @@ public class FarmingBehavior implements BehaviorModule{
 	}
 	
 	public Int2D determineBestFarm(Vector<Int2D> potfarms, Household household) {
-		Int2D existingFarm = new Int2D(household.getLocation().x,household.getLocation().y);
+		Int2D settlementLoc = new Int2D(household.getLocation().x,household.getLocation().y);
 		Int2D bestFarm = null;
 		double distancetns = Double.MAX_VALUE;
 		for (Int2D farm : potfarms) {
-			double dist = ValleyFloor.distance(existingFarm, farm);
+			double dist = ValleyFloor.distance(settlementLoc, farm);
 			if (dist < distancetns) {
 				bestFarm = farm;
 				distancetns = dist;
