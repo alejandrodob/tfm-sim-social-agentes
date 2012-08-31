@@ -76,15 +76,17 @@ public class LongHouseValley extends SimpleWorld {
 		for (int i = 0;i<initialNumberHouseholds;i++) {
 			Vector<Int2D> potFarms = determinePotentialFarms();
 			Household hh = new Household();
-			//random location for farming
+			//random location for farming and settling
 			boolean rand = false;
-			Int2D randomFarm = null;
+			Int2D randomLoc = null;
 			while (!rand) {
-				randomFarm = new Int2D(random.nextInt(ValleyFloor.WIDTH),random.nextInt(ValleyFloor.HEIGHT));
-				rand = !((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).isOcfarm();
+				randomLoc = new Int2D(random.nextInt(ValleyFloor.WIDTH),random.nextInt(ValleyFloor.HEIGHT));
+				rand = !((ValleyFloor) field).plotAt(randomLoc.x, randomLoc.y).isOcfarm();
 			}
-			hh.setFarmlocation(randomFarm);
-			((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).ssetOcfarm(true);
+			hh.setFarmlocation(randomLoc);
+			hh.setLocation(randomLoc);
+			((ValleyFloor) field).plotAt(randomLoc.x, randomLoc.y).ssetOcfarm(true);
+			((ValleyFloor) field).plotAt(randomLoc.x, randomLoc.y).incHouseholdNum();
 			//now a decent one
 			potFarms = determinePotentialFarms();
 			if (potFarms.size() > 0) {
@@ -94,15 +96,16 @@ public class LongHouseValley extends SimpleWorld {
 				boolean settled = false;
 				while (!settled) {
 					hh.setLocation(FarmingBehavior.getInstance().findInitialSettlementNearFarm(hh,this));
-					((ValleyFloor) field).plotAt(hh.getLocation().x, hh.getLocation().y).incHousholdNum();
+					((ValleyFloor) field).plotAt(hh.getLocation().x, hh.getLocation().y).incHouseholdNum();
 					settled = (hh.getLocation()!= null);
 					//add the household to the simulation
 					if (settled) addIndividual(hh,hh.getLocation());
 				}
 			} else {
 				//no farmsites available, so agent cannot enter the system
-				((ValleyFloor) field).plotAt(randomFarm.x, randomFarm.y).ssetOcfarm(false);
+				((ValleyFloor) field).plotAt(randomLoc.x, randomLoc.y).ssetOcfarm(false);
 			}
+			((ValleyFloor) field).plotAt(randomLoc.x, randomLoc.y).decHouseholdNum();
 		}
 		//add a steppable that increments the year after the agents have stepped in the current year
 		Steppable yearIncrem = new Steppable() {
@@ -157,7 +160,7 @@ public class LongHouseValley extends SimpleWorld {
 			boolean settled = false;
 			while (!settled) {
 				newhh.setLocation(FarmingBehavior.getInstance().findInitialSettlementNearFarm(newhh, this));
-				((ValleyFloor) field).plotAt(newhh.getLocation().x, newhh.getLocation().y).incHousholdNum();
+				((ValleyFloor) field).plotAt(newhh.getLocation().x, newhh.getLocation().y).incHouseholdNum();
 				settled = (newhh.getLocation()!= null);
 				//add the household to the simulation
 				if (settled) addIndividual(newhh,newhh.getLocation());
@@ -175,7 +178,7 @@ public class LongHouseValley extends SimpleWorld {
 		hh.setLocation(to);
 		population.setObjectLocation(hh,to);
 		((ValleyFloor) field).plotAt(formerLocation.x, formerLocation.y).decHouseholdNum();
-		((ValleyFloor) field).plotAt(to.x, to.y).incHousholdNum();
+		((ValleyFloor) field).plotAt(to.x, to.y).incHouseholdNum();
 	}
 	
 	public int year() {
