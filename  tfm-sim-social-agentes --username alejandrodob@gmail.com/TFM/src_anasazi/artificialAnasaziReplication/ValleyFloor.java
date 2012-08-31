@@ -131,7 +131,7 @@ public class ValleyFloor extends MutableField2D {
 			ssetBaseYield(getYield() * getQuality() * harvestAdjustment);
 		}
 		
-		public void incHousholdNum() {
+		public void incHouseholdNum() {
 			ssetOchousehold(getOchousehold() + 1);
 		}
 		
