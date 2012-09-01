@@ -18,11 +18,11 @@ public class LongHouseValley extends SimpleWorld {
 
 	public double harvestAdjustment = 0.54;
 	public double harvestVariance = 0.1;
+	public double spatialHarvestVariance = 0.4;
 	private int deathAge = 38;
 	private double fertility = 0.155;
 	private int fertilityEndsAge = 34;
 	
-	public static final double spatialHarvestVariance = 0.4;
 	public static final double farmToResidenceDistance = 16;
 	public static final double maizeGiveToChild = 0.33;
 	public static final int householdMinInitialCorn = 2000;
@@ -66,7 +66,7 @@ public class LongHouseValley extends SimpleWorld {
 		super.start();
 		year = 800;
 		farmSitesAvailable = 0;
-		field = new ValleyFloor();
+		field = new ValleyFloor(spatialHarvestVariance);
 		population = new SparseGrid2D(ValleyFloor.WIDTH, ValleyFloor.HEIGHT);
 		schedule.scheduleRepeating(schedule.getTime() + 1, 0, (Steppable) field);
 		((ValleyFloor) field).water(year);
@@ -235,6 +235,14 @@ public class LongHouseValley extends SimpleWorld {
 
 	public void setHarvestVariance(double harvestVariance) {
 		this.harvestVariance = harvestVariance;
+	}
+	
+	public double getSpatialHarvestVariance() {
+		return spatialHarvestVariance;
+	}
+
+	public void setSpatialHarvestVariance(double spatialHarvestVariance) {
+		this.spatialHarvestVariance = spatialHarvestVariance;
 	}
 
 	public Vector<Int2D> determinePotentialFarms() {
