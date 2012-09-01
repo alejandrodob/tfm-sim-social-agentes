@@ -253,9 +253,9 @@ public class ValleyFloor extends MutableField2D {
 		}
 	}
 	
-	public ValleyFloor() {
+	public ValleyFloor(double spatialHarvestVariance) {
 		super(WIDTH,HEIGHT);
-		initMap();
+		initMap(spatialHarvestVariance);
 	}
 
 	@Override
@@ -313,14 +313,14 @@ public class ValleyFloor extends MutableField2D {
 		grid.set(x, y, (Plot) plot);
 	}
 	
-	private void initMap() {
+	private void initMap(double spatialHarvestVariance) {
 		
 		//load data and create the valley map
 		for (int x = 0;x< WIDTH;x++) {
 			for (int y = 0;y<HEIGHT;y++) {
 				Plot plot = new Plot();
 				plot.ssetWatersource(false);
-				double quality = random.nextGaussian() * LongHouseValley.spatialHarvestVariance + 1;
+				double quality = random.nextGaussian() * spatialHarvestVariance + 1;
 				if (quality >= 0) plot.ssetQuality(quality);
 				else plot.ssetQuality(0);
 				setPlotAt(x,y,plot);
