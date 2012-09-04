@@ -6,52 +6,99 @@ public class AjusteParametro {
 
 	
 	public static void main(String[] args) {
-		int bestDeathAge = 0;
-		int bestFertAge = 0;
-		double bestFert = 0;
-		double bestHarvVar = 0;
-		double bestHArvAdjus = 0;
-		double bestNormPop = Double.MAX_VALUE;
-		double bestNormCar = Double.MAX_VALUE;
-		for (int death = 32; death <= 38; death += 2) {
-			for (int fertAge = 32; fertAge <= death; fertAge += 2) {
-				for(double fert = 0.125; fert <= 0.185; fert += 0.015) {
-					for (double harvVar = 0; harvVar <= 0.3; harvVar += 0.05) {
-						for (double harvAdjus = 0.5; harvAdjus <= 0.6; harvAdjus += 0.02) {
-							int jobs = 10; // let's do 100 runs
-							double l2pop= 0;
-							double l2car= 0;
-							LongHouseValley state = new LongHouseValley(System.currentTimeMillis());
-							state.setDeathAge(death);
-							state.setFertilityEndsAge(fertAge);
-							state.setFertility(fert);
-							state.setHarvestAdjustment(harvAdjus);
-							state.setHarvestVariance(harvVar);
-							state.nameThread();
-							for(int job = 0; job < jobs; job++) {
-								state.setJob(job);
-								state.start();
-								do
-									if (!state.schedule.step(state)) break;
-								while(state.schedule.getSteps() < 551);
-								l2pop += state.l2Pop();
-								//l2car += state.l2Car();
-								state.finish();
-							}
-							if (l2pop/jobs < bestNormPop) {
-								bestNormPop = l2pop/jobs;
-								bestDeathAge = death;
-								bestFertAge = fertAge;
-								bestFert = fert;
-								bestHarvVar = harvVar;
-								bestHArvAdjus = harvAdjus;
+		int bestDeathAge1 = 0;
+		int bestFertAge1 = 0;
+		double bestFert1 = 0;
+		double bestHarvVar1 = 0;
+		double bestSpatialHarv1 = 0;
+		double bestHarvAdjus1 = 0;
+		double bestNormPop1 = Double.MAX_VALUE;
+		
+		int bestDeathAge2 = 0;
+		int bestFertAge2 = 0;
+		double bestFert2 = 0;
+		double bestHarvVar2 = 0;
+		double bestSpatialHarv2 = 0;
+		double bestHarvAdjus2 = 0;
+		double bestNormPop2 = Double.MAX_VALUE;
+		
+		double bestSpatialHarv1car = 0;
+		double bestHarvAdjus1car = 0;
+		double bestNormCar1 = Double.MAX_VALUE;
+
+		double bestSpatialHarv2car = 0;
+		double bestHarvAdjus2car = 0;
+		double bestNormCar2 = Double.MAX_VALUE;
+		
+		for (int death = 36; death <= 38; death += 2) {
+			for (int fertAge = 32; fertAge <= 34; fertAge += 2) {
+				for(double fert = 0.125; fert <= 0.155; fert += 0.015) {
+					for (double harvVar = 0; harvVar <= 0.2; harvVar += 0.05) {
+						for (double harvAdjus = 0.54; harvAdjus <= 0.6; harvAdjus += 0.02) {
+							for (double spatialHarvVar = 0.3; spatialHarvVar <= 0.5; spatialHarvVar += 0.1) {
+								int jobs = 30;
+								double l1pop = 0;
+								double l2pop = 0;
+								//double l1car = 0;
+								//double l2car = 0;
+								LongHouseValley state = new LongHouseValley(System.currentTimeMillis());
+								state.setDeathAge(death);
+								state.setFertilityEndsAge(fertAge);
+								state.setFertility(fert);
+								state.setHarvestAdjustment(harvAdjus);
+								state.setHarvestVariance(harvVar);
+								state.setSpatialHarvestVariance(spatialHarvVar);
+								state.nameThread();
+								for(int job = 0; job < jobs; job++) {
+									state.setJob(job);
+									state.start();
+									do
+										if (!state.schedule.step(state)) break;
+									while(state.schedule.getSteps() < 551);
+//									l1pop += state.l1Pop();
+//									l2pop += state.l2Pop();
+//									l1car += state.l1Car();
+//									l2car += state.l2Car();
+									state.finish();
+								}
+								if (l1pop/jobs < bestNormPop1) {
+									bestNormPop1 = l1pop/jobs;
+									bestDeathAge1 = death;
+									bestFertAge1 = fertAge;
+									bestFert1 = fert;
+									bestHarvVar1 = harvVar;
+									bestSpatialHarv1 = spatialHarvVar;
+									bestHarvAdjus1 = harvAdjus;
+								}
+								if (l2pop/jobs < bestNormPop2) {
+									bestNormPop2 = l2pop/jobs;
+									bestDeathAge2 = death;
+									bestFertAge2 = fertAge;
+									bestFert2 = fert;
+									bestHarvVar2 = harvVar;
+									bestSpatialHarv2 = spatialHarvVar;
+									bestHarvAdjus2 = harvAdjus;
+								}
+								/*if (l1car/jobs < bestNormCar1) {
+									bestNormCar1 = l1car/jobs;
+									bestSpatialHarv1car = spatialHarvVar;
+									bestHarvAdjus1car = harvAdjus;
+								}
+								if (l2car/jobs < bestNormCar2) {
+									bestNormCar2 = l2car/jobs;
+									bestSpatialHarv2car = spatialHarvVar;
+									bestHarvAdjus2car = harvAdjus;
+								}*/
 							}
 						}
 					}
 				}
 			}
 		}
-		System.out.println("Resultados: \nNorma: "+bestNormPop+"\ndeathAge: "+bestDeathAge+"\nfertilityEnsAge: "+bestFertAge+"\nfertility: "+bestFert+"\nharvestVariance: "+bestHarvVar+"\nharvestAdjustment: "+bestHArvAdjus);
+		System.out.println("Resultados: \nNorma 1: "+bestNormPop1+"\ndeathAge: "+bestDeathAge1+"\nfertilityEnsAge: "+bestFertAge1+"\nfertility: "+bestFert1+"\nharvestVariance: "+bestHarvVar1+"\nspatialHarvestVariance: "+bestSpatialHarv1+"\nharvestAdjustment: "+bestHarvAdjus1);
+		//System.out.println("Capacidad Carga norma 1: "+bestNormCar1+"  harvestAdjustment: "+bestHarvAdjus1car+"   spatialHarvestVariance: "+bestSpatialHarv1car);
+		System.out.println("Resultados: \nNorma 2: "+bestNormPop2+"\ndeathAge: "+bestDeathAge2+"\nfertilityEnsAge: "+bestFertAge2+"\nfertility: "+bestFert2+"\nharvestVariance: "+bestHarvVar2+"\nspatialHarvestVariance: "+bestSpatialHarv2+"\nharvestAdjustment: "+bestHarvAdjus2);
+		//System.out.println("Capacidad Carga norma 2: "+bestNormCar2+"  harvestAdjustment: "+bestHarvAdjus2car+"   spatialHarvestVariance: "+bestSpatialHarv2car);
 		System.exit(0);
 	}
 }
@@ -82,8 +129,8 @@ public class LongHouseValley extends SimpleWorld {
 	private int deathAge = 36;
 	private double fertility = 0.125;
 	private int fertilityEndsAge = 32;
+	public double spatialHarvestVariance = 0.4;
 	
-	public static final double spatialHarvestVariance = 0.4;
 	public static final double farmToResidenceDistance = 16;
 	public static final double maizeGiveToChild = 0.33;
 	public static final int householdMinInitialCorn = 2000;
@@ -133,7 +180,7 @@ public class LongHouseValley extends SimpleWorld {
 		carryingRegistry = new int[551];
 		year = 800;
 		farmSitesAvailable = 0;
-		field = new ValleyFloor();
+		field = new ValleyFloor(spatialHarvestVariance);
 		population = new SparseGrid2D(ValleyFloor.WIDTH, ValleyFloor.HEIGHT);
 		schedule.scheduleRepeating(schedule.getTime() + 1, 0, (Steppable) field);
 		((ValleyFloor) field).water(year);
@@ -337,6 +384,14 @@ public class LongHouseValley extends SimpleWorld {
 
 	public void setHarvestVariance(double harvestVariance) {
 		this.harvestVariance = harvestVariance;
+	}
+	
+		public double getSpatialHarvestVariance() {
+		return spatialHarvestVariance;
+	}
+
+	public void setSpatialHarvestVariance(double spatialHarvestVariance) {
+		this.spatialHarvestVariance = spatialHarvestVariance;
 	}
 
 	public Vector<Int2D> determinePotentialFarms() {
