@@ -16,7 +16,7 @@ public class LongHouseValley extends SimpleWorld {
 	private int year = 800;
 	private int farmSitesAvailable = 0;
 
-	public double harvestAdjustment = 0.54;
+	public double harvestAdjustment = 0.56;
 	public double harvestVariance = 0.1;
 	public double spatialHarvestVariance = 0.4;
 	private int deathAge = 38;
