@@ -1,4 +1,4 @@
-package environment;
+package model.demography;
 
 import agent.DemographicItem;
 

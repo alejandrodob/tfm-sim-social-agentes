@@ -1,13 +1,13 @@
 package model;
 
+import model.demography.Fertility;
+import model.demography.Mobility;
+import model.demography.Mortality;
+import model.demography.Nuptiality;
+import model.field.AbstractField2D;
 import sim.engine.SimState;
 import sim.util.Int2D;
 import agent.DemographicItem;
-import environment.Mobility;
-import environment.Mortality;
-import environment.Fertility;
-import environment.Nuptiality;
-import field.AbstractField2D;
 
 public abstract class SimpleWorld extends SimState {
 
