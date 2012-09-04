@@ -20,6 +20,10 @@ public interface Fertility {
 	
 	public int meanTimeBetweenBirths();
 	
+	public double orderSpecificFertilityRate(int order);
+	
 	public boolean newChild(DemographicItem female);
+	
+	public double femaleBirthProbability();
 	
 }
