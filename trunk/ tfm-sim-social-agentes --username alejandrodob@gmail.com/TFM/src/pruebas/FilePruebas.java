@@ -85,7 +85,7 @@ public class FilePruebas {
             }
         }
 		 try {
-	        	s = new Scanner(new BufferedReader(new FileReader("C:\\Users\\Alejandro\\workspace-mason\\TFM\\src\\pruebas\\environment.txt")));
+	        	s = new Scanner(new BufferedReader(new FileReader("C:\\Users\\Alejandro\\workspace-mason\\TFM\\src\\pruebas\\model.demography.txt")));
 	        	environmentdata = new Vector<Float>();
 	        	while (s.hasNext()) {
 	        		environmentdata.add(Float.parseFloat(s.next()));

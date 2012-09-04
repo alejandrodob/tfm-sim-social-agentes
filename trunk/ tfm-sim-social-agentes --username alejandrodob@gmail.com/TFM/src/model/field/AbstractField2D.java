@@ -1,4 +1,4 @@
-package field;
+package model.field;
 
 import java.util.Iterator;
 

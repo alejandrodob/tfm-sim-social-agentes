@@ -1,20 +1,20 @@
 package agent;
 
 import model.SimpleWorld;
+import model.field.AbstractField2D;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
 import sim.util.Int2D;
 import agent.behavior.Behavior;
 import agent.behavior.BehaviorModule;
-import field.AbstractField2D;
 
 public class DemographicItem implements Steppable {
 
 	protected Int2D location;
 	protected Behavior behavior; //could be an empty container, if needed
 	protected Stoppable stop; //call stop.stop() to remove this agent from the simulation
-	protected AbstractField2D field = null; //the field in where the agent moves (or stays)
+	protected AbstractField2D field = null; //the model.field in where the agent moves (or stays)
 	protected int ageInYears;
 	protected int ageInSimulationSteps;
 	protected final static int stepsPerYear = 50;//maybe should be in the class World, as it is a general parameter of the simulation

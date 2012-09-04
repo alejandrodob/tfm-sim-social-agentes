@@ -1,4 +1,4 @@
-package field;
+package model.field;
 
 import java.util.Iterator;
 
@@ -10,7 +10,7 @@ import sim.util.Double2D;
 import sim.util.Int2D;
 import sim.util.IntBag;
 
-//////This class is a 2-dimensional field which can change and evolve as the simulation goes on
+//////This class is a 2-dimensional model.field which can change and evolve as the simulation goes on
 public abstract class MutableField2D extends AbstractField2D implements Steppable {
 	
 	/////con esta clase tenemos 2 opciones, dejar que el step se sobreescriba en cada implementación, y 
@@ -25,7 +25,7 @@ public abstract class MutableField2D extends AbstractField2D implements Steppabl
 	
 	public MutableField2D(int width,int height) {
 		grid = new SparseGrid2D(width, height);
-		//timeEvol = new ListBehavior(); //it's like a behavior, but a field doesn't behave, it changes in time
+		//timeEvol = new ListBehavior(); //it's like a behavior, but a model.field doesn't behave, it changes in time
 	}
 	
 	/*@Override
