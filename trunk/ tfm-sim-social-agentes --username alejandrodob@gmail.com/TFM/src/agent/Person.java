@@ -94,8 +94,6 @@ public class Person extends DemographicItem implements Socializable {
 	@Override
 	public void addFriend(DemographicItem friend, Object atribute) {
 		friends.addMember(friend);
-		//cuando se defina bien el atributo de amistad (o una interfaz para el mismo) se tendra
-		//en cuenta
 	}
 
 	@Override
