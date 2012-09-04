@@ -448,7 +448,7 @@ public class ValleyFloor extends MutableField2D {
 		InputStream is1 = getClass().getResourceAsStream("Map.txt");
 		InputStream is2 = getClass().getResourceAsStream("adjustedPDSI.txt");
 		InputStream is3 = getClass().getResourceAsStream("water.txt");
-		InputStream is4 = getClass().getResourceAsStream("model.demography.txt");
+		InputStream is4 = getClass().getResourceAsStream("environment.txt");
 		InputStream is5 = getClass().getResourceAsStream("settlements.txt");
 		InputStreamReader isr1 = new InputStreamReader(is1);
 		InputStreamReader isr2 = new InputStreamReader(is2);
