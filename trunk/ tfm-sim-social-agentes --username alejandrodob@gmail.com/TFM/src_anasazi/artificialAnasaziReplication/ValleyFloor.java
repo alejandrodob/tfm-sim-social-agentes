@@ -2,21 +2,19 @@ package artificialAnasaziReplication;
 
 import java.awt.Color;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Scanner;
 import java.util.Vector;
+
+import model.field.MutableField2D;
 
 import sim.engine.SimState;
 import sim.field.grid.ObjectGrid2D;
 import sim.field.grid.SparseGrid2D;
 import sim.util.Int2D;
 import ec.util.MersenneTwisterFast;
-import field.MutableField2D;
 
 public class ValleyFloor extends MutableField2D {
 	
@@ -450,7 +448,7 @@ public class ValleyFloor extends MutableField2D {
 		InputStream is1 = getClass().getResourceAsStream("Map.txt");
 		InputStream is2 = getClass().getResourceAsStream("adjustedPDSI.txt");
 		InputStream is3 = getClass().getResourceAsStream("water.txt");
-		InputStream is4 = getClass().getResourceAsStream("environment.txt");
+		InputStream is4 = getClass().getResourceAsStream("model.demography.txt");
 		InputStream is5 = getClass().getResourceAsStream("settlements.txt");
 		InputStreamReader isr1 = new InputStreamReader(is1);
 		InputStreamReader isr2 = new InputStreamReader(is2);
