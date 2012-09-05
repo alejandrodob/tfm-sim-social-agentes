@@ -1,36 +1,42 @@
 package pruebaMADAM;
 
+import model.demography.Fertility;
 import agent.DemographicItem;
 import ec.util.MersenneTwisterFast;
-import environment.Fertility;
 
 public class FertilityExample implements Fertility {
 
 	//SINGLETON
 
 	private static MersenneTwisterFast random = new MersenneTwisterFast();
-	private static FertilityExample INSTANCE = new FertilityExample();
 	
-	private FertilityExample() {}
+	private int meanNumberOfChildren = 3;
 	
-	public static FertilityExample getInstance() {
-		return INSTANCE;
+	public int getMeanNumberOfChildren() {
+		return meanNumberOfChildren;
 	}
+
+	public void setMeanNumberOfChildren(int meanNumberOfChildren) {
+		this.meanNumberOfChildren = meanNumberOfChildren;
+	}
+
+
+
+	public FertilityExample() {}
+	
 	
 
 	@Override
 	public double birthProbability(DemographicItem female) {
-		MujerPrueba woman = (MujerPrueba) female;
-		return Math.exp(-0.0875*woman.getAge());
+
+		return Math.exp(-0.0875*female.getAge());
 	}
 	
 	@Override
 	public boolean newChild(DemographicItem female) {
 		//si es mujer, est� en edad fertil, est� casada puede que tenga un hijo
-		MujerPrueba woman = (MujerPrueba) female;
-		if ((woman instanceof MujerPrueba) && (woman.getAge() >= 16)
-				&& (woman.getAge() <= 50) && woman.isCoupled()
-				&& woman.numHijos() < woman.getNumHijosMax())
+		if ((female.getAge() >= 16)
+				&& (female.getAge() <= 50))
 			return (random.nextBoolean(birthProbability(female)));//no muy realista, pero bueno
 		return false;
 	}
@@ -61,8 +67,7 @@ public class FertilityExample implements Fertility {
 
 	@Override
 	public int meanNumberOfChildrenPerWoman() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 3;
 	}
 
 	@Override
@@ -73,8 +78,19 @@ public class FertilityExample implements Fertility {
 
 	@Override
 	public double ageSpecificFertilityRate(int age) {
+		return Math.exp(-0.0875*age);
+	}
+
+	@Override
+	public double orderSpecificFertilityRate(int order) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public double femaleBirthProbability() {
+		//suppose there are 106 male births every 100 female births
+		return 100/206;
 	}
 
 

@@ -47,6 +47,10 @@ public class SocialNetwork {
 		network.reset(directed);
 	}
 
+	public Network getNetwork() {
+		return network;
+	}
+
 	private Edge[][][] getMultigraphAdjacencyMatrix() {
 		return network.getMultigraphAdjacencyMatrix();
 	}
@@ -107,7 +111,7 @@ public class SocialNetwork {
 		return network.getEdges(node, bag);
 	}
 
-	private Bag getAllNodes() {
+	public Bag getAllNodes() {
 		return network.getAllNodes();
 	}
 

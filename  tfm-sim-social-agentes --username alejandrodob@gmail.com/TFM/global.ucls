@@ -16,8 +16,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </interface>  
-  <class id="3" corner="BOTTOM_RIGHT" language="java" name="field.AbstractField2D" project="TFM" 
-    file="/TFM/src/field/AbstractField2D.java" binary="false">    
+  <class id="3" corner="BOTTOM_RIGHT" language="java" name="model.field.AbstractField2D" project="TFM" 
+    file="/TFM/src/model/field/AbstractField2D.java" binary="false">    
     <position x="184" y="506" width="537" height="218"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="true" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      

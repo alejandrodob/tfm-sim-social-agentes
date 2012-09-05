@@ -2,6 +2,7 @@ package model.field;
 
 import java.util.Iterator;
 
+import sim.field.SparseField2D;
 import sim.field.grid.Grid2D;
 import sim.util.Bag;
 import sim.util.Double2D;
@@ -77,6 +78,8 @@ public abstract class AbstractField2D {
 			IntBag yPos);
 
 	public abstract Bag getObjectsAtLocations(IntBag xPos, IntBag yPos, Bag result);
+
+	public abstract Grid2D getGrid(); //to return something drawable by fieldPortrayals
 
 
 }

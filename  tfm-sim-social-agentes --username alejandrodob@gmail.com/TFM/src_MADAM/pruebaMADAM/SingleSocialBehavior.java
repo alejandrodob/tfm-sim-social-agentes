@@ -2,6 +2,8 @@ package pruebaMADAM;
 
 import java.util.ArrayList;
 
+import model.SimpleWorld;
+
 import agent.DemographicItem;
 import agent.Person;
 import agent.Socializable;
@@ -9,23 +11,23 @@ import agent.behavior.BasicSocialBehavior;
 import agent.social.FriendsNetwork;
 import ec.util.MersenneTwisterFast;
 
-public class SocialBehaviorAdulto extends BasicSocialBehavior {
+public class SingleSocialBehavior extends BasicSocialBehavior {
 		
 	//SINGLETON
 
 	private static MersenneTwisterFast random = new MersenneTwisterFast();
-	private static SocialBehaviorAdulto INSTANCE = new SocialBehaviorAdulto();
+	private static SingleSocialBehavior INSTANCE = new SingleSocialBehavior();
 	
-	private SocialBehaviorAdulto() {}
+	private SingleSocialBehavior() {}
 	
-	public static SocialBehaviorAdulto getInstance() {
+	public static SingleSocialBehavior getInstance() {
 		return INSTANCE;
 	}
 	
 	@Override
-	protected void meetPeople(Socializable me) {
+	protected void meetPeople(Socializable me,SimpleWorld environment) {
 		//se conocen (activamente) a 2 personas al año
-		if (((Person) me).getSteps()%25 == 0) {
+		if (((MadamPerson) me).steps()%25 == 0) {
 			//va a haber 2 maneras de conocer gente, conocer gente al azar de entre los que est�n a su 
 			//alrededor, o conocer a conocidos de conocidos
 
@@ -51,7 +53,7 @@ public class SocialBehaviorAdulto extends BasicSocialBehavior {
 				}
 				while (me.isFriend(personaB) && (cont <= genteCerca.size()));
 				if (personaB.acceptFriendshipProposal((Person) me)) {
-					makeNewFriend(personaB,me);
+					makeNewFriend(personaB,me,environment);
 				}
 			}
 			//segunda manera
@@ -66,7 +68,7 @@ public class SocialBehaviorAdulto extends BasicSocialBehavior {
 						//se escoge uno al azar, y le propongo amistad
 						Person amigoDeAmigo = amigosDeAmigo.get(random.nextInt(amigosDeAmigo.size()));
 						if (amigoDeAmigo.acceptFriendshipProposal((Person) me)) {
-							makeNewFriend(amigoDeAmigo,me);
+							makeNewFriend(amigoDeAmigo,me,environment);
 						}
 					}
 				}
@@ -75,98 +77,88 @@ public class SocialBehaviorAdulto extends BasicSocialBehavior {
 	}
 
 	@Override
-	protected void makeNewFriend(Socializable friend, Socializable me) {
+	protected void makeNewFriend(Socializable friend, Socializable me, SimpleWorld environment) {
 		me.addFriend((DemographicItem) friend, null);
+		if (environment != null)((MadamWorld) environment).addFriendshipLink((MadamPerson)me,(MadamPerson)friend);
 	}
 
 	@Override
-	protected void searchForMate(Socializable me) {
+	protected void searchForMate(Socializable me,SimpleWorld environment) {
 		if (((Person) me).getAge() <= 60) {
 			FriendsNetwork amigos = (FriendsNetwork)((Person) me).getFriends();
-			if (me instanceof HombrePrueba) {
+			if (me instanceof Man) {
 				ArrayList<Person> candidatos = amigos.femaleFriends();
 				if (candidatos.size() > 0) {
-					MujerPrueba candidata = (MujerPrueba) candidatos.get(random.nextInt(candidatos.size()));
+					Woman candidata = (Woman) candidatos.get(random.nextInt(candidatos.size()));
 					if (cumpleRequisitos(candidata,(Person) me)) {//si me gusta como posible pareja, "pido su mano"
 						if (candidata.acceptMarriageProposal((Person) me)) {
-							if (((Person) me).isCoupled()) me.divorce();
-							marry(candidata,me);
+							marry(candidata,me,environment);
 						}
 					}
 				}
-			} else if (me instanceof MujerPrueba) {
+			} else if (me instanceof Woman) {
 				ArrayList<Person> candidatos = amigos.maleFriends();
 				if (candidatos.size() > 0) {
-					HombrePrueba candidato = (HombrePrueba) candidatos.get(random.nextInt(candidatos.size()));
+					Man candidato = (Man) candidatos.get(random.nextInt(candidatos.size()));
 					if (cumpleRequisitos(candidato,(Person) me)) {//si me gusta como posible pareja, "pido su mano"
 						if (candidato.acceptMarriageProposal((Person) me)) {
-							if (((Person) me).isCoupled()) me.divorce();
-							marry(candidato,me);
+							marry(candidato,me,environment);
 						}
 					}
 				}
 			}
 		}
 		//relajamos la exigencia de b�squeda de pareja
-		relajarExigencia((Person) me);
+		relajarExigencia((MadamPerson) me);
 	}
 
 	@Override
-	protected void marry(Socializable partner, Socializable me) {
+	protected void marry(Socializable partner, Socializable me,SimpleWorld environment) {
 		me.marry((Person) partner);
+		((MadamPerson) me).removeBehaviorModule(this);
+		((MadamPerson) me).addBehaviorModule(MarriedSocialBehavior.getInstance(), 0);
+		if (environment != null) ((MadamWorld) environment).registerWedding((MadamPerson)me,(Person) partner);
 	}
 
 	@Override
 	public boolean acceptFriend(Socializable friend, Socializable me) {
+		//response to a friendship proposal. always accept, so add new friend
+		makeNewFriend(friend, me, null);
 		return true;
 	}
 
 	@Override
 	public boolean acceptMarriage(Socializable candidate, Socializable me) {
-		return cumpleRequisitos((Person) candidate,(Person) me);
+		boolean accept = cumpleRequisitos((Person) candidate,(Person) me);
+		if (accept) marry(candidate,me,null);
+		return accept;
 	}
 	
 	protected boolean cumpleRequisitos(Person posiblePareja,Person me) {
-		if (me instanceof HombrePrueba) {
-			return (posiblePareja instanceof MujerPrueba)
-				//&& (!getCasado()) //esto es temporal, los casados podran divorciarse si encuantran una pareja mejor, pero de momento para evitar bodas triples
+		if (me instanceof Man) {
+			return (posiblePareja instanceof Woman)
 				&& (posiblePareja.getAge() >= 16)
 				&& (Math.abs(me.getAge() - posiblePareja.getAge()) <= 8)
-				&& (caracteristicasComunes(posiblePareja,me) > ((HombrePrueba) me).getNivelExigencia());
+				&& (caracteristicasComunes(posiblePareja,me) > ((Man) me).getNivelExigencia());
 		} else {
-			return (posiblePareja instanceof HombrePrueba)
-			//&& (!getCasado()) //esto es temporal, los casados podran divorciarse si encuantran una pareja mejor, pero de momento para evitar bodas triples
+			return (posiblePareja instanceof Man)
 			&& (posiblePareja.getAge() >= 16)
 			&& (Math.abs(me.getAge() - posiblePareja.getAge()) <= 8)
-			&& (caracteristicasComunes(posiblePareja,me) > ((MujerPrueba) me).getNivelExigencia());
+			&& (caracteristicasComunes(posiblePareja,me) > ((Woman) me).getNivelExigencia());
 		}
 	}
 	
-	protected void relajarExigencia(Person me) {
-		if (!me.isCoupled()) {
-			if (me instanceof MujerPrueba) {
-				((MujerPrueba)me).setNivelExigencia((int) Math.round(((MujerPrueba) me).getCaracteristicas().numCaract * Math.exp(-0.02*me.getAge())));
-			}
-			else if (me instanceof HombrePrueba) {
-				((HombrePrueba)me).setNivelExigencia((int) Math.round(((HombrePrueba) me).getCaracteristicas().numCaract * Math.exp(-0.02*me.getAge())));
-			}
-		}
+	protected void relajarExigencia(MadamPerson me) {
+				me.setNivelExigencia((int) Math.round(me.getCaracteristicas().numCaract * Math.exp(-0.02*me.getAge())));
 	}
 	
 	protected int caracteristicasComunes(Person otro,Person me) {
 		int numCar = 0;
-		if (me instanceof HombrePrueba) {
-			for (int i = 0; i < ((HombrePrueba)me).getCaracteristicas().totalCaract; i++) {
-				if (((MujerPrueba)otro).getCaracteristicas().getCaracteristicas()[i] == ((HombrePrueba)me).getCaracteristicas().getCaracteristicas()[i])
+
+			for (int i = 0; i < ((Man)me).getCaracteristicas().totalCaract; i++) {
+				if (((MadamPerson) otro).getCaracteristicas().getCaracteristicas()[i] == ((MadamPerson) me).getCaracteristicas().getCaracteristicas()[i])
 					numCar++;
 			}
-		}
-		else if (me instanceof MujerPrueba) {
-			for (int i = 0; i < ((MujerPrueba)me).getCaracteristicas().totalCaract; i++) {
-				if (((HombrePrueba)otro).getCaracteristicas().getCaracteristicas()[i] == ((MujerPrueba)me).getCaracteristicas().getCaracteristicas()[i])
-					numCar++;
-			}
-		}
 		return numCar;
 	}
 	

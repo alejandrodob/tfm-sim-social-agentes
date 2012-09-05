@@ -41,8 +41,7 @@ public class Person extends DemographicItem implements Socializable {
 
 	public Person(int age, boolean coupled, boolean female) {
 		super();
-		this.ageInYears = age;
-		this.ageInSimulationSteps = ageInYears * stepsPerYear;
+		this.age = age;
 		this.coupled = coupled;
 		this.gender = female ? Gender.FEMALE : Gender.MALE;
 		family = new FamilyListNetwork();
@@ -50,10 +49,13 @@ public class Person extends DemographicItem implements Socializable {
 		behavior = new PriorityBehavior();
 	}
 
+	public Person(Int2D location, int age, boolean coupled, boolean female) {
+		this(age,coupled,female);
+		setLocation(location);
+	}
 	public Person(Int2D location, Behavior behavior, int age, boolean coupled, boolean female) {
 		super(location, behavior);
-		this.ageInYears = age;
-		this.ageInSimulationSteps = ageInYears * stepsPerYear;
+		this.age = age;
 		this.coupled = coupled;
 		this.gender = female ? Gender.FEMALE : Gender.MALE;
 		family = new FamilyListNetwork();
@@ -118,7 +120,7 @@ public class Person extends DemographicItem implements Socializable {
 	}
 
 	@Override
-	public Collection<DemographicItem> peopleAround(int radius) {
+	public ArrayList<DemographicItem> peopleAround(int radius) {
 		Bag people = new Bag();
 		ArrayList<DemographicItem> peopleArray = new ArrayList<DemographicItem>();
 		people = field.getNeighborsMaxDistance(location.getX(),location.getY(),radius,false,people,null,null);
