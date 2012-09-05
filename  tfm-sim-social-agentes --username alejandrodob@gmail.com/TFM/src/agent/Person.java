@@ -13,6 +13,7 @@ import agent.behavior.BasicSocialBehavior;
 import agent.behavior.Behavior;
 import agent.behavior.BehaviorModule;
 import agent.behavior.ListBehavior;
+import agent.behavior.PriorityBehavior;
 import agent.social.FamilyListNetwork;
 import agent.social.FriendsListNetwork;
 import agent.social.Kinship;
@@ -46,7 +47,7 @@ public class Person extends DemographicItem implements Socializable {
 		this.gender = female ? Gender.FEMALE : Gender.MALE;
 		family = new FamilyListNetwork();
 		friends = new FriendsListNetwork();
-		behavior = new ListBehavior();
+		behavior = new PriorityBehavior();
 	}
 
 	public Person(Int2D location, Behavior behavior, int age, boolean coupled, boolean female) {
