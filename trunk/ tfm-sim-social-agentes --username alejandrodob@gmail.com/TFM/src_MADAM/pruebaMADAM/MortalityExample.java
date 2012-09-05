@@ -1,9 +1,9 @@
 package pruebaMADAM;
 
+import model.demography.Mortality;
 import agent.DemographicItem;
 import agent.Person;
 import ec.util.MersenneTwisterFast;
-import environment.Mortality;
 
 public class MortalityExample implements Mortality {
 	
@@ -29,14 +29,14 @@ public class MortalityExample implements Mortality {
 		int age = ((Person) persona).getAge();
 		if (age == 1){
 			if (random.nextBoolean(probabilidadMuerte(age))){
-				return (age + random.nextInt(4))*50;
+				return (age + random.nextInt(4));
 			}
 		}
 		else 
 			if (random.nextBoolean(probabilidadMuerte(age))){
-				return (age + random.nextInt(5))*50;
+				return (age + random.nextInt(5));
 			}
-		return 100*50;
+		return 100;
 	}
 	
 	@Override
@@ -50,14 +50,14 @@ public class MortalityExample implements Mortality {
 		int age = ((Person) person).getAge();
 		if (age == 1){
 			if (random.nextBoolean(probabilidadMuerte(age))){
-				return (random.nextInt(4))*50;
+				return (random.nextInt(4));
 			}
 		}
 		else 
 			if (random.nextBoolean(probabilidadMuerte(age))){
-				return (random.nextInt(5))*50;
+				return (random.nextInt(5));
 			}
-		return 100*50;
+		return 100;
 	}
 
 	@Override

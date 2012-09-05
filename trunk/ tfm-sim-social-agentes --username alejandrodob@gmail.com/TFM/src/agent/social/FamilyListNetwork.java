@@ -78,4 +78,11 @@ public class FamilyListNetwork extends ListNetwork implements FamilyNetwork {
 		return containsMember(person);
 	}
 
+	@Override
+	public ArrayList<Person> members() {
+		ArrayList<Person> sons = new ArrayList<Person>();
+		for (ListElement son : network)	sons.add((Person) son.agent);
+		return sons;
+	}
+
 }

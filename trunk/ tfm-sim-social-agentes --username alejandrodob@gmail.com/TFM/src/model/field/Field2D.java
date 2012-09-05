@@ -3,6 +3,8 @@ package model.field;
 import java.util.Iterator;
 
 import sim.field.SparseField;
+import sim.field.SparseField2D;
+import sim.field.grid.Grid2D;
 import sim.field.grid.SparseGrid2D;
 import sim.util.Bag;
 import sim.util.Double2D;
@@ -146,6 +148,11 @@ public class Field2D extends AbstractField2D {
 	@Override
 	public Bag getObjectsAtLocations(IntBag xPos, IntBag yPos, Bag result) {
 		return ((SparseGrid2D) grid).getObjectsAtLocations(xPos, yPos, result);
+	}
+
+	@Override
+	public Grid2D getGrid() {
+		return (Grid2D) grid;
 	}
 
 }

@@ -2,28 +2,30 @@ package pruebaMADAM;
 
 import java.util.ArrayList;
 
+import model.SimpleWorld;
+
 import agent.DemographicItem;
 import agent.Person;
 import agent.Socializable;
 import agent.behavior.BasicSocialBehavior;
 import ec.util.MersenneTwisterFast;
 
-public class SocialBehaviorNinio extends BasicSocialBehavior {
+public class ChildSocialBehavior extends BasicSocialBehavior {
 	
 	//SINGLETON
 
 	private static MersenneTwisterFast random = new MersenneTwisterFast();
-	private static SocialBehaviorNinio INSTANCE = new SocialBehaviorNinio();
+	private static ChildSocialBehavior INSTANCE = new ChildSocialBehavior();
 	
-	private SocialBehaviorNinio() {}
+	private ChildSocialBehavior() {}
 	
-	public static SocialBehaviorNinio getInstance() {
+	public static ChildSocialBehavior getInstance() {
 		return INSTANCE;
 	}
 
 	@Override
-	protected void meetPeople(Socializable me) {
-		if (((Person) me).getAge() > 7 && ((Person) me).getSteps()%25 == 0) { //la unica diferencia con adulto es que ha de ser mayor de 7 años
+	protected void meetPeople(Socializable me,SimpleWorld environment) {
+		if (((MadamPerson) me).getAge() > 7 && ((MadamPerson) me).steps()%25 == 0) { //la unica diferencia con adulto es que ha de ser mayor de 7 años
 			//va a haber 2 maneras de conocer gente, conocer gente al azar de entre los que est�n a su 
 			//alrededor, o conocer a conocidos de conocidos
 
@@ -49,7 +51,7 @@ public class SocialBehaviorNinio extends BasicSocialBehavior {
 				}
 				while (me.isFriend(personaB) && (cont <= genteCerca.size()));
 				if (personaB.acceptFriendshipProposal((Person) me)) {
-					makeNewFriend(personaB,me);
+					makeNewFriend(personaB,me,environment);
 				}
 			}
 			//segunda manera
@@ -64,7 +66,7 @@ public class SocialBehaviorNinio extends BasicSocialBehavior {
 						//se escoge uno al azar, y le propongo amistad
 						Person amigoDeAmigo = amigosDeAmigo.get(random.nextInt(amigosDeAmigo.size()));
 						if (amigoDeAmigo.acceptFriendshipProposal((Person) me)) {
-							makeNewFriend(amigoDeAmigo,me);
+							makeNewFriend(amigoDeAmigo,me,environment);
 						}
 					}
 				}
@@ -73,34 +75,46 @@ public class SocialBehaviorNinio extends BasicSocialBehavior {
 	}
 
 	@Override
-	protected void makeNewFriend(Socializable friend, Socializable me) {
+	protected void makeNewFriend(Socializable friend, Socializable me, SimpleWorld environment) {
 		me.addFriend((DemographicItem) friend, null);
+		if (environment != null)((MadamWorld) environment).addFriendshipLink((MadamPerson)me,(MadamPerson)friend);
 	}
 
 	@Override
-	protected void searchForMate(Socializable me) {
+	protected void searchForMate(Socializable me,SimpleWorld environment) {
 		//no busca pareja, es un ninio
 		//eso sí, comprobara en cada ciclo si alcanza los 16 años, momento en el cual
 		//se cambiara de comportamiento a uno de adulto, en que comenzara a buscar pareja
 		if (((Person) me).getAge() >= 10) {
 			((DemographicItem) me).removeBehaviorModule(this);
-			((DemographicItem) me).addBehaviorModule(SocialBehaviorAdulto.getInstance());
+			((DemographicItem) me).addBehaviorModule(SingleSocialBehavior.getInstance());
 		}
 	}
 
 	@Override
-	protected void marry(Socializable partner, Socializable me) {
+	protected void marry(Socializable partner, Socializable me, SimpleWorld environment) {
 		//no se casa, es un ninio
 	}
 
 	@Override
 	public boolean acceptFriend(Socializable friend, Socializable me) {
+		//response to a friendship proposal. always accept, so add new friend
+		makeNewFriend(friend, me, null);
 		return true;
 	}
 
 	@Override
 	public boolean acceptMarriage(Socializable candidate, Socializable me) {
 		return false;
+	}
+	
+	protected int caracteristicasComunes(Person otro,Person me) {
+		int numCar = 0;
+			for (int i = 0; i < ((Man)me).getCaracteristicas().totalCaract; i++) {
+				if (((MadamPerson) otro).getCaracteristicas().getCaracteristicas()[i] == ((MadamPerson) me).getCaracteristicas().getCaracteristicas()[i])
+					numCar++;
+			}
+		return numCar;
 	}
 
 }
