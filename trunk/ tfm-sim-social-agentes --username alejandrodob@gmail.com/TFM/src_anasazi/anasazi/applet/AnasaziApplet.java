@@ -17,7 +17,7 @@ public class AnasaziApplet extends Applet {
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {
-                	JButton startButton = new JButton("Start");
+                	JButton startButton = new JButton("Run the model");
                 	add(startButton);
                 	startButton.setActionCommand("Start simulation");
                 	startButton.addActionListener(new ActionListener() {
